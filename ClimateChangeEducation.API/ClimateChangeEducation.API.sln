@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimateChangeEducation.API", "ClimateChangeEducation.API\ClimateChangeEducation.API.csproj", "{A2519733-402F-4C63-A919-AF4A0EB71467}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateChangeEducation.API", "ClimateChangeEducation.API\ClimateChangeEducation.API.csproj", "{A2519733-402F-4C63-A919-AF4A0EB71467}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateChangeEducation.Application", "ClimateChangeEducation.Application\ClimateChangeEducation.Application.csproj", "{8CD4C177-EAC1-4DB8-AC0E-51E707C5F112}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateChangeEducation.Domain", "ClimateChangeEducation.Domain\ClimateChangeEducation.Domain.csproj", "{F3157B6A-5A96-4AA9-BEEC-EC4450BE51B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateChangeEducation.Infrastructure", "ClimateChangeEducation.Infrastructure\ClimateChangeEducation.Infrastructure.csproj", "{385A6C7E-B8DB-4760-A03C-E04318271DB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimateChangeEducation.Common", "ClimateChangeEducation.Common\ClimateChangeEducation.Common.csproj", "{CC32FBB3-437C-4144-9A6B-8069B4A8CAD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{A2519733-402F-4C63-A919-AF4A0EB71467}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2519733-402F-4C63-A919-AF4A0EB71467}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2519733-402F-4C63-A919-AF4A0EB71467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CD4C177-EAC1-4DB8-AC0E-51E707C5F112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD4C177-EAC1-4DB8-AC0E-51E707C5F112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD4C177-EAC1-4DB8-AC0E-51E707C5F112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD4C177-EAC1-4DB8-AC0E-51E707C5F112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3157B6A-5A96-4AA9-BEEC-EC4450BE51B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3157B6A-5A96-4AA9-BEEC-EC4450BE51B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3157B6A-5A96-4AA9-BEEC-EC4450BE51B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3157B6A-5A96-4AA9-BEEC-EC4450BE51B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{385A6C7E-B8DB-4760-A03C-E04318271DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385A6C7E-B8DB-4760-A03C-E04318271DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385A6C7E-B8DB-4760-A03C-E04318271DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{385A6C7E-B8DB-4760-A03C-E04318271DB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC32FBB3-437C-4144-9A6B-8069B4A8CAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC32FBB3-437C-4144-9A6B-8069B4A8CAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC32FBB3-437C-4144-9A6B-8069B4A8CAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC32FBB3-437C-4144-9A6B-8069B4A8CAD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
