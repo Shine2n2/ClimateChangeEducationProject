@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,8 @@ namespace ClimateChangeEducation.Domain.Entities
 {
     public class Notification
     {
-        public string NotificationId { get; set; }
+        [Key]
+        public string NotificationId { get; set; } = Guid.NewGuid().ToString();
         public string Title { get; set; }
         public string Message { get; set; }
         public string Recipient { get; set; }

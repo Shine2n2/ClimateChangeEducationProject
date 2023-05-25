@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ClimateChangeEducation.Domain.Entities
 {
-    public class StudentUser
+    public class Student
     {
-        public int StudentUserId { get; set; }
+        public string StudentUserId { get; set; } = Guid.NewGuid().ToString();
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

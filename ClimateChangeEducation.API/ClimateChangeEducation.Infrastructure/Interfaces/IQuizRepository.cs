@@ -9,7 +9,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
 {
     public interface IQuizRepository
     {
-        //---------Discussion Board interfaces
+        //---------quiz interfaces
         Task<List<Quiz>> GetAllDiscussionBoardAsync();
         Task<Quiz> GetDiscussionBoardByIdAsync(string id);
         Task<List<Quiz>> CreateDiscussionBoardAsync(Quiz course);

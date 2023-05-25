@@ -11,7 +11,7 @@ namespace ClimateChangeEducation.Domain.Entities
     {
 
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         [Required]
         [EmailAddress]
         public string ToEmail { get; set; }

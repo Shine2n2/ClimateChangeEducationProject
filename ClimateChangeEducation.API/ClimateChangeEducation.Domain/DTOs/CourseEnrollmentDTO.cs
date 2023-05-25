@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClimateChangeEducation.Infrastructure.Repositories
+namespace ClimateChangeEducation.Domain.DTOs
 {
-    public class DiscussionBoardRepository
+    public class CourseEnrollmentDTO
     {
     }
 }

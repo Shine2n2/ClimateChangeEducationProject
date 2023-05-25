@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
+    <ProjectReference Include="..\ClimateChangeEducation.Common\ClimateChangeEducation.Common.csproj" />
   </ItemGroup>
 
 </Project>
