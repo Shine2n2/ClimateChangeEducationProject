@@ -1,8 +1,22 @@
+using ClimateChangeEducation.Common.Configurations;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//serilog logger config
+var logger = new LoggerConfiguration()
+   .ReadFrom.Configuration(builder.Configuration)
+   .Enrich.FromLogContext()
+   .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.Configure<ClimateDbSetting>(builder.Configuration.GetSection("DbConnectionStrings"));
+builder.Services.Configure<EmailLoginSetting>(builder.Configuration.GetSection("MailLoginDetails"));
 
 
 

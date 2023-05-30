@@ -1,31 +1,45 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClimateChangeEducation.Domain.Entities
 {
-    public class ApplicationUser
+    public class ApplicationUser:IdentityUser
     {
-        public string PublicId { get; set; }
-        [Required]
-        [StringLength(250, MinimumLength = 3, ErrorMessage = "First name must be between 3 and 250 characters!")]
-        public string FirstName { get; set; }
-        [Required]
-        [StringLength(250, MinimumLength = 3, ErrorMessage = "Last name must be between 3 and 250 characters!")]
-        public string LastName { get; set; }
+        [Key]
+        public string ApplicationUserId { get; set; } = Guid.NewGuid().ToString();
+        //[Required]
+        //[EmailAddress]
+        //[MaxLength(50)]
+        //public string UserEmail { get; set; }
+        //[Required]
+        //[MaxLength(20)]
+        //public string UserName { get; set; }  
+                 
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+        public DateTime DateUpdated { get; set; } = DateTime.Now;
 
-        [StringLength(250, MinimumLength = 5, ErrorMessage = "Address must be between 5 and 250 characters!")]
-        public string Address { get; set; }
-
-        [StringLength(50, MinimumLength = 0, ErrorMessage = "Gender must be between 0 and 50 characters!")]
-        public string Gender { get; set; }
-
-        [StringLength(250, MinimumLength = 3, ErrorMessage = "Avatar must be between 3 and 250 characters!")]
-        public string Avatar { get; set; }
-        public bool IsActive { get; set; }
-        public string RefreshToken { get; set; }
+        // navigation props        
+        public School School { get; set; }
+        public Teacher Teacher { get; set; }
+        public Student Student { get; set; }
+        public ICollection<DiscussionBoard> DiscussionBoards { get; set; }
+        public ICollection<Course> Courses { get; set; }
+        public ICollection<Quiz> Quizzes { get; set; }
+        public ICollection<Article> Articles { get; set; }
+        
+        public ApplicationUser()
+        {
+            //Articles = new List<Article>();
+            //Photos = new List<Photo>();
+            //UserStacks = new List<UserStack>();
+            //UserSquads = new List<UserSquad>();
+            //UserComment = new List<UserComment>();
+        }
     }
 }

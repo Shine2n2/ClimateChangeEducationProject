@@ -1,4 +1,5 @@
-﻿using ClimateChangeEducation.Domain.Entities;
+﻿using ClimateChangeEducation.Common.Configurations;
+using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace ClimateChangeEducation.Infrastructure.Repositories
 {
+    
     public class ArticleRepository : IArticleRepository
-    {
+    {           
+
         public Task<List<Article>> CreateArticleAsync(Article article)
-        {
+        {         
             throw new NotImplementedException();
         }
 

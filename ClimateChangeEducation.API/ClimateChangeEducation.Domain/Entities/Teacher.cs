@@ -14,5 +14,6 @@ namespace ClimateChangeEducation.Domain.Entities
         public string PhotoUrl { get; set; }
         public string Email { get;set; }
         public string FieldOfStudy { get;set; }
+        public School SchoolId { get; set; }      
     }
 }

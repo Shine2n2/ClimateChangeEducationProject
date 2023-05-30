@@ -12,6 +12,7 @@ namespace ClimateChangeEducation.Common.Helpers
         public const string FirstNameValidator = "First Name must be between 3 and 250 characters in length";
         public const string LastNameValidator = "Last Name must be between 3 and 250 characters in length";
         public const string Validator = "Title must be between 3 and 50 characters in length";
+        public const string SchoolName = "School name must be between 3 and 60 characters in length";
 
     }
 }

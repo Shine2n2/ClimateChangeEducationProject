@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 using ClimateChangeEducation.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Common.Configurations;
+using Microsoft.Extensions.Options;
 
 namespace ClimateChangeEducation.Application.Services
 {
     public class EmailService:IEmailService
     {
-        private readonly IConfiguration _configuration;
-        public EmailService(IConfiguration configuration)
+        private readonly IOptions<EmailLoginSetting> _configuration;
+        public EmailService(IOptions<EmailLoginSetting> configuration)
         {
             _configuration = configuration;
         }
@@ -24,16 +26,16 @@ namespace ClimateChangeEducation.Application.Services
             try
             {
                 SmtpClient smtpClient = new SmtpClient();
-                smtpClient.Host = _configuration["MailLoginDetails:HostName"];
-                smtpClient.Port = Convert.ToInt16(_configuration["MailLoginDetails:PortNo"]);
-                smtpClient.Credentials = new NetworkCredential(_configuration["MailLoginDetails:HostMail"],
-                                                          _configuration["MailLoginDetails:HostMailPass"]);
+                smtpClient.Host = _configuration.Value.HostName;
+                smtpClient.Port = Convert.ToInt16(_configuration.Value.PortNo);
+                smtpClient.Credentials = new NetworkCredential(_configuration.Value.HostMail,
+                                                          _configuration.Value.HostMailPass);
                 smtpClient.EnableSsl = true;
 
                 MailMessage message = new MailMessage();
                 message.To.Add(emailRequest.ToEmail);
                 message.Subject = emailRequest.Subject;
-                message.From = new MailAddress(_configuration["MailLoginDetails:HostMail"]);
+                message.From = new MailAddress(_configuration.Value.HostMail);
                 message.Body = emailRequest.Message;
                 smtpClient.Send(message);
 

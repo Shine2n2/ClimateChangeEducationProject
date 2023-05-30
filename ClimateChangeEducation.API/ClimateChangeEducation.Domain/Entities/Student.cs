@@ -8,7 +8,7 @@ namespace ClimateChangeEducation.Domain.Entities
 {
     public class Student
     {
-        public string StudentUserId { get; set; } = Guid.NewGuid().ToString();
+        public string StudentId { get; set; } = Guid.NewGuid().ToString();
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -16,6 +16,7 @@ namespace ClimateChangeEducation.Domain.Entities
         public int Age { get; set; }
         public string StudentClass { get; set; }
         public string AvatarUrl { get; set;}
+        public School? School { get; set;}
 
     }
 }

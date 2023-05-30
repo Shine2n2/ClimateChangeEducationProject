@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateChangeEducation.Doma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateChangeEducation.Infrastructure", "ClimateChangeEducation.Infrastructure\ClimateChangeEducation.Infrastructure.csproj", "{385A6C7E-B8DB-4760-A03C-E04318271DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimateChangeEducation.Common", "ClimateChangeEducation.Common\ClimateChangeEducation.Common.csproj", "{CC32FBB3-437C-4144-9A6B-8069B4A8CAD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClimateChangeEducation.Common", "ClimateChangeEducation.Common\ClimateChangeEducation.Common.csproj", "{CC32FBB3-437C-4144-9A6B-8069B4A8CAD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logs", "Logs", "{F3F6A951-1182-4786-B230-2B68D25E68C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

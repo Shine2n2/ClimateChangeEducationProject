@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClimateChangeEducation.Domain.DTOs
 {
-    internal class ArticleCategoryDTO
+    public class ArticleCategoryDTO
     {
     }
 }
