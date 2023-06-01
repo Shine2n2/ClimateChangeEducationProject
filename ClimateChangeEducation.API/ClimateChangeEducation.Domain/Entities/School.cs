@@ -18,7 +18,9 @@ namespace ClimateChangeEducation.Domain.Entities
         [Required]
         [StringLength(250, MinimumLength = 3, ErrorMessage = DataAnnotationHelper.EmailValidator)]
         public string SchoolEmail { get; set; }
-        public ICollection<Student> Students { get; set; }
-        public ICollection<Teacher> Teachers { get; set; }
+        public ICollection<Student>? Students { get; set; }
+        public ICollection<Teacher>? Teachers { get; set; }
+        public ICollection<DiscussionBoardPost>? DiscussionBoardPosts { get; set; }
+        public ICollection<DiscussionBoardComment>? DiscussionBoardComments { get; set; }
     }
 }

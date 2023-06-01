@@ -12,12 +12,16 @@ namespace ClimateChangeEducation.Domain.Entities
     {
         [Key]
         public string CourseId { get; set; } = Guid.NewGuid().ToString();
+        [Required]
         public string CourseTitle { get; set; }
-        public string CourseDescription { get; set; }
+        [Required]
+        [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
+        public string? CourseDescription { get; set; }
         public DateTime CourseStartDateTime { get; set; }
         public DateTime CourseEndDateTime { get; set; }     
-        public Quiz QuizId { get; set; }
-        public ICollection<CourseModule> Modules { get; set; }
-        //public List<Instructor> Instructors { get; set; }
+        public bool IsEnrolled { get; set; }     
+        public Quiz? Quiz { get; set; }        
+        public ICollection<CourseModule> CourseModules { get; set; }
+        public ICollection<CourseEnrollment>? CourseEnrollments { get; set; }     
     }
 }

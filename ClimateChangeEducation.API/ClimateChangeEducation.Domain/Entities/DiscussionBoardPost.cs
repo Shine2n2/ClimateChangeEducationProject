@@ -12,12 +12,15 @@ namespace ClimateChangeEducation.Domain.Entities
     {
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
+        [Required]
         public string Title { get; set; }
+        [StringLength(300, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 300 characters!")]
         public string Content { get; set; }
         public DateTime PostedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsPublished { get; set; }
-        public ApplicationUser Author { get; set; }
+        public Teacher Teacher { get; set; }
+        public School School { get; set; }
         public DiscussionBoard DiscussionBoard { get; set; }
         public ICollection<DiscussionBoardComment>? Comments { get; set; }
 

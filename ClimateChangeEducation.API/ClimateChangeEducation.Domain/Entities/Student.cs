@@ -17,6 +17,9 @@ namespace ClimateChangeEducation.Domain.Entities
         public string StudentClass { get; set; }
         public string AvatarUrl { get; set;}
         public School? School { get; set;}
-
-    }
+        public ICollection<DiscussionBoardComment>? DiscussionBoardComments { get; set; }
+        public ICollection<Course>? Course { get; set; }
+        public ICollection<CourseEnrollment>? CourseEnrollment { get; set; }
+        public ICollection<QuizEnrollment>? QuizEnrollment { get; set; }
+    } 
 }

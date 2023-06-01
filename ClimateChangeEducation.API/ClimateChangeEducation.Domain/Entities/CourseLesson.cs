@@ -11,12 +11,15 @@ namespace ClimateChangeEducation.Domain.Entities
     {
         [Key]
         public string LessonId { get; set; } = Guid.NewGuid().ToString();
+        [Required]
         public string LessonName { get; set; }
-        public string LessonDescription { get; set; }
+        [Required]
+        [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
+        public string? LessonDescription { get; set; }
         public string? LessonArticle { get; set; }
         public string? LessonVideoUrl { get; set; }
-        public string? LessonPhotoUrl { get; set; }
-        public int LessonDuration { get; set; }
-        public Course CourseId { get; set;}
+        public string? LessonPhotoUrl { get; set; }        
+        public int LessonDuration { get; set; }        
+        public CourseModule CourseModule { get; set;}
     }
 }

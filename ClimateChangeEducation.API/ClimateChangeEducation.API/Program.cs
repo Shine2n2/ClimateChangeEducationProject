@@ -1,4 +1,6 @@
 using ClimateChangeEducation.Common.Configurations;
+using ClimateChangeEducation.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,11 +15,17 @@ builder.Logging.AddSerilog(logger);
 
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.Configure<ClimateDbSetting>(builder.Configuration.GetSection("DbConnectionStrings"));
 builder.Services.Configure<EmailLoginSetting>(builder.Configuration.GetSection("MailLoginDetails"));
 
+
+//database setup
+builder.Services.AddDbContext<ClimateDataContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("DbConnectionStrings"));
+});
+builder.Services.AddDbContext<ClimateDataContext>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

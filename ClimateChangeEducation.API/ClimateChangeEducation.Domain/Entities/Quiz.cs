@@ -11,11 +11,13 @@ namespace ClimateChangeEducation.Domain.Entities
     {
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();
+        [Required]
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public Course CourseId { get; set; }
-        public ICollection<QuizQuestion> Questions { get; set; }
+        public DateTime UpdatedAt { get; set; }       
+        public Course Course { get; set; }
+        public ICollection<QuizEnrollment> QuizEnrollment { get; set; }
+        public ICollection<QuizQuestion> QuizQuestions { get; set; }
     }
 }
