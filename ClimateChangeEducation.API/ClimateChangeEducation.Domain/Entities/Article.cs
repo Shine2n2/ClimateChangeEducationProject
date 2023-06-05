@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +16,9 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? Description { get; set; }
         [Required]
         public string Content { get; set; }
-        public string? MediaUrl { get; set; }
-        [Required]
+        public string? MediaUrl { get; set; }       
+        public string ArticleCategoryId { get; set; }
+        [ForeignKey("ArticleCategoryId")]
         public ArticleCategory Category { get; set; }
     }
 }

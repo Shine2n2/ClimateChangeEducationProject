@@ -12,15 +12,15 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         //Article repo interface
         Task<List<Article>> GetAllArticleAsync();
         Task<Article> GetArticleByIdAsync(string id);
-        Task<List<Article>> CreateArticleAsync(Article article);
-        Task<bool> UpdateArticleAsync(Article request);
-        Task<bool> DeleteArticle(Article request);
+        Task<Article> CreateArticleAsync(Article article);
+        Task<Article> UpdateArticleAsync(string articleId, Article request);
+        Task<bool> DeleteArticle(string request);
 
         //article category repo
         Task<List<ArticleCategory>> GetAllArticleCategoryAsync();
         Task<ArticleCategory> GetArticleCategoryByIdAsync(string id);
-        Task<List<ArticleCategory>> CreateArticleCategoryAsync(ArticleCategory articleCategory);
-        Task<bool> UpdateArticleCategoryAsync(ArticleCategory request);
-        Task<bool> DeleteArticleCategory(ArticleCategory request);
+        Task<ArticleCategory> CreateArticleCategoryAsync(ArticleCategory articleCategory);
+        Task<ArticleCategory> UpdateArticleCategoryAsync(string categoryId, ArticleCategory request);
+        Task<bool> DeleteArticleCategory(string request);
     }
 }

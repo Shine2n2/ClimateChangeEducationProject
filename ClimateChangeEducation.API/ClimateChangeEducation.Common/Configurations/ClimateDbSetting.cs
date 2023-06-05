@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ClimateChangeEducation.Common.Configurations
 {
-    public class ClimateDbSetting
+    public static class ClimateDbSetting
     {
-        public string ClimateEduDbConnection { get; set; }
+        public static string ClimateEduDbConnection { get; set; }
     }
 }

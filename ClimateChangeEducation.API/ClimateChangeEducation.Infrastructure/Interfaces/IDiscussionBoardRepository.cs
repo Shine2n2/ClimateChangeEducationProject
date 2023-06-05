@@ -12,24 +12,24 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         //-----DiscussionBoard
         Task<List<DiscussionBoard>> GetAllDiscussionBoardAsync();
         Task<DiscussionBoard> GetDiscussionBoardByIdAsync(string id);
-        Task<List<DiscussionBoard>> CreateDiscussionBoardAsync(Course course);
-        Task<bool> UpdateDiscussionBoardAsync(DiscussionBoard request);
-        Task<bool> DeleteDiscussionBoard(DiscussionBoard request);
+        Task<DiscussionBoard> CreateDiscussionBoardAsync(DiscussionBoard request);
+        Task<DiscussionBoard> UpdateDiscussionBoardAsync(string id, DiscussionBoard request);
+        Task<bool> DeleteDiscussionBoard(string request);
 
         //-----------Discussion board post
 
         Task<List<DiscussionBoardPost>> GetAllDiscussionBoardPostAsync();
         Task<DiscussionBoardPost> GetDiscussionBoardPostByIdAsync(string id);
-        Task<List<DiscussionBoardPost>> CreateDiscussionBoardPostAsync(DiscussionBoardPost course);
-        Task<bool> UpdateDiscussionBoardPostAsync(DiscussionBoardPost request);
-        Task<bool> DeleteDiscussionBoardPost(DiscussionBoardPost request);
+        Task<DiscussionBoardPost> CreateDiscussionBoardPostAsync(DiscussionBoardPost request);
+        Task<DiscussionBoardPost> UpdateDiscussionBoardPostAsync(string id, DiscussionBoardPost request);
+        Task<bool> DeleteDiscussionBoardPost(string request);
 
         //------------------DiscussionBoardComment
 
         Task<List<DiscussionBoardComment>> GetAllDiscussionBoardCommentAsync();
         Task<DiscussionBoardComment> GetDiscussionBoardCommentByIdAsync(string id);
-        Task<List<DiscussionBoardComment>> CreateDiscussionBoardCommentAsync(DiscussionBoardComment course);
-        Task<bool> UpdateDiscussionBoardCommentAsync(DiscussionBoardComment request);
-        Task<bool> DeleteDiscussionBoardComment(DiscussionBoardComment request);
+        Task<DiscussionBoardComment> CreateDiscussionBoardCommentAsync(DiscussionBoardComment request);
+        Task<DiscussionBoardComment> UpdateDiscussionBoardCommentAsync(string id, DiscussionBoardComment request);
+        Task<bool> DeleteDiscussionBoardComment(string request);
     }
 }

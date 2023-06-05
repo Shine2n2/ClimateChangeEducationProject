@@ -9,7 +9,7 @@ namespace ClimateChangeEducation.Domain.Entities
 {
     public class ArticleCategory
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string ArticleCategoryId { get; set; } = Guid.NewGuid().ToString();
         [Required]
         public string Title { get; set; }
         public string? Description { get; set; }

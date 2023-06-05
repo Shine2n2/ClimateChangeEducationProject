@@ -1,5 +1,7 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
+using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,79 +12,144 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        public Task<List<Course>> CreateCourseAsync(Course course)
+        private readonly ClimateDataContext _dataContext;
+        public CourseRepository(ClimateDataContext dataContext)
         {
-            throw new NotImplementedException();
+            _dataContext = dataContext;
+        }
+        public async Task<Course> CreateCourseAsync(Course course)
+        {
+            var result =  await _dataContext.Courses.AddAsync(course);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Task<List<CourseLesson>> CreateCourseAsync(CourseLesson courseLlesson)
+        public async Task<CourseLesson> CreateCourseLessonAsync(CourseLesson courseLlesson)
         {
-            throw new NotImplementedException();
+            var result = await _dataContext.CourseLessons.AddAsync(courseLlesson);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Task<List<CourseModule>> CreateCourseModuleAsync(CourseModule courseModule)
+        public async Task<CourseModule> CreateCourseModuleAsync(CourseModule courseModule)
         {
-            throw new NotImplementedException();
+            var result = await _dataContext.CourseModules.AddAsync(courseModule);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Task<bool> DeleteCourse(Course request)
+        public async Task<bool> DeleteCourse(string requestId)
         {
-            throw new NotImplementedException();
+            var result = await GetCourseByIdAsync(requestId);
+            if (result != null)
+            {
+                _dataContext.Courses.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> DeleteCourseLesson(CourseLesson request)
+        public async Task<bool> DeleteCourseLesson(string requestId)
         {
-            throw new NotImplementedException();
+            var result = await GetCourseLessonByIdAsync(requestId);
+            if (result != null)
+            {
+                _dataContext.CourseLessons.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> DeleteCourseModule(CourseModule request)
+        public async Task<bool> DeleteCourseModule(string requestId)
         {
-            throw new NotImplementedException();
+            var result = await GetCourseModuleByIdAsync(requestId);
+            if (result != null)
+            {
+                _dataContext.CourseModules.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<List<CourseLesson>> GetAllCourseLessonsAsync()
+        public async Task<List<CourseLesson>> GetAllCourseLessonsAsync()
         {
-            throw new NotImplementedException();
+            return await _dataContext.CourseLessons.ToListAsync();
         }
 
-        public Task<List<CourseModule>> GetAllCourseModulesAsync()
+        public async Task<List<CourseModule>> GetAllCourseModulesAsync()
         {
-            throw new NotImplementedException();
+            return await _dataContext.CourseModules.ToListAsync();
         }
 
-        public Task<List<Course>> GetAllCoursesAsync()
+        public async Task<List<Course>> GetAllCoursesAsync()
         {
-            throw new NotImplementedException();
+            return await _dataContext.Courses.ToListAsync();
         }
 
-        public Task<Course> GetCourseByIdAsync(string id)
+        public async Task<Course> GetCourseByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _dataContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
         }
 
-        public Task<CourseLesson> GetCourseLessonByIdAsync(string id)
+        public async Task<CourseLesson> GetCourseLessonByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _dataContext.CourseLessons.FirstOrDefaultAsync(x => x.LessonId == id);
         }
 
-        public Task<CourseModule> GetCourseModuleByIdAsync(string id)
+        public async Task<CourseModule> GetCourseModuleByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _dataContext.CourseModules.FirstOrDefaultAsync(x => x.ModuleId == id);
         }
 
-        public Task<bool> UpdateCourseAsync(Course request)
+        public async Task<Course> UpdateCourseAsync(string id, Course course)
         {
-            throw new NotImplementedException();
+            var existingCourse = await GetCourseByIdAsync(id);
+            if (existingCourse != null)
+            {
+                existingCourse.CourseTitle = course.CourseTitle;
+                existingCourse.CourseDescription = course.CourseDescription;
+                existingCourse.CourseEndDateTime = course.CourseEndDateTime;
+                existingCourse.CourseEndDateTime = course.CourseEndDateTime;                           
+
+                await _dataContext.SaveChangesAsync();
+                return existingCourse;
+            }
+            return null;
         }
 
-        public Task<bool> UpdateCourseLessonAsync(CourseLesson request)
+        public async Task<CourseLesson> UpdateCourseLessonAsync(string id, CourseLesson request)
         {
-            throw new NotImplementedException();
+            var existingCourseLesson = await GetCourseLessonByIdAsync(id);
+            if (existingCourseLesson != null)
+            {   
+                existingCourseLesson.LessonName = request.LessonName;
+                existingCourseLesson.LessonDuration = request.LessonDuration;
+                existingCourseLesson.LessonDescription = request.LessonDescription;
+                existingCourseLesson.LessonVideoUrl = request.LessonVideoUrl;
+                existingCourseLesson.LessonPhotoUrl = request.LessonPhotoUrl;
+                existingCourseLesson.LessonArticle = request.LessonArticle;
+
+                await _dataContext.SaveChangesAsync();
+                return existingCourseLesson;
+            }
+            return null;
         }
 
-        public Task<bool> UpdateCourseModuleAsync(CourseModule request)
+        public async Task<CourseModule> UpdateCourseModuleAsync(string id, CourseModule request)
         {
-            throw new NotImplementedException();
+            var existingCourseModule = await GetCourseModuleByIdAsync(id);
+            if (existingCourseModule != null)
+            {
+                existingCourseModule.ModuleName = request.ModuleName;
+                existingCourseModule.ModuleDescription = request.ModuleDescription;
+                existingCourseModule.MediaUrl = request.MediaUrl;
+                await _dataContext.SaveChangesAsync();
+                return existingCourseModule;
+            }
+            return null;
         }
     }
 }

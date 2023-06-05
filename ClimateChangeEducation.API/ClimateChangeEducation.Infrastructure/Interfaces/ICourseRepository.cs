@@ -12,24 +12,24 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         //-------Course
         Task<List<Course>> GetAllCoursesAsync();
         Task<Course> GetCourseByIdAsync(string id);
-        Task<List<Course>> CreateCourseAsync(Course course);
-        Task<bool> UpdateCourseAsync(Course request);
-        Task<bool> DeleteCourse(Course request);
+        Task<Course> CreateCourseAsync(Course course);
+        Task<Course> UpdateCourseAsync(string id, Course request);
+        Task<bool> DeleteCourse(string requestId);
 
         //----------CourseLesson
 
         Task<List<CourseLesson>> GetAllCourseLessonsAsync();
         Task<CourseLesson> GetCourseLessonByIdAsync(string id);
-        Task<List<CourseLesson>> CreateCourseAsync(CourseLesson courseLlesson);
-        Task<bool> UpdateCourseLessonAsync(CourseLesson request);
-        Task<bool> DeleteCourseLesson(CourseLesson request);
+        Task<CourseLesson> CreateCourseLessonAsync(CourseLesson courseLlesson);
+        Task<CourseLesson> UpdateCourseLessonAsync(string id, CourseLesson request);
+        Task<bool> DeleteCourseLesson(string requestId);
 
         // ------------ CourseModule
 
         Task<List<CourseModule>> GetAllCourseModulesAsync();
         Task<CourseModule> GetCourseModuleByIdAsync(string id);
-        Task<List<CourseModule>> CreateCourseModuleAsync(CourseModule courseModule);
-        Task<bool> UpdateCourseModuleAsync(CourseModule request);
-        Task<bool> DeleteCourseModule(CourseModule request);
+        Task<CourseModule> CreateCourseModuleAsync(CourseModule courseModule);
+        Task<CourseModule> UpdateCourseModuleAsync(string id, CourseModule request);
+        Task<bool> DeleteCourseModule(string requestId);
     }
 }

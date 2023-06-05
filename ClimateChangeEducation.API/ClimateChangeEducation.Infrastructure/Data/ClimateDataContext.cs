@@ -1,4 +1,5 @@
-﻿using ClimateChangeEducation.Domain.Entities;
+﻿using ClimateChangeEducation.Common.Configurations;
+using ClimateChangeEducation.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ClimateChangeEducation.Infrastructure.Data
 {
@@ -31,6 +33,7 @@ namespace ClimateChangeEducation.Infrastructure.Data
         public DbSet<QuizEnrollment> QuizEnrollments { get; set; }
         public DbSet<School> Schools { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Student> Students { get; set; }                     
+
     }
 }
