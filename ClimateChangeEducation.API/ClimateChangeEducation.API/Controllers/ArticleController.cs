@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClimateChangeEducation.Domain.Entities;
+using ClimateChangeEducation.Infrastructure.Interfaces;
+using ClimateChangeEducation.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,11 +11,22 @@ namespace ClimateChangeEducation.API.Controllers
     [ApiController]
     public class ArticleController : ControllerBase
     {
+        private readonly IArticleRepository _articleRepo;
+
+        public ArticleController(IArticleRepository articleRepo)
+        {
+            _articleRepo = articleRepo;
+        }
+
         // GET: api/<ArticleController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetArticles()
         {
-            return new string[] { "value1", "value2" };
+            var articles = await _articleRepo.GetAllArticleAsync();
+
+            //return Ok(mapper.Map<List<Student>>(students));
+            //return new string[] { "value1", "value2" };
+            return (Ok(articles));
         }
 
         // GET api/<ArticleController>/5

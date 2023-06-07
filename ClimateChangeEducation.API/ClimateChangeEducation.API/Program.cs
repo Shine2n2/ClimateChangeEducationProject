@@ -1,4 +1,5 @@
 using ClimateChangeEducation.Common.Configurations;
+using ClimateChangeEducation.Common.Helpers;
 using ClimateChangeEducation.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -12,6 +13,9 @@ var logger = new LoggerConfiguration()
    .CreateLogger();
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+
+
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 
 // Add services to the container.
