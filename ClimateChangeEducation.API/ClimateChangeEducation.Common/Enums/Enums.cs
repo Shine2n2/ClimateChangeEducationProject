@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Common.Enums
 {
     public class Enums
-    {
+    {      
         public enum CourseQuizStatus
         {
             Completed,

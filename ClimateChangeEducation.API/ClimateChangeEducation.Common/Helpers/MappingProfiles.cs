@@ -11,8 +11,7 @@ namespace ClimateChangeEducation.Common.Helpers
     {
         public MappingProfiles()
         {
-            //CreateMap<Category,
-            //    GetCategoryDetailsDto>().ReverseMap();
+            CreateMap<Course, CourseDTO>();
             //CreateMap<Category,
             //    UpdateCategoryDiscountDto>().ReverseMap();
             //CreateMap<Category,

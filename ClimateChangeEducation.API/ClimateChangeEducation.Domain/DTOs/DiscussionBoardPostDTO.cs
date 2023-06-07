@@ -12,6 +12,7 @@ namespace ClimateChangeEducation.Domain.DTOs
     {        
         [Required]
         public string Title { get; set; }
+        [Required]
         [StringLength(1000, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 1000 characters!")]
         public string Content { get; set; }
         public DateTime PostedDate { get; set; }

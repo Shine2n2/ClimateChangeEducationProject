@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,11 +9,22 @@ namespace ClimateChangeEducation.API.Controllers
     [ApiController]
     public class ArticleCategoryController : ControllerBase
     {
+        private readonly IArticleRepository _articleRepo;
+
+
+        public ArticleCategoryController(IArticleRepository articleRepo)
+        {
+            _articleRepo = articleRepo;
+        }
         // GET: api/<ArticleCategoryController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetArticleCategories()
         {
-            return new string[] { "value1", "value2" };
+            var articles = await _articleRepo.GetAllArticleAsync();
+
+            //return Ok(mapper.Map<List<Student>>(students));
+            //return new string[] { "value1", "value2" };
+            return (Ok(articles));
         }
 
         // GET api/<ArticleCategoryController>/5

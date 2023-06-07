@@ -8,5 +8,6 @@ namespace ClimateChangeEducation.Common.Helpers
 {
     public class HttpClientService
     {
+        
     }
 }

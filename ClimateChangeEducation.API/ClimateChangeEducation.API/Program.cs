@@ -14,7 +14,7 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
-
+//AutoMapper configuration
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 
