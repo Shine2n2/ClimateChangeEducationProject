@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClimateChangeEducation.Common\ClimateChangeEducation.Common.csproj" />
     <ProjectReference Include="..\ClimateChangeEducation.Domain\ClimateChangeEducation.Domain.csproj" />
   </ItemGroup>
 

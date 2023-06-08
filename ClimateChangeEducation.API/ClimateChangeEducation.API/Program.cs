@@ -1,6 +1,8 @@
 using ClimateChangeEducation.Common.Configurations;
 using ClimateChangeEducation.Common.Helpers;
 using ClimateChangeEducation.Infrastructure.Data;
+using ClimateChangeEducation.Infrastructure.Interfaces;
+using ClimateChangeEducation.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -29,6 +31,17 @@ builder.Services.AddDbContext<ClimateDataContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+
+//
+
+builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IDiscussionBoardRepository, DiscussionBoardRepository>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 
 

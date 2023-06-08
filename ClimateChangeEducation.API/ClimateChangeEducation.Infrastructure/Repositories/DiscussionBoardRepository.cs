@@ -74,6 +74,21 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return false;
         }
 
+        public async Task<bool> ExistsDiscussionBoardAsync(string id)
+        {
+            return await _dataContext.DiscussionBoards.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> ExistsDiscussionBoardCommentAsync(string id)
+        {
+            return await _dataContext.DiscussionBoardComments.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> ExistsDiscussionBoardPostAsync(string id)
+        {
+            return await _dataContext.DiscussionBoardPost.AnyAsync(x => x.Id == id);
+        }
+
         public async Task<List<DiscussionBoard>> GetAllDiscussionBoardAsync()
         {
             return await _dataContext.DiscussionBoards.ToListAsync();

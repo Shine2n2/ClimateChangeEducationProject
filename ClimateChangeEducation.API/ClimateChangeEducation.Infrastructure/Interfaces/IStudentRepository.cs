@@ -14,5 +14,6 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<Student> CreateStudentAsync(Student student);
         Task<Student> UpdateStudentAsync(string schoolId, Student request);
         Task<bool> DeleteStudent(string request);
+        Task<bool> ExistsStudentAsync(string id);
     }
 }

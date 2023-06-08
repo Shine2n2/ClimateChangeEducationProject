@@ -1,12 +1,5 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ClimateChangeEducation.Common.Helpers;
 
 namespace ClimateChangeEducation.Domain.DTOs
 {
@@ -14,7 +7,7 @@ namespace ClimateChangeEducation.Domain.DTOs
     {
         
         [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = DataAnnotationHelper.TitleChar)]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string Title { get; set; }
         [StringLength(250, MinimumLength = 3, ErrorMessage = "Max character is 250, min is 3")]
         public string? Description { get; set; }

@@ -22,5 +22,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<ArticleCategory> CreateArticleCategoryAsync(ArticleCategory articleCategory);
         Task<ArticleCategory> UpdateArticleCategoryAsync(string categoryId, ArticleCategory request);
         Task<bool> DeleteArticleCategory(string request);
+        Task<bool> ExistsArticleCategoryAsync(string id);        
+        Task<bool> ExistsArticleAsync(string id);        
     }
 }

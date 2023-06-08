@@ -1,26 +1,20 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ClimateChangeEducation.Common.Helpers;
 
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class AddStudentRequestDTO
-    {
+    {        
+
         [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = DataAnnotationHelper.FirstNameValidator)]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string FirstName { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = DataAnnotationHelper.LastNameValidator)]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string LastName { get; set; }
         [Required]
-        [EmailAddress(ErrorMessage = DataAnnotationHelper.EmailValidator)]
-        [StringLength(100, MinimumLength = 10, ErrorMessage = DataAnnotationHelper.EmailLengthValidator)]
+        [EmailAddress(ErrorMessage = "Email is required")]
+        [StringLength(100, MinimumLength = 10, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string Email { get; set; }
         public string? Nickname { get; set; }
         [Required]

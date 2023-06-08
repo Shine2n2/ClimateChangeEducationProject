@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +13,26 @@ namespace ClimateChangeEducation.Common.Helpers
     {
         public MappingProfiles()
         {
-            CreateMap<Course, CourseDTO>();
-            //CreateMap<Category,
-            //    UpdateCategoryDiscountDto>().ReverseMap();
-            //CreateMap<Category,
-            //    GetCategoryProductsDto>();
-            //CreateMap<Product,
-            //    ProductDto>().ReverseMap();
+            
+            CreateMap<Article, ArticleDTO>().ReverseMap();
+            CreateMap<ArticleCategory, ArticleCategoryDTO>().ReverseMap();
+            CreateMap<Course, CourseDTO>().ReverseMap();
+            CreateMap<CourseEnrollment, CourseEnrollmentDTO>().ReverseMap();
+            CreateMap<CourseLesson, CourseLessonDTO>().ReverseMap();
+            CreateMap<CourseModule, CourseModuleDTO>().ReverseMap();
+            CreateMap<DiscussionBoard, DiscussionBoardDTO>().ReverseMap();
+            CreateMap<DiscussionBoardComment, DiscussionBoardCommentDTO>().ReverseMap();
+            CreateMap<DiscussionBoardPost, DiscussionBoardPostDTO>().ReverseMap();
+            CreateMap<QuestionAnswer, QuestionAnswerDTO>().ReverseMap();
+            CreateMap<Quiz, QuizDTO>().ReverseMap();
+            CreateMap<QuizEnrollment, QuizEnrollmentDTO>().ReverseMap();
+            CreateMap<QuizQuestion, QuizQuestionDTO>().ReverseMap();
+            CreateMap<Student, AddStudentRequestDTO>().ReverseMap();
+            CreateMap<Student, StudentResponseDTO>().ReverseMap();
+            CreateMap<Teacher, AddTeacherRequestDTO>().ReverseMap();
+            CreateMap<Teacher, TeacherResponseDTO>().ReverseMap();
+            CreateMap<School, AddSchoolRequestDTO>().ReverseMap();
+            CreateMap<School, SchoolResponseDTO>().ReverseMap();
         }
     }
 }

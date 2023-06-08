@@ -1,19 +1,11 @@
-﻿using ClimateChangeEducation.Common.Configurations;
-using ClimateChangeEducation.Domain.Entities;
+﻿using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClimateChangeEducation.Infrastructure.Repositories
 {
-    
+
     public class ArticleRepository : IArticleRepository
     {
         private readonly ClimateDataContext _dataContext;
@@ -109,6 +101,16 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
                 return existingArticleCate;
             }
             return null;
+        }
+
+        public async Task<bool> ExistsArticleCategoryAsync(string id)
+        {
+            return await _dataContext.ArticleCategories.AnyAsync(x => x.ArticleCategoryId == id);
+        }
+        
+        public async Task<bool> ExistsArticleAsync(string id)
+        {
+            return await _dataContext.Articles.AnyAsync(x => x.ArticleCategoryId == id);
         }
     }
 }

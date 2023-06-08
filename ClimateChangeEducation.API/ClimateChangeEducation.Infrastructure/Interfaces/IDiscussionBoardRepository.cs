@@ -15,6 +15,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<DiscussionBoard> CreateDiscussionBoardAsync(DiscussionBoard request);
         Task<DiscussionBoard> UpdateDiscussionBoardAsync(string id, DiscussionBoard request);
         Task<bool> DeleteDiscussionBoard(string request);
+        Task<bool> ExistsDiscussionBoardAsync(string id);
 
         //-----------Discussion board post
 
@@ -23,6 +24,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<DiscussionBoardPost> CreateDiscussionBoardPostAsync(DiscussionBoardPost request);
         Task<DiscussionBoardPost> UpdateDiscussionBoardPostAsync(string id, DiscussionBoardPost request);
         Task<bool> DeleteDiscussionBoardPost(string request);
+        Task<bool> ExistsDiscussionBoardPostAsync(string id);
 
         //------------------DiscussionBoardComment
 
@@ -31,5 +33,6 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<DiscussionBoardComment> CreateDiscussionBoardCommentAsync(DiscussionBoardComment request);
         Task<DiscussionBoardComment> UpdateDiscussionBoardCommentAsync(string id, DiscussionBoardComment request);
         Task<bool> DeleteDiscussionBoardComment(string request);
+        Task<bool> ExistsDiscussionBoardCommentAsync(string id);
     }
 }

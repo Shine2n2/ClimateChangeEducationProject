@@ -56,7 +56,16 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return false;
         }
 
-       
+        public async Task<bool> ExistsQuizAnswerAsync(string id)
+        {
+            return await _dataContext.QuestionAnswers.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> ExistsQuizQuestionAsync(string id)
+        {            
+            return await _dataContext.QuizQuestions.AnyAsync(x => x.Id == id);
+        }
+
         public async Task<List<QuestionAnswer>> GetAllQuestionAnswersAsync()
         {
             return await _dataContext.QuestionAnswers.ToListAsync();

@@ -1,12 +1,4 @@
-﻿using ClimateChangeEducation.Common.Helpers;
-using ClimateChangeEducation.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ClimateChangeEducation.Domain.DTOs
 {
@@ -14,11 +6,11 @@ namespace ClimateChangeEducation.Domain.DTOs
     {        
         public string SchoolCode { get; set; }
         [Required]
-        [StringLength(60, MinimumLength = 3, ErrorMessage = DataAnnotationHelper.SchoolName)]
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 60 characters!")]
         public string SchoolName { get; set; }
         [Required]
-        [EmailAddress(ErrorMessage = DataAnnotationHelper.EmailValidator)]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = DataAnnotationHelper.EmailValidator)]
+        [EmailAddress(ErrorMessage = "Valid Email is required!")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string SchoolEmail { get; set; }       
     }
 }

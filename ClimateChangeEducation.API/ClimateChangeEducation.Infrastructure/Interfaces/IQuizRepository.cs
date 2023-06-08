@@ -19,6 +19,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<QuizQuestion> CreateQuizQuestionAsync(QuizQuestion quizQuestion);
         Task<QuizQuestion> UpdateQuizQuestionAsync(string id, QuizQuestion request);
         Task<bool> DeleteQuizQuestion(string id);
+        Task<bool> ExistsQuizQuestionAsync(string id);
 
         // -------------Question answer option interfaces
 
@@ -27,6 +28,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<QuestionAnswer> CreateQuestionAnswerAsync(QuestionAnswer quizQuestion);
         Task<QuestionAnswer> UpdateQuestionAnswerAsync(string id, QuestionAnswer request);
         Task<bool> DeleteQuestionAnswer(string id);
+        Task<bool> ExistsQuizAnswerAsync(string id);
 
     }
 }

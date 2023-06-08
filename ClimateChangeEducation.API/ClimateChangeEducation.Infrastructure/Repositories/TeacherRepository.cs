@@ -36,6 +36,11 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return false;
         }
 
+        public async Task<bool> ExistsTeacherAsync(string id)
+        {
+            return await _dataContext.Teachers.AnyAsync(x => x.TeacherId == id);
+        }
+
         public async Task<List<Teacher>> GetAllTeacherAsync()
         {
             return await _dataContext.Teachers.ToListAsync();
