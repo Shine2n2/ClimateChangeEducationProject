@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using ClimateChangeEducation.Domain.Entities;
+using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,100 @@ namespace ClimateChangeEducation.API.Controllers
     [ApiController]
     public class SchoolController : ControllerBase
     {
+        private readonly ISchoolRepository _schoolRepo;
+        private readonly IMapper _mapper;
+
+        public SchoolController(ISchoolRepository schoolRepo, IMapper mapper)
+        {
+            _schoolRepo = schoolRepo;
+            _mapper = mapper;
+        }
+
         // GET: api/<SchoolController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetSchools()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var schools = await _schoolRepo.GetAllSchoolAsync();
+                return (Ok(_mapper.Map<List<School>>(schools)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET api/<SchoolController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetSchoolById([FromRoute] string id)
         {
-            return "value";
+            try
+            {
+                var result = await _schoolRepo.GetSchoolByIdAsync(id);
+                return Ok(_mapper.Map<School>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
         // POST api/<SchoolController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> CreateSchool([FromBody] School request)
         {
+            try
+            {
+                var school = await _schoolRepo.CreateSchoolAsync(_mapper.Map<School>(request));
+                return Ok(school);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
         // PUT api/<SchoolController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> UpdateSchool([FromRoute] string id, [FromBody] School request)
         {
+            try
+            {
+                if (await _schoolRepo.ExistsSchoolAsync(id))
+                {
+                    // Update Details
+                    var updated = await _schoolRepo.UpdateSchoolAsync(id, _mapper.Map<School>(request));
+                    if (updated != null)
+                    {
+                        return Ok(_mapper.Map<School>(updated));
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
         // DELETE api/<SchoolController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteSchool([FromRoute] string id)
         {
+            try
+            {
+                if (await _schoolRepo.ExistsSchoolAsync(id))
+                {
+                    var result = await _schoolRepo.DeleteSchool(id);
+                    return Ok(_mapper.Map<School>(result));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
     }
 }

@@ -1,19 +1,39 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using ClimateChangeEducation.Domain.Entities;
+using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ClimateChangeEducation.API.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class QuizController : ControllerBase
     {
+        private readonly IQuizRepository _quizRepo;
+        private readonly IMapper _mapper;
+
+        public QuizController(IQuizRepository quizRepo, IMapper mapper)
+        {
+            _quizRepo = quizRepo;
+            _mapper = mapper;
+        }
         // GET: api/<QuizController>
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        //public async Task<IActionResult> GetGetQuizzes()
+        //{
+        //    try
+        //    {
+        //       // var discussionboards = await _quizRepo..GetAllQuizzesAsync();
+        //        //return (Ok(_mapper.Map<List<DiscussionBoard>>(discussionboards)));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         // GET api/<QuizController>/5
         [HttpGet("{id}")]
