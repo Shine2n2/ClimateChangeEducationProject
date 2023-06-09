@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using ClimateChangeEducation.Domain.Entities;
+using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,99 @@ namespace ClimateChangeEducation.API.Controllers
     [ApiController]
     public class TeacherController : ControllerBase
     {
+        private readonly ITeacherRepository _teacherRepo;
+        private readonly IMapper _mapper;
+
+        public TeacherController(ITeacherRepository teacherRepo, IMapper mapper)
+        {
+            _teacherRepo = teacherRepo;
+            _mapper = mapper;
+        }
         // GET: api/<TeacherController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetSchools()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var teachers = await _teacherRepo.GetAllTeacherAsync();
+                return (Ok(_mapper.Map<List<Teacher>>(teachers)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET api/<TeacherController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetTeacherById([FromRoute] string id)
         {
-            return "value";
+            try
+            {
+                var teacher = await _teacherRepo.GetTeacherByIdAsync(id);
+                return Ok(_mapper.Map<Teacher>(teacher));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
         // POST api/<TeacherController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> CreateTeacher([FromBody] Teacher request)
         {
+            try
+            {
+                var teacher = await _teacherRepo.CreateTeacherAsync(_mapper.Map<Teacher>(request));
+                return Ok(teacher);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
         // PUT api/<TeacherController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> UpdateTeacher([FromRoute] string id, [FromBody] Teacher request)
         {
+            try
+            {
+                if (await _teacherRepo.ExistsTeacherAsync(id))
+                {
+                    // Update Details
+                    var updated = await _teacherRepo.UpdateTeacherAsync(id, _mapper.Map<Teacher>(request));
+                    if (updated != null)
+                    {
+                        return Ok(_mapper.Map<School>(updated));
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
         // DELETE api/<TeacherController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteTeacher([FromRoute] string id)
         {
+            try
+            {
+                if (await _teacherRepo.ExistsTeacherAsync(id))
+                {
+                    var result = await _teacherRepo.DeleteTeacher(id);
+                    return Ok(_mapper.Map<Teacher>(result));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
     }
 }

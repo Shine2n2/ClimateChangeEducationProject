@@ -30,5 +30,15 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<bool> DeleteQuestionAnswer(string id);
         Task<bool> ExistsQuizAnswerAsync(string id);
 
+        //------------------------Quiz interface
+
+        Task<List<Quiz>> GetAllQuizzesAsync();
+        Task<Quiz> GetQuizByIdAsync(string id);
+        Task<Quiz> CreateQuizAsync(Quiz quiz);
+        Task<Quiz> UpdateQuizAsync(string id, Quiz request);
+        Task<bool> DeleteQuiz(string id);
+        Task<bool> ExistsQuizAsync(string id);
+
+
     }
 }

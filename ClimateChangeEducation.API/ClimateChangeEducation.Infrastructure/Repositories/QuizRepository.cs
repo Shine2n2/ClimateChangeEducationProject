@@ -25,6 +25,13 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return result.Entity;
         }
 
+        public async Task<Quiz> CreateQuizAsync(Quiz quiz)
+        {
+            var result = await _dataContext.Quizzes.AddAsync(quiz);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
         public async Task<QuizQuestion> CreateQuizQuestionAsync(QuizQuestion quizQuestion)
         {
             var result = await _dataContext.QuizQuestions.AddAsync(quizQuestion);
@@ -38,6 +45,18 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             if (result != null)
             {
                 _dataContext.QuestionAnswers.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteQuiz(string id)
+        {
+            var result = await GetQuizByIdAsync(id);
+            if (result != null)
+            {
+                _dataContext.Quizzes.Remove(result);
                 await _dataContext.SaveChangesAsync();
                 return true;
             }
@@ -61,6 +80,11 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return await _dataContext.QuestionAnswers.AnyAsync(x => x.Id == id);
         }
 
+        public async Task<bool> ExistsQuizAsync(string id)
+        {
+            return await _dataContext.Quizzes.AnyAsync(x => x.QuizId == id);
+        }
+
         public async Task<bool> ExistsQuizQuestionAsync(string id)
         {            
             return await _dataContext.QuizQuestions.AnyAsync(x => x.Id == id);
@@ -75,7 +99,16 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
         {
             return await _dataContext.QuizQuestions.ToListAsync();
         }
-              
+
+        public async Task<List<Quiz>> GetAllQuizzesAsync()
+        {
+            return await _dataContext.Quizzes.ToListAsync();
+        }
+
+        public async Task<Quiz> GetQuizByIdAsync(string id)
+        {
+            return await _dataContext.Quizzes.FirstOrDefaultAsync(x => x.QuizId == id);
+        }
 
         public async Task<QuestionAnswer> GetQuizQuestionAnswerByIdAsync(string id)
         {
@@ -96,6 +129,18 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
                 result.IsCorrect = result.IsCorrect;
                 result.AllocatedScore = result.AllocatedScore;                
                 return result;
+            }
+            return null;
+        }
+
+        public async Task<Quiz> UpdateQuizAsync(string id, Quiz request)
+        {
+            var result = await GetQuizByIdAsync(id);
+            if (result != null)
+            {
+                result.Title = request.Title;
+                result.Description = request.Description;
+                result.UpdatedAt= request.UpdatedAt;               
             }
             return null;
         }
