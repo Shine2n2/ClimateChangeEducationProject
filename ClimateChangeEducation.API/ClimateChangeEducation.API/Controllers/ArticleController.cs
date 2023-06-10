@@ -28,7 +28,7 @@ namespace ClimateChangeEducation.API.Controllers
             try
             {
                 var articles = await _articleRepo.GetAllArticleAsync();
-                return (Ok(_mapper.Map<List<Student>>(articles)));
+                return (Ok(_mapper.Map<List<Article>>(articles)));
             }
             catch (Exception ex)
             {

@@ -91,32 +91,38 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         public async Task<List<DiscussionBoard>> GetAllDiscussionBoardAsync()
         {
-            return await _dataContext.DiscussionBoards.ToListAsync();
+            return await _dataContext.DiscussionBoards.Include(x => x.Posts).ToListAsync();
         }
 
         public async Task<List<DiscussionBoardComment>> GetAllDiscussionBoardCommentAsync()
         {
-            return await _dataContext.DiscussionBoardComments.ToListAsync();
+            return await _dataContext.DiscussionBoardComments
+                .Include(x=>x.Schools).Include(y=>y.Students)
+                .Include(x=>x.Teachers).Include(z=>z.DiscussionBoardPost).ToListAsync();
         }
 
         public async Task<List<DiscussionBoardPost>> GetAllDiscussionBoardPostAsync()
         {
-            return await _dataContext.DiscussionBoardPost.ToListAsync();
+            return await _dataContext.DiscussionBoardPost.Include(x=>x.Comments)
+                .Include(y=>y.School).Include(z=>z.Teacher).ToListAsync();
         }
 
         public async Task<DiscussionBoard> GetDiscussionBoardByIdAsync(string id)
         {
-            return await _dataContext.DiscussionBoards.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dataContext.DiscussionBoards.Include(x=>x.Posts).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<DiscussionBoardComment> GetDiscussionBoardCommentByIdAsync(string id)
         {
-            return await _dataContext.DiscussionBoardComments.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dataContext.DiscussionBoardComments.Include(x=>x.Students)
+                .Include(y=>y.DiscussionBoardPost).Include(z=>z.Schools)
+                .Include(o=>o.Teachers).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<DiscussionBoardPost> GetDiscussionBoardPostByIdAsync(string id)
         {
-            return await _dataContext.DiscussionBoardPost.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dataContext.DiscussionBoardPost.Include(x=>x.Teacher)
+                .Include(y=>y.School).Include(z=>z.Comments).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<DiscussionBoard> UpdateDiscussionBoardAsync(string id, DiscussionBoard request)

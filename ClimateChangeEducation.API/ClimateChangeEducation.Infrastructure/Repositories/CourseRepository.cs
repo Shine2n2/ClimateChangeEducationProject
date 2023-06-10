@@ -91,32 +91,39 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         public async Task<List<CourseLesson>> GetAllCourseLessonsAsync()
         {
-            return await _dataContext.CourseLessons.ToListAsync();
+            return await _dataContext.CourseLessons.Include(courseLesson => courseLesson.CourseModule).ToListAsync();            
         }
 
         public async Task<List<CourseModule>> GetAllCourseModulesAsync()
         {
-            return await _dataContext.CourseModules.ToListAsync();
+            return await _dataContext.CourseModules.Include(x=> x.Lessons).Include(x=>x.Course).ToListAsync();              
         }
 
         public async Task<List<Course>> GetAllCoursesAsync()
         {
-            return await _dataContext.Courses.ToListAsync();
+            return await _dataContext.Courses
+                .Include(x=>x.Quiz)
+                .Include(y=>y.CourseModules)
+                .Include(z=>z.CourseEnrollments).ToListAsync();
         }
 
         public async Task<Course> GetCourseByIdAsync(string id)
         {
-            return await _dataContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+            return await _dataContext.Courses
+                .Include(x => x.Quiz).Include(y => y.CourseModules)
+                .Include(z=>z.CourseEnrollments).FirstOrDefaultAsync(x => x.CourseId == id);
+            //return await _dataContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
         }
 
         public async Task<CourseLesson> GetCourseLessonByIdAsync(string id)
         {
-            return await _dataContext.CourseLessons.FirstOrDefaultAsync(x => x.LessonId == id);
+            return await _dataContext.CourseLessons.Include(x => x.CourseModule).FirstOrDefaultAsync(x => x.LessonId == id);
+            //return await _dataContext.CourseLessons.FirstOrDefaultAsync(x => x.LessonId == id);
         }
 
         public async Task<CourseModule> GetCourseModuleByIdAsync(string id)
         {
-            return await _dataContext.CourseModules.FirstOrDefaultAsync(x => x.ModuleId == id);
+            return await _dataContext.CourseModules.Include(x=>x.Course).FirstOrDefaultAsync(x => x.ModuleId == id);
         }
 
         public async Task<Course> UpdateCourseAsync(string id, Course course)

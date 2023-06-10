@@ -2,6 +2,7 @@
 using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace ClimateChangeEducation.Infrastructure.Repositories
 {
@@ -53,18 +54,21 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
         }
 
         public async Task<List<Article>> GetAllArticleAsync()
-        {
-            return await _dataContext.Articles.ToListAsync();   
+        {            
+            return await _dataContext.Articles.Include(article => article.Category).ToListAsync();
         }
 
         public async Task<List<ArticleCategory>> GetAllArticleCategoryAsync()
-        {
+        {            
             return await _dataContext.ArticleCategories.ToListAsync();
         }
+              
 
         public async Task<Article> GetArticleByIdAsync(string id)
-        {            
-            return await _dataContext.Articles.FirstOrDefaultAsync(x => x.Id == id);
+        {
+            return await _dataContext.Articles
+                .Include(article => article.Category).FirstOrDefaultAsync(x => x.Id == id);
+            //return await _dataContext.Articles.Include(nameof(ArticleCategory)).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<ArticleCategory> GetArticleCategoryByIdAsync(string id)
