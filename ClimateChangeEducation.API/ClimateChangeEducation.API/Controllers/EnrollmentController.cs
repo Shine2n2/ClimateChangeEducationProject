@@ -21,6 +21,7 @@ namespace ClimateChangeEducation.API.Controllers
         }
         // GET: api/<CourseEnrollmentController>
         [HttpGet]
+        [Route("CourseEnrollment")]
         public async Task<IActionResult> GetCourseEnrollments()
         {
             try
@@ -35,7 +36,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // GET api/<CourseEnrollmentController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("CourseEnrollment/{id}")]
         public async Task<IActionResult> GetCourseEnrollmentById(string id)
         {
             try
@@ -49,11 +51,12 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // GET api/<CourseEnrollmentController>/4
+        //// GET api/<CourseEnrollmentController>/4
 
 
-        // POST api/<CourseEnrollmentController>
+        //// POST api/<CourseEnrollmentController>
         [HttpPost]
+        [Route("AddCourseEnrollment")]
         public async Task<IActionResult> CreateCourseEnrollment([FromBody] CourseEnrollmentDTO request)
         {
             try
@@ -67,8 +70,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // PUT api/<CourseEnrollmentController>/5
-        [HttpPut("{id}")]
+        //// PUT api/<CourseEnrollmentController>/5
+        [HttpPut]
+        [Route("UpdateCourseEnrollment/{id}")]
         public async Task<IActionResult> UpdateCourseEnrollment([FromRoute] string id, [FromBody] CourseEnrollmentDTO request)
         {
             try
@@ -90,8 +94,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // DELETE api/<CourseEnrollmentController>/5
-        [HttpDelete("{id}")]
+        //// DELETE api/<CourseEnrollmentController>/5
+        [HttpDelete]
+        [Route("DeleteCourseEnrollment/{id}")]
         public async Task<IActionResult> DeleteCourseEnrollment([FromRoute] string id)
         {
             try
@@ -109,8 +114,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // GET api/<QuizEnrollmentController>/4
-        [HttpGet("{studentId}")]
+        //// GET api/<QuizEnrollmentController>/4
+        [HttpGet]
+        [Route("QuizEnrollment/{studentId}")]
         public async Task<IActionResult> GetQuizEnrollmentByStudentId(string studentId)
         {
             try
@@ -124,8 +130,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // GET: api/<QuizEnrollmentController>
+        //// GET: api/<QuizEnrollmentController>
         [HttpGet]
+        [Route("QuizEnrollment")]
         public async Task<IActionResult> GetQuizEnrollments()
         {
             try
@@ -139,8 +146,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // GET api/<QuizEnrollmentController>/5
-        //[HttpGet("{id}")]
+        //// GET api/<QuizEnrollmentController>/5
+        [HttpGet]
+        [Route("QuizEnrollment/{id}")]
         public async Task<IActionResult> GetQuizEnrollmentById(string id)
         {
             try
@@ -155,8 +163,9 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
 
-        // POST api/<QuizEnrollmentController>
+        //// POST api/<QuizEnrollmentController>
         [HttpPost]
+        [Route("AddQuizEnrollment")]
         public async Task<IActionResult> CreateQuizEnrollment([FromBody] QuizEnrollmentDTO request)
         {
             try
@@ -170,8 +179,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // PUT api/<QuizEnrollmentController>/5
-        [HttpPut("{id}")]
+        //// PUT api/<QuizEnrollmentController>/5
+        [HttpPut]
+        [Route("UpdateQuizEnrollment/{id}")]
         public async Task<IActionResult> UpdateQuizEnrollment([FromRoute] string id, [FromBody] QuizEnrollmentDTO request)
         {
             try
@@ -193,8 +203,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        // DELETE api/<QuizEnrollmentController>/5
-        [HttpDelete("{id}")]
+        //// DELETE api/<QuizEnrollmentController>/5
+        [HttpDelete]
+        [Route("DeleteEnrollment/{id}")]
         public async Task<IActionResult> DeleteQuizEnrollment([FromRoute] string id)
         {
             try
