@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +10,14 @@ namespace ClimateChangeEducation.API.Controllers
     [ApiController]
     public class QuizEnrollmentController : ControllerBase
     {
+        private readonly IQuizRepository _quizRepo;
+        private readonly IMapper _mapper;
+
+        public QuizEnrollmentController(IQuizRepository quizRepo, IMapper mapper)
+        {
+            _quizRepo = quizRepo;
+            _mapper = mapper;
+        }
         // GET: api/<QuizEnrollmentController>
         [HttpGet]
         public IEnumerable<string> Get()

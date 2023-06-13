@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using ClimateChangeEducation.Infrastructure.Repositories;
@@ -53,7 +54,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // POST api/<ArticleController>
         [HttpPost]
-        public async Task<IActionResult> CreateArticle([FromBody] Article request)
+        public async Task<IActionResult> CreateArticle([FromBody] ArticleDTO request)
         {
             try
             {

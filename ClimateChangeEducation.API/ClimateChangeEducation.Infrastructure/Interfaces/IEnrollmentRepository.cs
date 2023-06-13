@@ -10,19 +10,21 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
     public interface IEnrollmentRepository
     {
         //Quiz enrollment repo interface
-        Task<List<QuizEnrollment>> GetAllArticleAsync();
-        Task<QuizEnrollment> GetArticleByIdAsync(string id);
-        Task<QuizEnrollment> CreateArticleAsync(QuizEnrollment quizEnrollment);
-        Task<QuizEnrollment> UpdateArticleAsync(string Id, QuizEnrollment request);
-        Task<bool> DeleteArticle(string request);
+        Task<List<QuizEnrollment>> GetAllQuizEnrollmentAsync();
+        Task<CourseEnrollment> GetQuizEnrollmentByStudentIdAsync(string id);
+        Task<QuizEnrollment> GetQuizEnrollmentByIdAsync(string id);
+        Task<QuizEnrollment> CreateQuizEnrollmentAsync(QuizEnrollment quizEnrollment);
+        Task<QuizEnrollment> UpdateQuizEnrollmentAsync(string Id, QuizEnrollment request);
+        Task<bool> DeleteQuizEnrollment(string request);
 
         //course enrollment repo
-        Task<List<QuizEnrollment>> GetAllArticleCategoryAsync();
-        Task<QuizEnrollment> GetArticleCategoryByIdAsync(string id);
-        Task<QuizEnrollment> CreateArticleCategoryAsync(QuizEnrollment quizEnrollment);
-        Task<QuizEnrollment> UpdateArticleCategoryAsync(string Id, QuizEnrollment request);
-        Task<bool> DeleteArticleCategory(string request);
-        Task<bool> ExistsArticleCategoryAsync(string id);
-        Task<bool> ExistsArticleAsync(string id);
+        Task<List<CourseEnrollment>> GetAllCourseEnrollmentAsync();
+        Task<CourseEnrollment> GetCourseEnrollmentByStudentIdAsync(string id);
+        Task<CourseEnrollment> GetCourseEnrollmentByIdAsync(string id);
+        Task<CourseEnrollment> CreateCourseEnrollmentAsync(CourseEnrollment courseEnrollment);
+        Task<CourseEnrollment> UpdateCourseEnrollmentAsync(string Id, CourseEnrollment request);
+        Task<bool> DeleteCourseEnrollment(string request);
+        Task<bool> ExistsCourseEnrollmentAsync(string id);
+        Task<bool> ExistsQuizEnrollmentAsync(string id);
     }
 }
