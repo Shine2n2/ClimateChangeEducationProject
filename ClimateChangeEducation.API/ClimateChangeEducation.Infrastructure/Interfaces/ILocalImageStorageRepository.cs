@@ -9,6 +9,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
 {
     public interface ILocalImageStorageRepository
     {
-        Task<string> Upload(IFormFile file, string fileName);                   
+        Task<string> UploadImg(IFormFile file, string fileName);                   
+        Task<string> UploadVideo(IFormFile file, string fileName);                   
     }
 }

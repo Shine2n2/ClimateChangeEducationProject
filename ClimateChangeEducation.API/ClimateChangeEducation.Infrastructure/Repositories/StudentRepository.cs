@@ -68,5 +68,17 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             }
             return null;
         }
+
+        public async Task<bool> UpdateProfileImage(string studentId, string profileImageUrl)
+        {
+            var student = await GetStudentByIdAsync(studentId); 
+            if (student != null)
+            {
+                student.AvatarUrl = profileImageUrl;
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }

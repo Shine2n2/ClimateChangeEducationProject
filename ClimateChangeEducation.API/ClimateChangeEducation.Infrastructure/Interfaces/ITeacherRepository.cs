@@ -15,5 +15,6 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<Teacher> UpdateTeacherAsync(string teacherId, Teacher request);
         Task<bool> DeleteTeacher(string request);
         Task<bool> ExistsTeacherAsync(string id);
+        Task<bool> UpdateProfileImage(string teacherId, string ImageUrl);
     }
 }
