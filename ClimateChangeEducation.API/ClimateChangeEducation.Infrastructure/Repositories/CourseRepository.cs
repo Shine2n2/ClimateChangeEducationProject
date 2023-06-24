@@ -173,5 +173,29 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             }
             return null;
         }
+
+        public async Task<bool> UpdateLessonImage(string studentId, string ImageUrl)
+        {
+            var lesson = await GetCourseLessonByIdAsync(studentId);
+            if (lesson != null)
+            {
+                lesson.LessonPhotoUrl = ImageUrl;
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateLessonVideo(string studentId, string VideoUrl)
+        {
+            var lesson = await GetCourseLessonByIdAsync(studentId);
+            if (lesson != null)
+            {
+                lesson.LessonVideoUrl = VideoUrl;
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
     {
         public async Task<string> UploadImg(IFormFile file, string fileName)
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Images", fileName);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Images\", fileName);
             using Stream fileStream = new FileStream(filePath, FileMode.Create);
             await file.CopyToAsync(fileStream);
             return GetRelativePathforImage(fileName);
@@ -20,7 +20,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         private string GetRelativePathforImage(string fileName)
         {
-            return Path.Combine(@"Resources\Images", fileName);
+            return Path.Combine(@"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Images\", fileName);
         }
 
         public async Task<string> UploadVideo(IFormFile file, string fileName)

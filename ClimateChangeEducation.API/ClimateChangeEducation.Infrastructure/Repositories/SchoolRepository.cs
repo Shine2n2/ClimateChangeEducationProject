@@ -62,6 +62,6 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
                 return result;
             }
             return null;
-        }
+        }        
     }
 }
