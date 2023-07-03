@@ -11,6 +11,7 @@ namespace ClimateChangeEducation.Infrastructure.Data
 
         }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<ArticleCategory> ArticleCategories { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -27,6 +28,9 @@ namespace ClimateChangeEducation.Infrastructure.Data
         public DbSet<School> Schools { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }                     
+        public DbSet<NoticeBoard> Notices { get; set; }      
+        public DbSet<UserRole> UserRoles { get; set; }      
+        
 
     }
 }

@@ -16,10 +16,11 @@ namespace ClimateChangeEducation.Domain.Entities
         public string CourseTitle { get; set; }
         [Required]
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
-        public string? CourseDescription { get; set; }
-        public DateTime CourseStartDateTime { get; set; }
-        public DateTime CourseEndDateTime { get; set; }     
-        public bool IsEnrolled { get; set; }     
+        public string CourseDescription { get; set; }
+        public string? CoursePhotoUrl { get; set; }
+        public DateTime? CourseStartDateTime { get; set; }
+        public DateTime? CourseEndDateTime { get; set; }     
+        public bool IsPublished { get; set; }     
         public Quiz? Quiz { get; set; }        
         public ICollection<CourseModule> CourseModules { get; set; }
         public ICollection<CourseEnrollment>? CourseEnrollments { get; set; }     

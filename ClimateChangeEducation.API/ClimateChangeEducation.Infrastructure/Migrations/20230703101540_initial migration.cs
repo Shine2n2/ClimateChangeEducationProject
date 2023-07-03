@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClimateChangeEducation.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -77,6 +77,20 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DiscussionBoards", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserRoleId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserRoleName = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleDescription = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => x.UserRoleId);
                 });
 
             migrationBuilder.CreateTable(
@@ -213,8 +227,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     SchoolId = table.Column<string>(type: "TEXT", nullable: false),
                     SchoolCode = table.Column<string>(type: "TEXT", nullable: false),
-                    SchoolName = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
+                    SchoolName = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
                     SchoolEmail = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
+                    ProfilePhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -229,6 +244,30 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notices",
+                columns: table => new
+                {
+                    NoticeId = table.Column<string>(type: "TEXT", nullable: false),
+                    NoticeTitle = table.Column<string>(type: "TEXT", nullable: false),
+                    NoticeDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
+                    NoticeContent = table.Column<string>(type: "TEXT", nullable: false),
+                    DisplayPhoto = table.Column<string>(type: "TEXT", nullable: true),
+                    PublishStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    PublishEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notices", x => x.NoticeId);
+                    table.ForeignKey(
+                        name: "FK_Notices_Schools_SchoolId",
+                        column: x => x.SchoolId,
+                        principalTable: "Schools",
+                        principalColumn: "SchoolId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -236,10 +275,10 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Nickname = table.Column<string>(type: "TEXT", nullable: false),
+                    Nickname = table.Column<string>(type: "TEXT", nullable: true),
                     Age = table.Column<int>(type: "INTEGER", nullable: false),
                     StudentClass = table.Column<string>(type: "TEXT", nullable: false),
-                    AvatarUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    AvatarUrl = table.Column<string>(type: "TEXT", nullable: true),
                     SchoolId = table.Column<string>(type: "TEXT", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -266,7 +305,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     TeacherId = table.Column<string>(type: "TEXT", nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    PhotoUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    PhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     FieldOfStudy = table.Column<string>(type: "TEXT", nullable: false),
                     SchoolId = table.Column<string>(type: "TEXT", nullable: false),
@@ -296,9 +335,10 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     CourseId = table.Column<string>(type: "TEXT", nullable: false),
                     CourseTitle = table.Column<string>(type: "TEXT", nullable: false),
                     CourseDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    CourseStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CourseEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsEnrolled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    CoursePhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    CourseStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CourseEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
                     StudentId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -376,8 +416,8 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     ModuleId = table.Column<string>(type: "TEXT", nullable: false),
                     ModuleName = table.Column<string>(type: "TEXT", nullable: false),
-                    ModuleDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    MediaUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    ModuleDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: true),
+                    MediaUrl = table.Column<string>(type: "TEXT", nullable: true),
                     CourseId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -417,7 +457,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Content = table.Column<string>(type: "TEXT", maxLength: 300, nullable: true),
+                    Content = table.Column<string>(type: "TEXT", maxLength: 300, nullable: false),
                     CommentedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DiscussionBoardPostId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -586,7 +626,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Text = table.Column<string>(type: "TEXT", nullable: false),
-                    AllocatedScore = table.Column<int>(type: "INTEGER", nullable: true),
+                    AllocatedScore = table.Column<short>(type: "INTEGER", nullable: false),
                     IsCorrect = table.Column<bool>(type: "INTEGER", nullable: false),
                     QuizQuestionId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -703,6 +743,11 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Notices_SchoolId",
+                table: "Notices",
+                column: "SchoolId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuestionAnswers_QuizQuestionId",
                 table: "QuestionAnswers",
                 column: "QuizQuestionId");
@@ -799,10 +844,16 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "DiscussionBoardCommentTeacher");
 
             migrationBuilder.DropTable(
+                name: "Notices");
+
+            migrationBuilder.DropTable(
                 name: "QuestionAnswers");
 
             migrationBuilder.DropTable(
                 name: "QuizEnrollments");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "ArticleCategories");

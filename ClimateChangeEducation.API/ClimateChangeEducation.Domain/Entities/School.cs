@@ -8,11 +8,12 @@ namespace ClimateChangeEducation.Domain.Entities
         public string SchoolId { get; set; } = Guid.NewGuid().ToString();
         public string SchoolCode { get; set; }
         [Required]
-        [StringLength(60, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 60 characters!")]
+        [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
         public string SchoolName { get; set; }
         [Required]
         [StringLength(250, MinimumLength = 3, ErrorMessage = "Valid Email is required")]
         public string SchoolEmail { get; set; }
+        public string? ProfilePhotoUrl { get; set; }
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }

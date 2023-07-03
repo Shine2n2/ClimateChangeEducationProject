@@ -150,17 +150,20 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CourseEndDateTime")
+                    b.Property<DateTime?>("CourseEndDateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CourseStartDateTime")
+                    b.Property<string>("CoursePhotoUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("CourseStartDateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CourseTitle")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsEnrolled")
+                    b.Property<bool>("IsPublished")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("StudentId")
@@ -245,11 +248,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MediaUrl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModuleDescription")
-                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
@@ -287,6 +288,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("TEXT");
 
@@ -343,12 +345,52 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     b.ToTable("DiscussionBoardPost");
                 });
 
+            modelBuilder.Entity("ClimateChangeEducation.Domain.Entities.NoticeBoard", b =>
+                {
+                    b.Property<string>("NoticeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DisplayPhoto")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NoticeContent")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NoticeDescription")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NoticeTitle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("PublishEndDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("PublishStartDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("NoticeId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("Notices");
+                });
+
             modelBuilder.Entity("ClimateChangeEducation.Domain.Entities.QuestionAnswer", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("AllocatedScore")
+                    b.Property<short>("AllocatedScore")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsCorrect")
@@ -468,6 +510,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ProfilePhotoUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SchoolCode")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -479,7 +524,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
 
                     b.Property<string>("SchoolName")
                         .IsRequired()
-                        .HasMaxLength(60)
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
                     b.HasKey("SchoolId");
@@ -503,7 +548,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -519,7 +563,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nickname")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SchoolId")
@@ -565,7 +608,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoUrl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SchoolId")
@@ -580,6 +622,24 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     b.HasIndex("SchoolId");
 
                     b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("ClimateChangeEducation.Domain.Entities.UserRole", b =>
+                {
+                    b.Property<int>("UserRoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RoleDescription")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserRoleName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserRoleId");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("DiscussionBoardCommentSchool", b =>
@@ -836,6 +896,15 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     b.Navigation("School");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("ClimateChangeEducation.Domain.Entities.NoticeBoard", b =>
+                {
+                    b.HasOne("ClimateChangeEducation.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId");
+
+                    b.Navigation("School");
                 });
 
             modelBuilder.Entity("ClimateChangeEducation.Domain.Entities.QuestionAnswer", b =>
