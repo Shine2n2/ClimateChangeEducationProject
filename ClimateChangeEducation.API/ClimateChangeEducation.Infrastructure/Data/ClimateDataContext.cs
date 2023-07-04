@@ -30,6 +30,7 @@ namespace ClimateChangeEducation.Infrastructure.Data
         public DbSet<Student> Students { get; set; }                     
         public DbSet<NoticeBoard> Notices { get; set; }      
         public DbSet<UserRole> UserRoles { get; set; }      
+        public DbSet<ContactUs> ContactUsMessages { get; set; }      
         
 
     }

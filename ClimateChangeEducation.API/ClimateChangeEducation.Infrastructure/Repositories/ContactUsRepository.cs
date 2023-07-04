@@ -1,5 +1,7 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
+using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,44 +12,66 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 {
     public class ContactUsRepository : IContactUsRepository    
     {
-        public Task<ContactUs> CreateContactMsgAsync(ContactUs contactMsg)
+        private readonly ClimateDataContext _dataContext;
+        public ContactUsRepository(ClimateDataContext dataContext)
         {
-            throw new NotImplementedException();
+            _dataContext = dataContext;
         }
 
-        public Task<bool> DeleteContactMsg(string contactMsgId)
+        public async Task<ContactUs> CreateContactMsgAsync(ContactUs contactMsg)
         {
-            throw new NotImplementedException();
+            var result = await _dataContext.ContactUsMessages.AddAsync(contactMsg);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Task<bool> DeleteContactMsgByemail(string email)
+        public async Task<bool> DeleteContactMsg(string contactMsgId)
         {
-            throw new NotImplementedException();
+            var result = await GetContactMsgsByIdAsync(contactMsgId);
+            if (result != null)
+            {
+                _dataContext.ContactUsMessages.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> ExistsContactMsgAsync(string id)
+        public async Task<bool> DeleteContactMsgByemail(string email)
         {
-            throw new NotImplementedException();
+            var result = await GetContactMsgsByEmailAsync(email);
+            if (result != null)
+            {
+                _dataContext.ContactUsMessages.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> ExistsContactMsgByEmailAsync(string email)
+        public async Task<bool> ExistsContactMsgAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _dataContext.ContactUsMessages.AnyAsync(x => x.ContactUsId == id);
         }
 
-        public Task<List<ContactUs>> GetAllContactMsgAsync()
+        public async Task<bool> ExistsContactMsgByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            return await _dataContext.ContactUsMessages.AnyAsync(x => x.YourEmail == email);
         }
 
-        public Task<ContactUs> GetContactMsgsByEmailAsync(string email)
+        public async Task<List<ContactUs>> GetAllContactMsgAsync()
         {
-            throw new NotImplementedException();
+            return await _dataContext.ContactUsMessages.ToListAsync();
         }
 
-        public Task<ContactUs> GetContactMsgsByIdAsync(string id)
+        public async Task<ContactUs> GetContactMsgsByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            return await _dataContext.ContactUsMessages.FirstOrDefaultAsync(x => x.YourEmail == email);
+        }
+
+        public async Task<ContactUs> GetContactMsgsByIdAsync(string id)
+        {
+            return await _dataContext.ContactUsMessages.FirstOrDefaultAsync(x => x.ContactUsId == id);
         }
     }
 }
