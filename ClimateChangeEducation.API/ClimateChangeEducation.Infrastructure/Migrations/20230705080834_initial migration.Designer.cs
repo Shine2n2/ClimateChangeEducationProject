@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClimateChangeEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(ClimateDataContext))]
-    [Migration("20230703101540_initial migration")]
+    [Migration("20230705080834_initial migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -141,6 +141,38 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     b.HasKey("ArticleCategoryId");
 
                     b.ToTable("ArticleCategories");
+                });
+
+            modelBuilder.Entity("ClimateChangeEducation.Domain.Entities.ContactUs", b =>
+                {
+                    b.Property<string>("ContactUsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("YourEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("YourMessage")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("YourName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("YourSubject")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ContactUsId");
+
+                    b.ToTable("ContactUsMessages");
                 });
 
             modelBuilder.Entity("ClimateChangeEducation.Domain.Entities.Course", b =>
@@ -513,6 +545,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsAccountActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ProfilePhotoUrl")
                         .HasColumnType("TEXT");
 
@@ -528,6 +563,12 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     b.Property<string>("SchoolName")
                         .IsRequired()
                         .HasMaxLength(150)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SupportingDocument")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserAccountRole")
                         .HasColumnType("TEXT");
 
                     b.HasKey("SchoolId");
@@ -561,6 +602,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsAccountActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -573,6 +617,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
 
                     b.Property<string>("StudentClass")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserAccountRole")
                         .HasColumnType("TEXT");
 
                     b.HasKey("StudentId");
@@ -606,6 +653,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsAccountActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -615,6 +665,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
 
                     b.Property<string>("SchoolId")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserAccountRole")
                         .HasColumnType("TEXT");
 
                     b.HasKey("TeacherId");

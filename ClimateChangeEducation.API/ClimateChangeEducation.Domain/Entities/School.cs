@@ -14,6 +14,9 @@ namespace ClimateChangeEducation.Domain.Entities
         [StringLength(250, MinimumLength = 3, ErrorMessage = "Valid Email is required")]
         public string SchoolEmail { get; set; }
         public string? ProfilePhotoUrl { get; set; }
+        public string? SupportingDocument { get; set; }
+        public bool IsAccountActive { get; set; }
+        public string? UserAccountRole { get; set; }   
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }

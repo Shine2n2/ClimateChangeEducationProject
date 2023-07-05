@@ -15,6 +15,8 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? PhotoUrl { get; set; }
         public string Email { get;set; }
         public string FieldOfStudy { get;set; }
+        public bool IsAccountActive { get; set; }
+        public string? UserAccountRole { get; set; }
         public School School { get; set; }
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]

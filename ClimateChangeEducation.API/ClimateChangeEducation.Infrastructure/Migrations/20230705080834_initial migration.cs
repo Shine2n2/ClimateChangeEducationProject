@@ -68,6 +68,22 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ContactUsMessages",
+                columns: table => new
+                {
+                    ContactUsId = table.Column<string>(type: "TEXT", nullable: false),
+                    YourName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    YourEmail = table.Column<string>(type: "TEXT", nullable: false),
+                    YourSubject = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    YourMessage = table.Column<string>(type: "TEXT", maxLength: 300, nullable: false),
+                    DateSent = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactUsMessages", x => x.ContactUsId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DiscussionBoards",
                 columns: table => new
                 {
@@ -230,6 +246,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     SchoolName = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
                     SchoolEmail = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
                     ProfilePhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    SupportingDocument = table.Column<string>(type: "TEXT", nullable: true),
+                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -279,6 +298,8 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     Age = table.Column<int>(type: "INTEGER", nullable: false),
                     StudentClass = table.Column<string>(type: "TEXT", nullable: false),
                     AvatarUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
                     SchoolId = table.Column<string>(type: "TEXT", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -308,6 +329,8 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     PhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     FieldOfStudy = table.Column<string>(type: "TEXT", nullable: false),
+                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
                     SchoolId = table.Column<string>(type: "TEXT", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -827,6 +850,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ContactUsMessages");
 
             migrationBuilder.DropTable(
                 name: "CourseEnrollments");

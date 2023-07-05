@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,36 +15,110 @@ namespace ClimateChangeEducation.API.Controllers
         private readonly IContactUsRepository _contactUsRepo;
         private readonly IMapper _mapper;
 
+        public ContactUsController(IContactUsRepository contactUsRepo, IMapper mapper)
+        {
+            _contactUsRepo = contactUsRepo;
+            _mapper = mapper;
+        }
+
+
+
         // GET: api/<ContactUsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetContactMessages()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var contactUsMsgs = await _contactUsRepo.GetAllContactMsgAsync();
+                return (Ok(_mapper.Map<List<ContactUs>>(contactUsMsgs)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET api/<ContactUsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetContactMsgsById(string id)
         {
-            return "value";
+            try
+            {
+                var result = await _contactUsRepo.GetContactMsgsByIdAsync(id);
+                return Ok(_mapper.Map<ContactUs>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetContactMsgsByEmail(string email)
+        {
+            try
+            {
+                var result = await _contactUsRepo.GetContactMsgsByEmailAsync(email);
+                return Ok(_mapper.Map<ContactUs>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
         // POST api/<ContactUsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> CreateContactUsMessage([FromBody] ContactUsDTO request)
         {
+            try
+            {
+                var result = await _contactUsRepo.CreateContactMsgAsync(_mapper.Map<ContactUs>(request));
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
-        // PUT api/<ContactUsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+       
 
         // DELETE api/<ContactUsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteContactMsgById(string id)
         {
+            try
+            {
+                if (await _contactUsRepo.ExistsContactMsgAsync(id))
+                {
+                    var contactUsMsg = await _contactUsRepo.DeleteContactMsg(id);
+                    return Ok(_mapper.Map<ContactUs>(contactUsMsg));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpDelete("{email}")]
+        public async Task<IActionResult> DeleteContactMsgsByEmail(string email)
+        {
+            try
+            {
+                if (await _contactUsRepo.ExistsContactMsgByEmailAsync(email))
+                {
+                    var contactUsMsg = await _contactUsRepo.DeleteContactMsgByemail(email);
+                    return Ok(_mapper.Map<ContactUs>(contactUsMsg));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
     }
 }
