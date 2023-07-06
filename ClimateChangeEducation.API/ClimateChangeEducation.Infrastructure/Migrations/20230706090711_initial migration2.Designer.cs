@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClimateChangeEducation.Infrastructure.Migrations
 {
     [DbContext(typeof(ClimateDataContext))]
-    [Migration("20230705080834_initial migration")]
-    partial class initialmigration
+    [Migration("20230706090711_initial migration2")]
+    partial class initialmigration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -612,6 +612,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     b.Property<string>("Nickname")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("SchoolCode")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SchoolId")
                         .HasColumnType("TEXT");
 
@@ -661,6 +664,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SchoolCode")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SchoolId")

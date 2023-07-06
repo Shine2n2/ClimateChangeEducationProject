@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClimateChangeEducation.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigration : Migration
+    public partial class initialmigration2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -300,6 +300,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     AvatarUrl = table.Column<string>(type: "TEXT", nullable: true),
                     IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
+                    SchoolCode = table.Column<string>(type: "TEXT", nullable: true),
                     SchoolId = table.Column<string>(type: "TEXT", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -331,6 +332,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     FieldOfStudy = table.Column<string>(type: "TEXT", nullable: false),
                     IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
+                    SchoolCode = table.Column<string>(type: "TEXT", nullable: true),
                     SchoolId = table.Column<string>(type: "TEXT", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
                 },

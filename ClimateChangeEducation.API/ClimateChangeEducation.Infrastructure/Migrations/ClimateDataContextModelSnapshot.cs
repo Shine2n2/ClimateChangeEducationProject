@@ -609,6 +609,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     b.Property<string>("Nickname")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("SchoolCode")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SchoolId")
                         .HasColumnType("TEXT");
 
@@ -658,6 +661,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SchoolCode")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SchoolId")
