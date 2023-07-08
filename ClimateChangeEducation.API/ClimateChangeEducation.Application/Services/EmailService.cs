@@ -37,7 +37,9 @@ namespace ClimateChangeEducation.Application.Services
                 message.Subject = emailRequest.Subject;
                 message.From = new MailAddress(_configuration.Value.HostMail);
                 message.Body = emailRequest.Message;
+                message.IsBodyHtml = true;
                 smtpClient.Send(message);
+                
 
                 var result = new EmailRequest
                 {
