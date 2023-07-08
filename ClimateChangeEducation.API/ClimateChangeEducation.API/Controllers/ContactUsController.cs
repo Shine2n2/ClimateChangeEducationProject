@@ -39,7 +39,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // GET api/<ContactUsController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetById/{id}")]
         public async Task<IActionResult> GetContactMsgsById(string id)
         {
             try
@@ -53,7 +54,8 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        [HttpGet("{email}")]
+        [HttpGet]
+        [Route("GetByEmail/{email}")]
         public async Task<IActionResult> GetContactMsgsByEmail(string email)
         {
             try
@@ -85,7 +87,8 @@ namespace ClimateChangeEducation.API.Controllers
        
 
         // DELETE api/<ContactUsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteById/{id}")]
         public async Task<IActionResult> DeleteContactMsgById(string id)
         {
             try
@@ -103,7 +106,8 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        [HttpDelete("{email}")]
+        [HttpDelete]
+        [Route("DeleteByEmail/{email}")]
         public async Task<IActionResult> DeleteContactMsgsByEmail(string email)
         {
             try
