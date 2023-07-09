@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,11 @@ namespace ClimateChangeEducation.API.Controllers
             _quizRepo = quizRepo;
             _mapper = mapper;
         }
+
+        #region Quiz controller
         // GET: api/<QuizController>
         [HttpGet]
+        [Route("GetQuizzes")]
         public async Task<IActionResult> GetQuizzes()
         {
             try
@@ -36,7 +40,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // GET api/<QuizController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetQuizById/{id}")]
         public async Task<IActionResult> GetQuizById([FromRoute] string id)
         {
             try
@@ -52,7 +57,8 @@ namespace ClimateChangeEducation.API.Controllers
 
         // POST api/<QuizController>
         [HttpPost]
-        public async Task<IActionResult> CreateQuiz([FromBody] Quiz request)
+        [Route("CreateQuiz")]
+        public async Task<IActionResult> CreateQuiz([FromBody] QuizDTO request)
         {
             try
             {
@@ -66,8 +72,9 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // PUT api/<QuizController>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateQuiz([FromRoute] string id, [FromBody] Quiz request)
+        [HttpPut]
+        [Route("UpdateQuiz/{id}")]
+        public async Task<IActionResult> UpdateQuiz([FromRoute] string id, [FromBody] QuizDTO request)
         {
             try
             {
@@ -89,14 +96,15 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // DELETE api/<QuizController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteQuiz/{id}")]
         public async Task<IActionResult> DeleteQuiz([FromRoute] string id)
         {
             try
             {
                 if (await _quizRepo.ExistsQuizAsync(id))
                 {
-                    var result = await _quizRepo.DeleteQuiz(id);
+                    var result = await _quizRepo.DeleteQuizAsync(id);
                     return Ok(_mapper.Map<Quiz>(result));
                 }
                 return NotFound();
@@ -106,5 +114,198 @@ namespace ClimateChangeEducation.API.Controllers
                 return BadRequest(argex.Message);
             }
         }
+
+        #endregion
+
+        #region Quiz Question endpoint
+
+        [HttpGet]
+        [Route("GetQuizQuestions")]
+        public async Task<IActionResult> GetQuizQuestions()
+        {
+            try
+            {
+                var quizzes = await _quizRepo.GetAllQuizzesAsync();
+                return (Ok(_mapper.Map<List<QuizQuestion>>(quizzes)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET api/<QuizController>/5
+        [HttpGet]
+        [Route("GetQuizQuestionById/{id}")]
+        public async Task<IActionResult> GetQuizQuestionById([FromRoute] string id)
+        {
+            try
+            {
+                var result = await _quizRepo.GetQuizQuestionByIdAsync(id);
+                return Ok(_mapper.Map<QuizQuestion>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // POST api/<QuizController>
+        [HttpPost]
+        [Route("CreateQuizQuestion")]
+        public async Task<IActionResult> CreateQuizQuestion([FromBody] QuizQuestionDTO request)
+        {
+            try
+            {
+                var quiz = await _quizRepo.CreateQuizQuestionAsync(_mapper.Map<QuizQuestion>(request));
+                return Ok(quiz);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // PUT api/<QuizController>/5
+        [HttpPut]
+        [Route("UpdateQuizQuestion/{id}")]
+        public async Task<IActionResult> UpdateQuiz([FromRoute] string id, [FromBody] QuizQuestionDTO request)
+        {
+            try
+            {
+                if (await _quizRepo.ExistsQuizQuestionAsync(id))
+                {
+                    // Update Details
+                    var updated = await _quizRepo.UpdateQuizQuestionAsync(id, _mapper.Map<QuizQuestion>(request));
+                    if (updated != null)
+                    {
+                        return Ok(_mapper.Map<QuizQuestion>(updated));
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // DELETE api/<QuizController>/5
+        [HttpDelete]
+        [Route("DeleteQuestion/{id}")]
+        public async Task<IActionResult> DeleteQuizQuestion([FromRoute] string id)
+        {
+            try
+            {
+                if (await _quizRepo.ExistsQuizQuestionAsync(id))
+                {
+                    var result = await _quizRepo.DeleteQuizQuestionAsync(id);
+                    return Ok(_mapper.Map<Quiz>(result));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+
+        #endregion
+
+        #region Quiz Question Answer
+
+        [HttpGet]
+        [Route("GetQuizQuestionAnswers")]
+        public async Task<IActionResult> GetQuestionAnswers()
+        {
+            try
+            {
+                var answers = await _quizRepo.GetAllQuestionAnswersAsync();
+                return (Ok(_mapper.Map<List<QuestionAnswer>>(answers)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET api/<QuizController>/5
+        [HttpGet]
+        [Route("GetQuestionAnswerById/{id}")]
+        public async Task<IActionResult> GetQuestionAnswerById([FromRoute] string id)
+        {
+            try
+            {
+                var result = await _quizRepo.GetQuizQuestionAnswerByIdAsync(id);
+                return Ok(_mapper.Map<QuestionAnswer>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // POST api/<QuizController>
+        [HttpPost]
+        [Route("CreateQuestionAnswer")]
+        public async Task<IActionResult> CreateQuestionAnswer([FromBody] QuestionAnswerDTO request)
+        {
+            try
+            {
+                var answer = await _quizRepo.CreateQuestionAnswerAsync(_mapper.Map<QuestionAnswer>(request));
+                return Ok(answer);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // PUT api/<QuizController>/5
+        [HttpPut]
+        [Route("UpdateQuestionAnswer/{id}")]
+        public async Task<IActionResult> UpdateQuestionAnswer([FromRoute] string id, [FromBody] QuestionAnswerDTO request)
+        {
+            try
+            {
+                if (await _quizRepo.ExistsQuestionAnswerAsync(id))
+                {
+                    // Update Details
+                    var updated = await _quizRepo.UpdateQuestionAnswerAsync(id, _mapper.Map<QuestionAnswer>(request));
+                    if (updated != null)
+                    {
+                        return Ok(_mapper.Map<QuestionAnswer>(updated));
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // DELETE api/<QuizController>/5
+        [HttpDelete]
+        [Route("DeleteQuestionAnswer/{id}")]
+        public async Task<IActionResult> DeleteQuestionAnswer([FromRoute] string id)
+        {
+            try
+            {
+                if (await _quizRepo.ExistsQuestionAnswerAsync(id))
+                {
+                    var result = await _quizRepo.DeleteQuestionAnswerAsync(id);
+                    return Ok(_mapper.Map<QuestionAnswer>(result));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        #endregion
     }
 }

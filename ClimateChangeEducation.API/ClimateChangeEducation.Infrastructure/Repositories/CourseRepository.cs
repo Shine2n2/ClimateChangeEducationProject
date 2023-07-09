@@ -174,7 +174,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return null;
         }
 
-        public async Task<bool> UpdateLessonImage(string studentId, string ImageUrl)
+        public async Task<bool> UpdateLessonImageAsync(string studentId, string ImageUrl)
         {
             var lesson = await GetCourseLessonByIdAsync(studentId);
             if (lesson != null)
@@ -186,7 +186,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return false;
         }
 
-        public async Task<bool> UpdateLessonVideo(string studentId, string VideoUrl)
+        public async Task<bool> UpdateLessonVideoAsync(string studentId, string VideoUrl)
         {
             var lesson = await GetCourseLessonByIdAsync(studentId);
             if (lesson != null)

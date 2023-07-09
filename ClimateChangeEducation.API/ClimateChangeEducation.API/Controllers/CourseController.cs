@@ -19,8 +19,11 @@ namespace ClimateChangeEducation.API.Controllers
             _courseRepo = courseRepo;
             _mapper = mapper;
         }
+
+        #region Course controller
         // GET: api/<CourseController>
         [HttpGet]
+        [Route("GetCourses")]
         public async Task<IActionResult> GetCourses()
         {
             try
@@ -35,7 +38,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // GET api/<CourseController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetCoursesById/{id}")]
         public async Task<IActionResult> GetCourseById([FromRoute]string id)
         {
             try
@@ -51,6 +55,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // POST api/<CourseController>
         [HttpPost]
+        [Route("CreateCourse")]
         public async Task<IActionResult> CreateCourse([FromBody] Course request)
         {
             try
@@ -65,7 +70,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // PUT api/<CourseController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
+        [Route("UpdateCourse/{id}")]
         public async Task<IActionResult> UpdateCourse([FromRoute] string id, [FromBody] Course request)
         {
             try
@@ -88,7 +94,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // DELETE api/<CourseController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteCourse/{id}")]
         public async Task<IActionResult> DeleteCourse([FromRoute] string id)
         {
             try
@@ -105,5 +112,246 @@ namespace ClimateChangeEducation.API.Controllers
                 return BadRequest(argex.Message);
             }
         }
+
+        #endregion
+
+        #region Course Module controller
+        //---Module controller 
+
+
+        [HttpGet]
+        [Route("GetCourseModules")]
+        public async Task<IActionResult> GetCourseModules()
+        {
+            try
+            {
+                var modules = await _courseRepo.GetAllCourseModulesAsync();
+                return (Ok(_mapper.Map<List<CourseModule>>(modules)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET api/<CourseModuleController>/5
+        [HttpGet]
+        [Route("GetCourseModuleById/{id}")]
+        public async Task<IActionResult> GetCourseModuleById([FromRoute] string id)
+        {
+            try
+            {
+                var result = await _courseRepo.GetCourseModuleByIdAsync(id);
+                return Ok(_mapper.Map<CourseModule>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // POST api/<CourseModuleController>
+        [HttpPost]
+        [Route("CreateCoureModule")]
+        public async Task<IActionResult> CreateCourseModule([FromBody] CourseModule request)
+        {
+            try
+            {
+                var courseModule = await _courseRepo.CreateCourseModuleAsync(_mapper.Map<CourseModule>(request));
+                return Ok(courseModule);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // PUT api/<CourseModuleController>/5
+        [HttpPut]
+        [Route("UpdateCourseModule")]
+        public async Task<IActionResult> UpdateCourseModule([FromRoute] string id, [FromBody] CourseModule request)
+        {
+            try
+            {
+                if (await _courseRepo.ExistsCourseAsync(id))
+                {
+                    // Update Details
+                    var updatedModule = await _courseRepo.UpdateCourseModuleAsync(id, _mapper.Map<CourseModule>(request));
+                    if (updatedModule != null)
+                    {
+                        return Ok(_mapper.Map<CourseModule>(updatedModule));
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // DELETE api/<CourseModuleController>/5
+        [HttpDelete]
+        [Route("DeleteCourseModule/{id}")]
+        public async Task<IActionResult> DeleteCourseModule([FromRoute] string id)
+        {
+            try
+            {
+                if (await _courseRepo.ExistsCourseModuleAsync(id))
+                {
+                    var module = await _courseRepo.DeleteCourseModule(id);
+                    return Ok(_mapper.Map<CourseModule>(module));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+        #endregion
+
+        #region Course Lesson controller 
+
+        [HttpGet]
+        [Route("GetCourseLessons")]
+        public async Task<IActionResult> GetCourseLessons()
+        {
+            try
+            {
+                var lessons = await _courseRepo.GetAllCourseLessonsAsync();
+                return (Ok(_mapper.Map<List<CourseLesson>>(lessons)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET api/<CourseLessonController>/5
+        [HttpGet]
+        [Route("GetCourseById/{id}")]
+        public async Task<IActionResult> GetCourseLessonById([FromRoute] string id)
+        {
+            try
+            {
+                var result = await _courseRepo.GetCourseLessonByIdAsync(id);
+                return Ok(_mapper.Map<CourseLesson>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // POST api/<CourseLessonController>
+        [HttpPost]
+        [Route("CreateCourseLesson")]
+        public async Task<IActionResult> CreateCourseLesson([FromBody] CourseLesson request)
+        {
+            try
+            {
+                var courseLesson = await _courseRepo.CreateCourseLessonAsync(_mapper.Map<CourseLesson>(request));
+                return Ok(courseLesson);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // PUT api/<CourseLessonController>/5
+        [HttpPut]
+        [Route("UpdateLesson/{id}")]
+        public async Task<IActionResult> UpdateCourseLesson([FromRoute] string id, [FromBody] CourseLesson request)
+        {
+            try
+            {
+                if (await _courseRepo.ExistsCourseLessonAsync(id))
+                {
+                    // Update Details
+                    var updatedLesson = await _courseRepo.UpdateCourseLessonAsync(id, _mapper.Map<CourseLesson>(request));
+                    if (updatedLesson != null)
+                    {
+                        return Ok(_mapper.Map<CourseLesson>(updatedLesson));
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        // DELETE api/<CourseLessonController>/5
+        [HttpDelete]
+        [Route("DeleteLesson/{id}")]
+        public async Task<IActionResult> DeleteCourseLesson([FromRoute] string id)
+        {
+            try
+            {
+                if (await _courseRepo.ExistsCourseLessonAsync(id))
+                {
+                    var lesson = await _courseRepo.DeleteCourseLesson(id);
+                    return Ok(_mapper.Map<CourseLesson>(lesson));
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateLessonVideo/{id}")]
+        public async Task<IActionResult> UpdateLessonVideo([FromRoute] string id, [FromBody] CourseLesson request)
+        {
+            try
+            {
+                if (await _courseRepo.ExistsCourseLessonAsync(id))
+                {    
+                    // Update Details
+                    var result = await _courseRepo.UpdateLessonVideoAsync(id, _mapper.Map<CourseLesson>(request.LessonVideoUrl).ToString());
+                    if (result)
+                    {
+                        return Ok("Update Successful!");
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateLessonImage/{id}")]
+        public async Task<IActionResult> UpdateLessonImage([FromRoute] string id, [FromBody] CourseLesson request)
+        {
+            try
+            {
+                if (await _courseRepo.ExistsCourseLessonAsync(id))
+                {
+                    // Update Details
+                    var result = await _courseRepo.UpdateLessonVideoAsync(id, _mapper.Map<CourseLesson>(request.LessonPhotoUrl).ToString());
+                    if (result)
+                    {
+                        return Ok("Update Successful!");
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        #endregion
+
+
     }
 }

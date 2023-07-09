@@ -39,7 +39,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return result.Entity;
         }       
 
-        public async Task<bool> DeleteQuestionAnswer(string id)
+        public async Task<bool> DeleteQuestionAnswerAsync(string id)
         {
             var result = await GetQuizQuestionAnswerByIdAsync(id);
             if (result != null)
@@ -51,7 +51,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteQuiz(string id)
+        public async Task<bool> DeleteQuizAsync(string id)
         {
             var result = await GetQuizByIdAsync(id);
             if (result != null)
@@ -63,7 +63,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return false;
         }
 
-        public async Task<bool> DeleteQuizQuestion(string id)
+        public async Task<bool> DeleteQuizQuestionAsync(string id)
         {
             var result = await GetQuizQuestionByIdAsync(id);
             if (result != null)
@@ -75,7 +75,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return false;
         }
 
-        public async Task<bool> ExistsQuizAnswerAsync(string id)
+        public async Task<bool> ExistsQuestionAnswerAsync(string id)
         {
             return await _dataContext.QuestionAnswers.AnyAsync(x => x.Id == id);
         }
