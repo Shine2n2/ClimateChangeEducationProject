@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // GET: api/<SchoolController>
         [HttpGet]
+        [Route("{GetSchools}")]
         public async Task<IActionResult> GetSchools()
         {
             try
@@ -36,7 +38,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // GET api/<SchoolController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("GetSchoolById/{id}")]
         public async Task<IActionResult> GetSchoolById([FromRoute] string id)
         {
             try
@@ -50,9 +53,26 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("GetSchoolBySchoolCode/{schoolCode}")]
+        public async Task<IActionResult> GetSchoolBySchoolCode(string schoolCode)
+        {
+            try
+            {
+                var result = await _schoolRepo.GetSchoolBySchoolCodeAsync(schoolCode);
+                return Ok(_mapper.Map<School>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
         // POST api/<SchoolController>
         [HttpPost]
-        public async Task<IActionResult> CreateSchool([FromBody] School request)
+        [Route("CreateSchool")]
+        public async Task<IActionResult> CreateSchool([FromBody] SchoolRequestDTO request)
         {
             try
             {
@@ -66,8 +86,9 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // PUT api/<SchoolController>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSchool([FromRoute] string id, [FromBody] School request)
+        [HttpPut]
+        [Route("UpdateSchool/{id}")]
+        public async Task<IActionResult> UpdateSchool([FromRoute] string id, [FromBody] SchoolRequestDTO request)
         {
             try
             {
@@ -89,14 +110,15 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // DELETE api/<SchoolController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeleteSchool/{id}")]
         public async Task<IActionResult> DeleteSchool([FromRoute] string id)
         {
             try
             {
                 if (await _schoolRepo.ExistsSchoolAsync(id))
                 {
-                    var result = await _schoolRepo.DeleteSchool(id);
+                    var result = await _schoolRepo.DeleteSchoolAsync(id);
                     return Ok(_mapper.Map<School>(result));
                 }
                 return NotFound();

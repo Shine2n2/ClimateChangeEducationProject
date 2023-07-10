@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // POST api/<StudentController>
         [HttpPost]
-        public async Task<IActionResult> CreateStudent([FromBody] Student request)
+        public async Task<IActionResult> CreateStudent([FromBody] StudentRequestDTO request)
         {
             try
             {
@@ -66,7 +67,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // PUT api/<StudentController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateStudent([FromRoute] string id, [FromBody] Student request)
+        public async Task<IActionResult> UpdateStudent([FromRoute] string id, [FromBody] StudentRequestDTO request)
         {
             try
             {

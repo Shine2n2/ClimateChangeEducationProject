@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +57,7 @@ namespace ClimateChangeEducation.API.Controllers
         // POST api/<CourseController>
         [HttpPost]
         [Route("CreateCourse")]
-        public async Task<IActionResult> CreateCourse([FromBody] Course request)
+        public async Task<IActionResult> CreateCourse([FromBody] CourseDTO request)
         {
             try
             {
@@ -72,7 +73,7 @@ namespace ClimateChangeEducation.API.Controllers
         // PUT api/<CourseController>/5
         [HttpPut]
         [Route("UpdateCourse/{id}")]
-        public async Task<IActionResult> UpdateCourse([FromRoute] string id, [FromBody] Course request)
+        public async Task<IActionResult> UpdateCourse([FromRoute] string id, [FromBody] CourseDTO request)
         {
             try
             {
@@ -153,7 +154,7 @@ namespace ClimateChangeEducation.API.Controllers
         // POST api/<CourseModuleController>
         [HttpPost]
         [Route("CreateCoureModule")]
-        public async Task<IActionResult> CreateCourseModule([FromBody] CourseModule request)
+        public async Task<IActionResult> CreateCourseModule([FromBody] CourseModuleDTO request)
         {
             try
             {
@@ -169,7 +170,7 @@ namespace ClimateChangeEducation.API.Controllers
         // PUT api/<CourseModuleController>/5
         [HttpPut]
         [Route("UpdateCourseModule")]
-        public async Task<IActionResult> UpdateCourseModule([FromRoute] string id, [FromBody] CourseModule request)
+        public async Task<IActionResult> UpdateCourseModule([FromRoute] string id, [FromBody] CourseModuleDTO request)
         {
             try
             {
@@ -247,7 +248,7 @@ namespace ClimateChangeEducation.API.Controllers
         // POST api/<CourseLessonController>
         [HttpPost]
         [Route("CreateCourseLesson")]
-        public async Task<IActionResult> CreateCourseLesson([FromBody] CourseLesson request)
+        public async Task<IActionResult> CreateCourseLesson([FromBody] CourseLessonDTO request)
         {
             try
             {
@@ -263,7 +264,7 @@ namespace ClimateChangeEducation.API.Controllers
         // PUT api/<CourseLessonController>/5
         [HttpPut]
         [Route("UpdateLesson/{id}")]
-        public async Task<IActionResult> UpdateCourseLesson([FromRoute] string id, [FromBody] CourseLesson request)
+        public async Task<IActionResult> UpdateCourseLesson([FromRoute] string id, [FromBody] CourseLessonDTO request)
         {
             try
             {
@@ -306,7 +307,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         [HttpPut]
         [Route("UpdateLessonVideo/{id}")]
-        public async Task<IActionResult> UpdateLessonVideo([FromRoute] string id, [FromBody] CourseLesson request)
+        public async Task<IActionResult> UpdateLessonVideo([FromRoute] string id, [FromBody] CourseLessonDTO request)
         {
             try
             {
@@ -329,7 +330,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         [HttpPut]
         [Route("UpdateLessonImage/{id}")]
-        public async Task<IActionResult> UpdateLessonImage([FromRoute] string id, [FromBody] CourseLesson request)
+        public async Task<IActionResult> UpdateLessonImage([FromRoute] string id, [FromBody] CourseLessonDTO request)
         {
             try
             {

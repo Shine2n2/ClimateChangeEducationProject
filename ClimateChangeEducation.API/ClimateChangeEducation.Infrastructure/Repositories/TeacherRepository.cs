@@ -18,7 +18,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             _dataContext = dataContext;
         }
         public async Task<Teacher> CreateTeacherAsync(Teacher teacher)
-        {
+        {           
             var result = await _dataContext.Teachers.AddAsync(teacher);
             await _dataContext.SaveChangesAsync();
             return result.Entity;
