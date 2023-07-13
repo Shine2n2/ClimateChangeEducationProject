@@ -153,7 +153,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // POST api/<CourseModuleController>
         [HttpPost]
-        [Route("CreateCoureModule")]
+        [Route("CreateCourseModule")]
         public async Task<IActionResult> CreateCourseModule([FromBody] CourseModuleDTO request)
         {
             try

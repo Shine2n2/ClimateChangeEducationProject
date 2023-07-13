@@ -26,12 +26,9 @@ namespace ClimateChangeEducation.Common.Helpers
             CreateMap<QuestionAnswer, QuestionAnswerDTO>().ReverseMap();
             CreateMap<Quiz, QuizDTO>().ReverseMap();
             CreateMap<QuizEnrollment, QuizEnrollmentDTO>().ReverseMap();
-            CreateMap<QuizQuestion, QuizQuestionDTO>().ReverseMap();
-            CreateMap<Student, AddStudentRequestDTO>().ReverseMap();
-            CreateMap<Student, StudentResponseDTO>().ReverseMap();
-            CreateMap<Teacher, AddTeacherRequestDTO>().ReverseMap();
-            CreateMap<Teacher, TeacherResponseDTO>().ReverseMap();
-            CreateMap<School, AddSchoolRequestDTO>().ReverseMap();
+            CreateMap<QuizQuestion, QuizQuestionDTO>().ReverseMap();           
+            CreateMap<Student, StudentResponseDTO>().ReverseMap();           
+            CreateMap<Teacher, TeacherResponseDTO>().ReverseMap();          
             CreateMap<School, SchoolResponseDTO>().ReverseMap();
             CreateMap<ContactUs, ContactUsDTO>().ReverseMap();
         }
