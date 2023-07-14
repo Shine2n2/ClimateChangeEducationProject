@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class ContactUsDTO
-    {        
+    {
+        public string? Id { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 50 characters!")]
         public string YourName { get; set; }

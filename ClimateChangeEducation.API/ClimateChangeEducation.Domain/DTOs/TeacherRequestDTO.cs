@@ -9,6 +9,7 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class TeacherRequestDTO
     {
+        public string? Id { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string FirstName { get; set; }

@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class CourseLessonDTO
-    {             
+    {
+        public string? Id { get; set; }
         [Required]
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
         public string LessonName { get; set; }

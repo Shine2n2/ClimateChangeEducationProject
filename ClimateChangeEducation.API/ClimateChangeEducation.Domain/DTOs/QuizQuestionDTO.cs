@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class QuizQuestionDTO
-    {        
+    {
+        public string? Id { get; set; }
         [Required]
         public string Text { get; set; }
         public string? MediaUrl { get; set; }

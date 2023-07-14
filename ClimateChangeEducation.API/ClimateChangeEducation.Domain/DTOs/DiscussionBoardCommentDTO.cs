@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class DiscussionBoardCommentDTO
-    {      
+    {
+        public string? Id { get; set; }
         [StringLength(300, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 300 characters!")]
         public string? Content { get; set; }        
         public DiscussionBoardPost DiscussionBoardPost { get; set; }

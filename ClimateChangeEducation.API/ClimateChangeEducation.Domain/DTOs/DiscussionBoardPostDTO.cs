@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class DiscussionBoardPostDTO
-    {        
+    {
+        public string? Id { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]

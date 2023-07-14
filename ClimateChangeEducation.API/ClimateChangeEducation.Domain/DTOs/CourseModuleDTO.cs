@@ -10,7 +10,8 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class CourseModuleDTO
     {
-       
+        public string? Id { get; set; }
+
         [Required]
         public string ModuleName { get; set; }
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
