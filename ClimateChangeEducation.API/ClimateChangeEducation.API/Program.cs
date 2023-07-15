@@ -45,6 +45,7 @@ builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 builder.Services.AddScoped<ILocalImageStorageRepository, LocalImageStorageRepository>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
+builder.Services.AddScoped<INoticeBoardRepository, NoticeBoardRepository>();
 
 
 
