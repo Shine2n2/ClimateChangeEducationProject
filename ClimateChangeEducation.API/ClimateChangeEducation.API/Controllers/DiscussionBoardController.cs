@@ -243,6 +243,21 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetCommentByPostId/{postId}")]
+        public async Task<IActionResult> GetCommentByPostId([FromRoute]string postId)
+        {
+            try
+            {
+                var comments = await _discussionBoardRepo.GetCommentByPostIdAsync(postId);
+                return (Ok(_mapper.Map<List<DiscussionBoardComment>>(comments)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // POST api/<DiscussionBoardController>
         [HttpPost]
         [Route("CreateDiscussionBoardComment")]

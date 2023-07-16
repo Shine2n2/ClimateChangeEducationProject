@@ -125,6 +125,13 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
                 .Include(y=>y.School).Include(z=>z.Comments).FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<DiscussionBoardComment> GetCommentByPostIdAsync(string postId)
+        {
+            return await _dataContext.DiscussionBoardComments.Include(x => x.Students)
+                .Include(y => y.DiscussionBoardPost).Include(z => z.Schools)
+                .Include(o => o.Teachers).FirstOrDefaultAsync(x => x.DiscussionBoardPost.Id == postId);
+        }
+
         public async Task<DiscussionBoard> UpdateDiscussionBoardAsync(string id, DiscussionBoard request)
         {
             var result = await GetDiscussionBoardByIdAsync(id);

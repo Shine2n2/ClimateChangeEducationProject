@@ -27,6 +27,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<bool> ExistsCourseLessonAsync(string id);
         Task<bool> UpdateLessonVideoAsync(string studentId, string VideoUrl);
         Task<bool> UpdateLessonImageAsync(string studentId, string ImageUrl);
+        Task<CourseLesson> GetLessonByModuleIdAsync(string moduleId);
 
 
         // ------------ CourseModule

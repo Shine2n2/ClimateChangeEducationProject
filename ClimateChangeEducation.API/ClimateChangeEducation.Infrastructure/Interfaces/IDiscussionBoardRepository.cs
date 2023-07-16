@@ -34,5 +34,6 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<DiscussionBoardComment> UpdateDiscussionBoardCommentAsync(string id, DiscussionBoardComment request);
         Task<bool> DeleteDiscussionBoardComment(string request);
         Task<bool> ExistsDiscussionBoardCommentAsync(string id);
+        Task<DiscussionBoardComment> GetCommentByPostIdAsync(string postId);
     }
 }

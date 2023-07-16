@@ -231,7 +231,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // GET api/<CourseLessonController>/5
         [HttpGet]
-        [Route("GetCourseById/{id}")]
+        [Route("GetCourseLessonById/{id}")]
         public async Task<IActionResult> GetCourseLessonById([FromRoute] string id)
         {
             try
@@ -351,6 +351,21 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("GetLessonModuleById/{moduleId}")]
+        public async Task<IActionResult> GetLessonModuleById([FromRoute] string moduleId)
+        {
+            try
+            {
+                var result = await _courseRepo.GetLessonByModuleIdAsync(moduleId);
+                return Ok(_mapper.Map<CourseLesson>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
         #endregion
 
 
