@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -17,8 +18,14 @@ namespace ClimateChangeEducation.Domain.Entities
         public DateTime DateUpdated { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
         // navigation props        
-        public School? School { get; set; }
-        public Teacher? Teacher { get; set; }
-        public Student? Student { get; set; }                      
+        public string SchoolId { get; set; }
+        [ForeignKey("SchoolId")]
+        public virtual School? School { get; set; }        
+        public string? TeacherId { get; set; }
+        [ForeignKey("TeacherId")]
+        public virtual Teacher? Teacher { get; set; }
+        public string? StudentId { get; set; }
+        [ForeignKey("StudentId")]
+        public virtual Student? Student { get; set; }                      
     }
 }

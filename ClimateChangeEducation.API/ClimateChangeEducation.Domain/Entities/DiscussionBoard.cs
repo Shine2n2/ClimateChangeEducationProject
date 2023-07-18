@@ -10,7 +10,7 @@ namespace ClimateChangeEducation.Domain.Entities
     public class DiscussionBoard
     {
         [Key]
-        public string Id { get; set; } = Guid.NewGuid().ToString();       
+        public string DiscussionBoardId { get; set; } = Guid.NewGuid().ToString();       
         public string Title { get; set; }       
         public ICollection<DiscussionBoardPost> Posts { get; set; }        
     }

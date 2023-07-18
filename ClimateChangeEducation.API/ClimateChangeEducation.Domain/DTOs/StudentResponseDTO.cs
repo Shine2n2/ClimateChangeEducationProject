@@ -19,6 +19,6 @@ namespace ClimateChangeEducation.Domain.DTOs
         public int Age { get; set; }
         public string StudentClass { get; set; }
         public string AvatarUrl { get; set; }
-        public School School { get; set; } 
+        public string? StudnetId { get; set; }       
     }
 }

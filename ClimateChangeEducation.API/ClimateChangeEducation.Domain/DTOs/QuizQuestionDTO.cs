@@ -10,10 +10,10 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class QuizQuestionDTO
     {
-        public string? Id { get; set; }
+        public string? QuizQuestionId { get; set; }
         [Required]
         public string Text { get; set; }
         public string? MediaUrl { get; set; }
-        public Quiz Quiz { get; set; }        
+        public string? QuizId { get; set; }
     }
 }

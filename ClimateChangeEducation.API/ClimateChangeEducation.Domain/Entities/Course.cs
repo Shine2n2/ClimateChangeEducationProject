@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,7 +21,7 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? CoursePhotoUrl { get; set; }
         public DateTime? CourseStartDateTime { get; set; }
         public DateTime? CourseEndDateTime { get; set; }     
-        public bool IsPublished { get; set; }     
+        public bool IsPublished { get; set; }        
         public Quiz? Quiz { get; set; }        
         public ICollection<CourseModule> CourseModules { get; set; }
         public ICollection<CourseEnrollment>? CourseEnrollments { get; set; }     

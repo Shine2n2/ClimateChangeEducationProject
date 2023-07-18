@@ -19,7 +19,7 @@ namespace ClimateChangeEducation.Domain.Entities
         public DateTime UpdatedAt { get; set; }
         public string CourseId { get; set; }
         [ForeignKey("CourseId")]
-        public Course Course { get; set; }
+        public virtual Course Course { get; set; }
         public ICollection<QuizEnrollment> QuizEnrollment { get; set; }
         public ICollection<QuizQuestion> QuizQuestions { get; set; }
     }

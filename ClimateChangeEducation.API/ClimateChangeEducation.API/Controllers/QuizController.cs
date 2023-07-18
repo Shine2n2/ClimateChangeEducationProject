@@ -55,6 +55,21 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetQuizByCourseId/{id}")]
+        public async Task<IActionResult> GetQuizByCourseId([FromRoute] string id)
+        {
+            try
+            {
+                var result = await _quizRepo.GetQuizByCourseIdAsync(id);
+                return Ok(_mapper.Map<Quiz>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
         // POST api/<QuizController>
         [HttpPost]
         [Route("CreateQuiz")]

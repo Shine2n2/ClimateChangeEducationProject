@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClimateChangeEducation.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigration2 : Migration
+    public partial class initmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,35 +39,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "TEXT", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ContactUsMessages",
                 columns: table => new
                 {
@@ -87,12 +58,30 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "DiscussionBoards",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    DiscussionBoardId = table.Column<string>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiscussionBoards", x => x.Id);
+                    table.PrimaryKey("PK_DiscussionBoards", x => x.DiscussionBoardId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schools",
+                columns: table => new
+                {
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
+                    SchoolCode = table.Column<string>(type: "TEXT", nullable: false),
+                    SchoolName = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
+                    SchoolEmail = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
+                    ProfilePhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    SupportingDocument = table.Column<string>(type: "TEXT", nullable: true),
+                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schools", x => x.SchoolId);
                 });
 
             migrationBuilder.CreateTable(
@@ -149,6 +138,260 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notices",
+                columns: table => new
+                {
+                    NoticeId = table.Column<string>(type: "TEXT", nullable: false),
+                    NoticeTitle = table.Column<string>(type: "TEXT", nullable: false),
+                    NoticeDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
+                    NoticeContent = table.Column<string>(type: "TEXT", nullable: false),
+                    DisplayPhoto = table.Column<string>(type: "TEXT", nullable: true),
+                    PublishStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    PublishEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
+                    StudentId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notices", x => x.NoticeId);
+                    table.ForeignKey(
+                        name: "FK_Notices_Schools_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Schools",
+                        principalColumn: "SchoolId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    StudentId = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Nickname = table.Column<string>(type: "TEXT", nullable: true),
+                    Age = table.Column<int>(type: "INTEGER", nullable: false),
+                    StudentClass = table.Column<string>(type: "TEXT", nullable: false),
+                    AvatarUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
+                    SchoolCode = table.Column<string>(type: "TEXT", nullable: true),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.StudentId);
+                    table.ForeignKey(
+                        name: "FK_Students_Schools_SchoolId",
+                        column: x => x.SchoolId,
+                        principalTable: "Schools",
+                        principalColumn: "SchoolId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teachers",
+                columns: table => new
+                {
+                    TeacherId = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    PhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    FieldOfStudy = table.Column<string>(type: "TEXT", nullable: false),
+                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
+                    SchoolCode = table.Column<string>(type: "TEXT", nullable: true),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teachers", x => x.TeacherId);
+                    table.ForeignKey(
+                        name: "FK_Teachers_Schools_SchoolId",
+                        column: x => x.SchoolId,
+                        principalTable: "Schools",
+                        principalColumn: "SchoolId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    CourseId = table.Column<string>(type: "TEXT", nullable: false),
+                    CourseTitle = table.Column<string>(type: "TEXT", nullable: false),
+                    CourseDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
+                    CoursePhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    CourseStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CourseEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
+                    StudentId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.CourseId);
+                    table.ForeignKey(
+                        name: "FK_Courses_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "TEXT", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
+                    TeacherId = table.Column<string>(type: "TEXT", nullable: true),
+                    StudentId = table.Column<string>(type: "TEXT", nullable: true),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Schools_SchoolId",
+                        column: x => x.SchoolId,
+                        principalTable: "Schools",
+                        principalColumn: "SchoolId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId");
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "TeacherId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DiscussionBoardPost",
+                columns: table => new
+                {
+                    PostId = table.Column<string>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", maxLength: 300, nullable: false),
+                    PostedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TeacherId = table.Column<string>(type: "TEXT", nullable: false),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
+                    DiscussionBoardId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DiscussionBoardPost", x => x.PostId);
+                    table.ForeignKey(
+                        name: "FK_DiscussionBoardPost_DiscussionBoards_DiscussionBoardId",
+                        column: x => x.DiscussionBoardId,
+                        principalTable: "DiscussionBoards",
+                        principalColumn: "DiscussionBoardId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DiscussionBoardPost_Schools_SchoolId",
+                        column: x => x.SchoolId,
+                        principalTable: "Schools",
+                        principalColumn: "SchoolId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DiscussionBoardPost_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "TeacherId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseEnrollments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    EnrollmentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    StudentId = table.Column<string>(type: "TEXT", nullable: true),
+                    CourseId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseEnrollments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseEnrollments_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId");
+                    table.ForeignKey(
+                        name: "FK_CourseEnrollments_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseModules",
+                columns: table => new
+                {
+                    ModuleId = table.Column<string>(type: "TEXT", nullable: false),
+                    ModuleName = table.Column<string>(type: "TEXT", nullable: false),
+                    ModuleDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: true),
+                    MediaUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    CourseId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseModules", x => x.ModuleId);
+                    table.ForeignKey(
+                        name: "FK_CourseModules_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Quizzes",
+                columns: table => new
+                {
+                    QuizId = table.Column<string>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CourseId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quizzes", x => x.QuizId);
+                    table.ForeignKey(
+                        name: "FK_Quizzes_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -238,262 +481,22 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schools",
-                columns: table => new
-                {
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
-                    SchoolCode = table.Column<string>(type: "TEXT", nullable: false),
-                    SchoolName = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    SchoolEmail = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false),
-                    ProfilePhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    SupportingDocument = table.Column<string>(type: "TEXT", nullable: true),
-                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Schools", x => x.SchoolId);
-                    table.ForeignKey(
-                        name: "FK_Schools_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Notices",
-                columns: table => new
-                {
-                    NoticeId = table.Column<string>(type: "TEXT", nullable: false),
-                    NoticeTitle = table.Column<string>(type: "TEXT", nullable: false),
-                    NoticeDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    NoticeContent = table.Column<string>(type: "TEXT", nullable: false),
-                    DisplayPhoto = table.Column<string>(type: "TEXT", nullable: true),
-                    PublishStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    PublishEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Notices", x => x.NoticeId);
-                    table.ForeignKey(
-                        name: "FK_Notices_Schools_SchoolId",
-                        column: x => x.SchoolId,
-                        principalTable: "Schools",
-                        principalColumn: "SchoolId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    StudentId = table.Column<string>(type: "TEXT", nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Nickname = table.Column<string>(type: "TEXT", nullable: true),
-                    Age = table.Column<int>(type: "INTEGER", nullable: false),
-                    StudentClass = table.Column<string>(type: "TEXT", nullable: false),
-                    AvatarUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
-                    SchoolCode = table.Column<string>(type: "TEXT", nullable: true),
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.StudentId);
-                    table.ForeignKey(
-                        name: "FK_Students_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Students_Schools_SchoolId",
-                        column: x => x.SchoolId,
-                        principalTable: "Schools",
-                        principalColumn: "SchoolId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teachers",
-                columns: table => new
-                {
-                    TeacherId = table.Column<string>(type: "TEXT", nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    PhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    FieldOfStudy = table.Column<string>(type: "TEXT", nullable: false),
-                    IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
-                    SchoolCode = table.Column<string>(type: "TEXT", nullable: true),
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teachers", x => x.TeacherId);
-                    table.ForeignKey(
-                        name: "FK_Teachers_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Teachers_Schools_SchoolId",
-                        column: x => x.SchoolId,
-                        principalTable: "Schools",
-                        principalColumn: "SchoolId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    CourseId = table.Column<string>(type: "TEXT", nullable: false),
-                    CourseTitle = table.Column<string>(type: "TEXT", nullable: false),
-                    CourseDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    CoursePhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    CourseStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CourseEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
-                    StudentId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.CourseId);
-                    table.ForeignKey(
-                        name: "FK_Courses_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "StudentId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DiscussionBoardPost",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Content = table.Column<string>(type: "TEXT", maxLength: 300, nullable: false),
-                    PostedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TeacherId = table.Column<string>(type: "TEXT", nullable: true),
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: true),
-                    DiscussionBoardId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DiscussionBoardPost", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DiscussionBoardPost_DiscussionBoards_DiscussionBoardId",
-                        column: x => x.DiscussionBoardId,
-                        principalTable: "DiscussionBoards",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_DiscussionBoardPost_Schools_SchoolId",
-                        column: x => x.SchoolId,
-                        principalTable: "Schools",
-                        principalColumn: "SchoolId");
-                    table.ForeignKey(
-                        name: "FK_DiscussionBoardPost_Teachers_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "Teachers",
-                        principalColumn: "TeacherId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CourseEnrollments",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    EnrollmentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    StudentId = table.Column<string>(type: "TEXT", nullable: true),
-                    CourseId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseEnrollments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CourseEnrollments_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "CourseId");
-                    table.ForeignKey(
-                        name: "FK_CourseEnrollments_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "StudentId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CourseModules",
-                columns: table => new
-                {
-                    ModuleId = table.Column<string>(type: "TEXT", nullable: false),
-                    ModuleName = table.Column<string>(type: "TEXT", nullable: false),
-                    ModuleDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: true),
-                    MediaUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    CourseId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseModules", x => x.ModuleId);
-                    table.ForeignKey(
-                        name: "FK_CourseModules_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "CourseId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Quizzes",
-                columns: table => new
-                {
-                    QuizId = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CourseId = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Quizzes", x => x.QuizId);
-                    table.ForeignKey(
-                        name: "FK_Quizzes_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DiscussionBoardComments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    CommentId = table.Column<string>(type: "TEXT", nullable: false),
                     Content = table.Column<string>(type: "TEXT", maxLength: 300, nullable: false),
                     CommentedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DiscussionBoardPostId = table.Column<string>(type: "TEXT", nullable: true)
+                    PostId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiscussionBoardComments", x => x.Id);
+                    table.PrimaryKey("PK_DiscussionBoardComments", x => x.CommentId);
                     table.ForeignKey(
-                        name: "FK_DiscussionBoardComments_DiscussionBoardPost_DiscussionBoardPostId",
-                        column: x => x.DiscussionBoardPostId,
+                        name: "FK_DiscussionBoardComments_DiscussionBoardPost_PostId",
+                        column: x => x.PostId,
                         principalTable: "DiscussionBoardPost",
-                        principalColumn: "Id");
+                        principalColumn: "PostId");
                 });
 
             migrationBuilder.CreateTable(
@@ -507,14 +510,14 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     LessonVideoUrl = table.Column<string>(type: "TEXT", nullable: true),
                     LessonPhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
                     LessonDuration = table.Column<int>(type: "INTEGER", nullable: false),
-                    CourseModuleModuleId = table.Column<string>(type: "TEXT", nullable: false)
+                    ModuleId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CourseLessons", x => x.LessonId);
                     table.ForeignKey(
-                        name: "FK_CourseLessons_CourseModules_CourseModuleModuleId",
-                        column: x => x.CourseModuleModuleId,
+                        name: "FK_CourseLessons_CourseModules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "CourseModules",
                         principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
@@ -531,7 +534,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     StudentId = table.Column<string>(type: "TEXT", nullable: true),
                     CourseId = table.Column<string>(type: "TEXT", nullable: false),
-                    QuizId = table.Column<string>(type: "TEXT", nullable: true)
+                    QuizId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -546,7 +549,8 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_QuizEnrollments_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "QuizId");
+                        principalColumn: "QuizId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_QuizEnrollments_Students_StudentId",
                         column: x => x.StudentId,
@@ -558,36 +562,37 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "QuizQuestions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    QuizQuestionId = table.Column<string>(type: "TEXT", nullable: false),
                     Text = table.Column<string>(type: "TEXT", nullable: false),
                     MediaUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    QuizId = table.Column<string>(type: "TEXT", nullable: true)
+                    QuizId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuizQuestions", x => x.Id);
+                    table.PrimaryKey("PK_QuizQuestions", x => x.QuizQuestionId);
                     table.ForeignKey(
                         name: "FK_QuizQuestions_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "QuizId");
+                        principalColumn: "QuizId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "DiscussionBoardCommentSchool",
                 columns: table => new
                 {
-                    DiscussionBoardCommentsId = table.Column<string>(type: "TEXT", nullable: false),
+                    DiscussionBoardCommentsCommentId = table.Column<string>(type: "TEXT", nullable: false),
                     SchoolsSchoolId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiscussionBoardCommentSchool", x => new { x.DiscussionBoardCommentsId, x.SchoolsSchoolId });
+                    table.PrimaryKey("PK_DiscussionBoardCommentSchool", x => new { x.DiscussionBoardCommentsCommentId, x.SchoolsSchoolId });
                     table.ForeignKey(
-                        name: "FK_DiscussionBoardCommentSchool_DiscussionBoardComments_DiscussionBoardCommentsId",
-                        column: x => x.DiscussionBoardCommentsId,
+                        name: "FK_DiscussionBoardCommentSchool_DiscussionBoardComments_DiscussionBoardCommentsCommentId",
+                        column: x => x.DiscussionBoardCommentsCommentId,
                         principalTable: "DiscussionBoardComments",
-                        principalColumn: "Id",
+                        principalColumn: "CommentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DiscussionBoardCommentSchool_Schools_SchoolsSchoolId",
@@ -601,17 +606,17 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "DiscussionBoardCommentStudent",
                 columns: table => new
                 {
-                    DiscussionBoardCommentsId = table.Column<string>(type: "TEXT", nullable: false),
+                    DiscussionBoardCommentsCommentId = table.Column<string>(type: "TEXT", nullable: false),
                     StudentsStudentId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiscussionBoardCommentStudent", x => new { x.DiscussionBoardCommentsId, x.StudentsStudentId });
+                    table.PrimaryKey("PK_DiscussionBoardCommentStudent", x => new { x.DiscussionBoardCommentsCommentId, x.StudentsStudentId });
                     table.ForeignKey(
-                        name: "FK_DiscussionBoardCommentStudent_DiscussionBoardComments_DiscussionBoardCommentsId",
-                        column: x => x.DiscussionBoardCommentsId,
+                        name: "FK_DiscussionBoardCommentStudent_DiscussionBoardComments_DiscussionBoardCommentsCommentId",
+                        column: x => x.DiscussionBoardCommentsCommentId,
                         principalTable: "DiscussionBoardComments",
-                        principalColumn: "Id",
+                        principalColumn: "CommentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DiscussionBoardCommentStudent_Students_StudentsStudentId",
@@ -625,17 +630,17 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "DiscussionBoardCommentTeacher",
                 columns: table => new
                 {
-                    DiscussionBoardCommentsId = table.Column<string>(type: "TEXT", nullable: false),
+                    DiscussionBoardCommentsCommentId = table.Column<string>(type: "TEXT", nullable: false),
                     TeachersTeacherId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiscussionBoardCommentTeacher", x => new { x.DiscussionBoardCommentsId, x.TeachersTeacherId });
+                    table.PrimaryKey("PK_DiscussionBoardCommentTeacher", x => new { x.DiscussionBoardCommentsCommentId, x.TeachersTeacherId });
                     table.ForeignKey(
-                        name: "FK_DiscussionBoardCommentTeacher_DiscussionBoardComments_DiscussionBoardCommentsId",
-                        column: x => x.DiscussionBoardCommentsId,
+                        name: "FK_DiscussionBoardCommentTeacher_DiscussionBoardComments_DiscussionBoardCommentsCommentId",
+                        column: x => x.DiscussionBoardCommentsCommentId,
                         principalTable: "DiscussionBoardComments",
-                        principalColumn: "Id",
+                        principalColumn: "CommentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DiscussionBoardCommentTeacher_Teachers_TeachersTeacherId",
@@ -653,7 +658,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     Text = table.Column<string>(type: "TEXT", nullable: false),
                     AllocatedScore = table.Column<short>(type: "INTEGER", nullable: false),
                     IsCorrect = table.Column<bool>(type: "INTEGER", nullable: false),
-                    QuizQuestionId = table.Column<string>(type: "TEXT", nullable: true)
+                    QuizQuestionId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -662,7 +667,8 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_QuestionAnswers_QuizQuestions_QuizQuestionId",
                         column: x => x.QuizQuestionId,
                         principalTable: "QuizQuestions",
-                        principalColumn: "Id");
+                        principalColumn: "QuizQuestionId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -702,6 +708,24 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_SchoolId",
+                table: "AspNetUsers",
+                column: "SchoolId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_StudentId",
+                table: "AspNetUsers",
+                column: "StudentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_TeacherId",
+                table: "AspNetUsers",
+                column: "TeacherId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -718,9 +742,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseLessons_CourseModuleModuleId",
+                name: "IX_CourseLessons_ModuleId",
                 table: "CourseLessons",
-                column: "CourseModuleModuleId");
+                column: "ModuleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseModules_CourseId",
@@ -733,9 +757,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiscussionBoardComments_DiscussionBoardPostId",
+                name: "IX_DiscussionBoardComments_PostId",
                 table: "DiscussionBoardComments",
-                column: "DiscussionBoardPostId");
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiscussionBoardCommentSchool_SchoolsSchoolId",
@@ -768,9 +792,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notices_SchoolId",
+                name: "IX_Notices_StudentId",
                 table: "Notices",
-                column: "SchoolId");
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionAnswers_QuizQuestionId",
@@ -804,27 +828,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schools_ApplicationUserId",
-                table: "Schools",
-                column: "ApplicationUserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_ApplicationUserId",
-                table: "Students",
-                column: "ApplicationUserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Students_SchoolId",
                 table: "Students",
                 column: "SchoolId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teachers_ApplicationUserId",
-                table: "Teachers",
-                column: "ApplicationUserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teachers_SchoolId",
@@ -890,6 +896,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "CourseModules");
 
             migrationBuilder.DropTable(
@@ -918,9 +927,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Schools");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

@@ -19,6 +19,6 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? MediaUrl { get; set; }       
         public string ArticleCategoryId { get; set; }
         [ForeignKey("ArticleCategoryId")]
-        public ArticleCategory Category { get; set; }
+        public virtual ArticleCategory Category { get; set; }
     }
 }

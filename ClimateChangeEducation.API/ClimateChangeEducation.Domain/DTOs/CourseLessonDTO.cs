@@ -22,6 +22,6 @@ namespace ClimateChangeEducation.Domain.DTOs
         public string? LessonVideoUrl { get; set; }
         public string? LessonPhotoUrl { get; set; }
         public int LessonDuration { get; set; }
-        public CourseModule CourseModule { get; set; }
+        public string? ModuleId { get; set; }        
     }
 }

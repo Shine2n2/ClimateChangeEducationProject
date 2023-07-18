@@ -87,7 +87,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         public async Task<bool> ExistsQuizQuestionAsync(string id)
         {            
-            return await _dataContext.QuizQuestions.AnyAsync(x => x.Id == id);
+            return await _dataContext.QuizQuestions.AnyAsync(x => x.QuizQuestionId == id);
         }
 
         public async Task<List<QuestionAnswer>> GetAllQuestionAnswersAsync()
@@ -117,7 +117,15 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         public async Task<QuizQuestion> GetQuizQuestionByIdAsync(string id)
         {
-            return await _dataContext.QuizQuestions.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dataContext.QuizQuestions.FirstOrDefaultAsync(x => x.QuizQuestionId == id);
+        }
+
+        public async Task<Quiz> GetQuizByCourseIdAsync(string id)
+        {
+            return await _dataContext.Quizzes
+                .Include(x => x.Course).Include(y => y.QuizQuestions)
+                .FirstOrDefaultAsync(x => x.CourseId == id);
+            //return await _dataContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
         }
 
         public async Task<QuestionAnswer> UpdateQuestionAnswerAsync(string id, QuestionAnswer request)

@@ -9,13 +9,13 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class QuizEnrollmentDTO
     {
-        public string? Id { get; set; }
+        public string? EnrollmentID { get; set; }
         public DateTime QuizStartDate { get; set; }
         public short QuizScore { get; set; }
         public string Remark { get; set; }
         public bool IsCompleted { get; set; }
-        public Student Student { get; set; }
-        public Course Course { get; set; }
-        public Quiz Quiz { get; set; }
+        public string? StudentId { get; set; }
+        public string? CourseId { get; set; }
+        public string? QuizId { get; set; }
     }
 }

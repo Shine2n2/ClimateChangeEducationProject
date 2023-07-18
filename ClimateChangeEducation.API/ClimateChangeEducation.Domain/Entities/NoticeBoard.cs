@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,9 @@ namespace ClimateChangeEducation.Domain.Entities
         public DateTime PublishStartDateTime { get; set; }
         public DateTime PublishEndDateTime { get; set; }
         public bool IsPublished { get; set; }
-        public School? School { get; set; }
+        public string SchoolId { get; set; }
+        [ForeignKey("StudentId")]
+        public virtual School? School { get; set; }
        
     }
 }

@@ -9,13 +9,17 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class ContactUsDTO
     {
-        public string? Id { get; set; }
+        public string? ContactUsId { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 50 characters!")]
         public string YourName { get; set; }
         [Required]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
+        public string YourEmail { get; set; }
+        [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 50 characters!")]
         public string YourSubject { get; set; }
+       
         [Required]
         [StringLength(300, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 300 characters!")]
         public string YourMessage { get; set; }        

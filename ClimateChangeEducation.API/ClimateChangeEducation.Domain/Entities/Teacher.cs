@@ -18,9 +18,7 @@ namespace ClimateChangeEducation.Domain.Entities
         public bool IsAccountActive { get; set; }
         public string? UserAccountRole { get; set; }
         public string? SchoolCode { get; set; }
-        public School School { get; set; }
-        public string ApplicationUserId { get; set; }
-        [ForeignKey("ApplicationUserId")]
+        public School School { get; set; }        
         public ApplicationUser ApplicationUser { get; set; }
         public ICollection<DiscussionBoardPost> DiscussionBoardPosts { get; set; }      
         public ICollection<DiscussionBoardComment> DiscussionBoardComments { get; set; }      

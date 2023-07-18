@@ -10,7 +10,7 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class DiscussionBoardPostDTO
     {
-        public string? Id { get; set; }
+        public string? PostId { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
@@ -19,7 +19,7 @@ namespace ClimateChangeEducation.Domain.DTOs
         public DateTime PostedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsPublished { get; set; }
-        public Teacher Teacher { get; set; }
-        public School School { get; set; }       
+        public string? TeacherId { get; set; }
+        public string? SchoolId { get; set; }    
     }
 }

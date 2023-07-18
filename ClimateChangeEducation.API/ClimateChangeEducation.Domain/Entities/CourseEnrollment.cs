@@ -12,8 +12,12 @@ namespace ClimateChangeEducation.Domain.Entities
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public DateTime EnrollmentDate { get; set; }   
-        public bool IsCompleted { get; set; }                  
-        public Student? Student { get; set; }       
-        public Course? Course { get; set; }
+        public bool IsCompleted { get; set; }    
+        public string? StudentId { get; set; }
+        [ForeignKey("StudentId")]
+        public virtual Student? Student { get; set; }
+        public string? CourseId { get; set; }
+        [ForeignKey("CourseId")]
+        public virtual Course? Course { get; set; }
     }   
 }

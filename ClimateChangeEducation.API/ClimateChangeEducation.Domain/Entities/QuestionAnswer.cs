@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace ClimateChangeEducation.Domain.Entities
         public string Text { get; set; }
         public short AllocatedScore { get; set; } = 0;
         public bool IsCorrect { get; set; }
-        public QuizQuestion QuizQuestion { get; set; }        
+        public string QuizQuestionId { get; set; }
+        [ForeignKey("QuizQuestionId")]
+        public virtual  QuizQuestion QuizQuestion { get; set; }        
     }
 }

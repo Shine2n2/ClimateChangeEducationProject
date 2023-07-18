@@ -155,10 +155,17 @@ namespace ClimateChangeEducation.API.Controllers
         [HttpPost]
         [Route("CreateCourseModule")]
         public async Task<IActionResult> CreateCourseModule([FromBody] CourseModuleDTO request)
-        {
+        { 
             try
             {
+               // var mm = new CourseModule();
+               // mm.Course.CourseId = request.CourseId;
+               // mm.ModuleDescription = request.ModuleDescription;
+               // mm.ModuleName = request.ModuleName;
+               //mm.MediaUrl = request.MediaUrl;
+              
                 var courseModule = await _courseRepo.CreateCourseModuleAsync(_mapper.Map<CourseModule>(request));
+                //var courseModule = await _courseRepo.CreateCourseModuleAsync(request);
                 return Ok(courseModule);
             }
             catch (ArgumentException argex)
@@ -359,6 +366,7 @@ namespace ClimateChangeEducation.API.Controllers
             try
             {
                 var result = await _courseRepo.GetLessonByModuleIdAsync(moduleId);
+              
                 return Ok(_mapper.Map<CourseLesson>(result));
             }
             catch (ArgumentException argex)

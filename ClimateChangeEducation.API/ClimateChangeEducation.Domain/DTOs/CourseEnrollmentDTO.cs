@@ -12,7 +12,7 @@ namespace ClimateChangeEducation.Domain.DTOs
         public string? Id { get; set; }
         public DateTime EnrollmentDate { get; set; }
         public bool IsCompleted { get; set; }
-        public Student Student { get; set; }
-        public Course Course { get; set; }
+        public string? StudentId { get; set; }  
+        public string? CourseId { get; set; }       
     }
 }

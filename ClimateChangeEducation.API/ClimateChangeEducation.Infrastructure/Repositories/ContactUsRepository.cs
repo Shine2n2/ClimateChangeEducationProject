@@ -1,4 +1,5 @@
-﻿using ClimateChangeEducation.Domain.Entities;
+﻿using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;

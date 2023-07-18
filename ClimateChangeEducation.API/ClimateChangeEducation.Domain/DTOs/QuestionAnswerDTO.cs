@@ -18,6 +18,7 @@ namespace ClimateChangeEducation.Domain.DTOs
         public int? AllocatedScore { get; set; }
         [Required]
         public bool IsCorrect { get; set; }
+        public string QuizQuestionId { get; set; }
         public QuizQuestion QuizQuestion { get; set; }
     }
 }
