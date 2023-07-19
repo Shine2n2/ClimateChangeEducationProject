@@ -13,6 +13,7 @@ namespace ClimateChangeEducation.API.Controllers
     {
         private readonly INoticeBoardRepository _noticeRepo;    
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
         public NoticeBoardController(INoticeBoardRepository noticeRepo, IMapper mapper)
         {
@@ -31,6 +32,7 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (Exception ex)
             {
+                
                 return BadRequest(ex.Message);
             }
         }
