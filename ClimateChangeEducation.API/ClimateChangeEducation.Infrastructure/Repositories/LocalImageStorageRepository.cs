@@ -1,15 +1,20 @@
 ﻿using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace ClimateChangeEducation.Infrastructure.Repositories
 {
     public class LocalImageStorageRepository: ILocalImageStorageRepository
     {
+        private readonly IHostEnvironment _hostEnvironment;
+       
+
         public async Task<string> UploadImg(IFormFile file, string fileName)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Images\", fileName);
@@ -49,6 +54,8 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return Path.Combine(@"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Documents\", fileName);
         }
 
+
+       
 
     }
 }

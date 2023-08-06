@@ -1,10 +1,19 @@
+using ClimateChangeEducation.Application.Interfaces;
+using ClimateChangeEducation.Application.Services;
 using ClimateChangeEducation.Common.Configurations;
 using ClimateChangeEducation.Common.Helpers;
+using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using ClimateChangeEducation.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +41,35 @@ builder.Services.AddDbContext<ClimateDataContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+//JWT config settings
+
+builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ClimateDataContext>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+  .AddJwtBearer(o =>
+  {
+      o.RequireHttpsMetadata = false;
+      o.SaveToken = false;
+      o.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuerSigningKey = true,
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidateLifetime = true,
+          ClockSkew = TimeSpan.Zero,
+          ValidIssuer = builder.Configuration["JWT:Issuer"],
+          ValidAudience = builder.Configuration["JWT:Audience"],
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+      };
+  });
+
+
 
 //
 
@@ -46,6 +84,13 @@ builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 builder.Services.AddScoped<ILocalImageStorageRepository, LocalImageStorageRepository>();
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
 builder.Services.AddScoped<INoticeBoardRepository, NoticeBoardRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+//builder.Services.AddScoped<IHostEnvironment>();
+
+
+
+
+
 
 
 
@@ -66,6 +111,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

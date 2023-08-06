@@ -20,5 +20,6 @@ namespace ClimateChangeEducation.Domain.DTOs
         public string SchoolEmail { get; set; }
         [Required]
         public string SupportingDocument { get; set; }
+        public string Password { get; set; }
     }
 }

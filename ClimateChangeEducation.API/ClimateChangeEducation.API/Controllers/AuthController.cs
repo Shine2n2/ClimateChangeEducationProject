@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClimateChangeEducation.Application.Interfaces;
+using ClimateChangeEducation.Domain.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,38 +9,61 @@ namespace ClimateChangeEducation.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class AuthController : ControllerBase
     {
-        // GET: api/<AuthController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        private readonly IUserService _userService;
+
+
+        public AuthController(IUserService userService)
         {
-            return new string[] { "value1", "value2" };
+            _userService = userService;
         }
 
-        // GET api/<AuthController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<AuthController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("RegisterStudentUser")]
+        public async Task<ActionResult> RegisterStudentAsync(StudentRequestDTO model)
         {
+            try
+            {
+                var result = await _userService.RegisterStudentAsync(model);
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }            
         }
 
-        // PUT api/<AuthController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+        [HttpPost]
+        [Route("RegisterTeacherUser")]
+        public async Task<ActionResult> RegisterTeacherAsync(TeacherRequestDTO model)
+        {           
+            try
+            {
+                var result = await _userService.RegisterTeacherAsync(model);
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
         }
 
-        // DELETE api/<AuthController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        [HttpPost]
+        [Route("RegisterSchoolUser")]
+        public async Task<ActionResult> RegisterSchoolAsync(SchoolRequestDTO model)
+        {            
+            try
+            {
+                var result = await _userService.RegisterSchoolAsync(model);
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }        
     }
 }

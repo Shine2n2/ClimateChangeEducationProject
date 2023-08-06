@@ -15,6 +15,6 @@ namespace ClimateChangeEducation.Domain.DTOs
         [StringLength(1000, MinimumLength = 3, ErrorMessage = "Max character is 1000, min is 3")]
         public string Content { get; set; }
         public string? MediaUrl { get; set; }        
-        public ArticleCategory Category { get; set; }
+        public string CategoryId { get; set; }
     }
 }

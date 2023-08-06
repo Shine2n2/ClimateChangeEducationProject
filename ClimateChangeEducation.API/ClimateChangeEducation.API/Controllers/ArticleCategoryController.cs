@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using ClimateChangeEducation.Infrastructure.Repositories;
@@ -52,7 +53,7 @@ namespace ClimateChangeEducation.API.Controllers
            
         // POST api/<ArticleCategoryController>
         [HttpPost]
-        public async Task<IActionResult> CreateArticleCategory([FromBody] ArticleCategory request)
+        public async Task<IActionResult> CreateArticleCategory([FromBody] ArticleCategoryDTO request)
         {
             try
             {
@@ -67,7 +68,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // PUT api/<ArticleCategoryController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateArticleCategory([FromRoute] string id, [FromBody] ArticleCategory request)
+        public async Task<IActionResult> UpdateArticleCategory([FromRoute] string id, [FromBody] ArticleCategoryDTO request)
         {
             try
             {

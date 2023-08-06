@@ -16,8 +16,10 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
         }
 
         public async Task<Article> CreateArticleAsync(Article articleReq)
-        {            
-            var article = await _dataContext.Articles.AddAsync(articleReq); 
+        {
+            var result = new Article();
+            result.ArticleCategoryId = articleReq.ArticleCategoryId;
+            var article = await _dataContext.Articles.AddAsync(result); 
             await _dataContext.SaveChangesAsync();
             return article.Entity;
         }
