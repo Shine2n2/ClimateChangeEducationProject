@@ -18,12 +18,12 @@ namespace ClimateChangeEducation.Domain.Entities
         public bool IsCompleted { get; set; }
         public string? StudentId { get; set; }
         [ForeignKey("StudentId")]
-        public virtual Student Student { get; set; }
+        public virtual Student? Student { get; set; }
         public string? CourseId { get; set; }
         [ForeignKey("CourseId")]
-        public virtual Course Course { get; set; }
+        public virtual Course? Course { get; set; }
         public string? QuizId { get; set; }
         [ForeignKey("QuizId")]
-        public virtual Quiz Quiz { get; set; }
+        public virtual Quiz? Quiz { get; set; }
     }   
 }

@@ -280,7 +280,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ModuleId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("LessonId");
@@ -296,7 +295,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CourseId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MediaUrl")
@@ -431,7 +429,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SchoolId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("StudentId")
@@ -476,7 +473,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CourseId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
@@ -506,14 +502,12 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CourseId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("QuizId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<short>("QuizScore")
@@ -679,7 +673,6 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SchoolId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserAccountRole")
@@ -943,9 +936,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     b.HasOne("ClimateChangeEducation.Domain.Entities.CourseModule", "CourseModule")
                         .WithMany("Lessons")
-                        .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ModuleId");
 
                     b.Navigation("CourseModule");
                 });
@@ -954,9 +945,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     b.HasOne("ClimateChangeEducation.Domain.Entities.Course", "Course")
                         .WithMany("CourseModules")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.Navigation("Course");
                 });
@@ -1021,9 +1010,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     b.HasOne("ClimateChangeEducation.Domain.Entities.Course", "Course")
                         .WithOne("Quiz")
-                        .HasForeignKey("ClimateChangeEducation.Domain.Entities.Quiz", "CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClimateChangeEducation.Domain.Entities.Quiz", "CourseId");
 
                     b.Navigation("Course");
                 });
@@ -1032,15 +1019,11 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     b.HasOne("ClimateChangeEducation.Domain.Entities.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("ClimateChangeEducation.Domain.Entities.Quiz", "Quiz")
                         .WithMany("QuizEnrollment")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuizId");
 
                     b.HasOne("ClimateChangeEducation.Domain.Entities.Student", "Student")
                         .WithMany("QuizEnrollment")
@@ -1077,9 +1060,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 {
                     b.HasOne("ClimateChangeEducation.Domain.Entities.School", "School")
                         .WithMany("Teachers")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SchoolId");
 
                     b.Navigation("School");
                 });

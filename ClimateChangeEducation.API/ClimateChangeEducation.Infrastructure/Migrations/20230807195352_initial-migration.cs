@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClimateChangeEducation.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initmigration : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -153,7 +153,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     PublishStartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     PublishEndDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: true),
                     StudentId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -206,7 +206,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     IsAccountActive = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserAccountRole = table.Column<string>(type: "TEXT", nullable: true),
                     SchoolCode = table.Column<string>(type: "TEXT", nullable: true),
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: false)
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -215,8 +215,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_Teachers_Schools_SchoolId",
                         column: x => x.SchoolId,
                         principalTable: "Schools",
-                        principalColumn: "SchoolId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SchoolId");
                 });
 
             migrationBuilder.CreateTable(
@@ -360,7 +359,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     ModuleName = table.Column<string>(type: "TEXT", nullable: false),
                     ModuleDescription = table.Column<string>(type: "TEXT", maxLength: 150, nullable: true),
                     MediaUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    CourseId = table.Column<string>(type: "TEXT", nullable: false)
+                    CourseId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -369,8 +368,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_CourseModules_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CourseId");
                 });
 
             migrationBuilder.CreateTable(
@@ -382,7 +380,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CourseId = table.Column<string>(type: "TEXT", nullable: false)
+                    CourseId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -391,8 +389,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_Quizzes_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CourseId");
                 });
 
             migrationBuilder.CreateTable(
@@ -510,7 +507,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     LessonVideoUrl = table.Column<string>(type: "TEXT", nullable: true),
                     LessonPhotoUrl = table.Column<string>(type: "TEXT", nullable: true),
                     LessonDuration = table.Column<int>(type: "INTEGER", nullable: false),
-                    ModuleId = table.Column<string>(type: "TEXT", nullable: false)
+                    ModuleId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -519,8 +516,7 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_CourseLessons_CourseModules_ModuleId",
                         column: x => x.ModuleId,
                         principalTable: "CourseModules",
-                        principalColumn: "ModuleId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ModuleId");
                 });
 
             migrationBuilder.CreateTable(
@@ -533,8 +529,8 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     Remark = table.Column<string>(type: "TEXT", nullable: false),
                     IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false),
                     StudentId = table.Column<string>(type: "TEXT", nullable: true),
-                    CourseId = table.Column<string>(type: "TEXT", nullable: false),
-                    QuizId = table.Column<string>(type: "TEXT", nullable: false)
+                    CourseId = table.Column<string>(type: "TEXT", nullable: true),
+                    QuizId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -543,14 +539,12 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_QuizEnrollments_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CourseId");
                     table.ForeignKey(
                         name: "FK_QuizEnrollments_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "QuizId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "QuizId");
                     table.ForeignKey(
                         name: "FK_QuizEnrollments_Students_StudentId",
                         column: x => x.StudentId,

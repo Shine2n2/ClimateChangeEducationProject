@@ -17,12 +17,13 @@ namespace ClimateChangeEducation.Domain.Entities
         [Required]
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
         public string? NoticeDescription { get; set; }
+        [Required]
         public string NoticeContent { get; set; }
         public string? DisplayPhoto { get; set; }
         public DateTime PublishStartDateTime { get; set; }
         public DateTime PublishEndDateTime { get; set; }
         public bool IsPublished { get; set; }
-        public string SchoolId { get; set; }
+        public string? SchoolId { get; set; }
         [ForeignKey("StudentId")]
         public virtual School? School { get; set; }
        

@@ -21,8 +21,8 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? LessonVideoUrl { get; set; }
         public string? LessonPhotoUrl { get; set; }        
         public int LessonDuration { get; set; }   
-        public string ModuleId { get; set; }
+        public string? ModuleId { get; set; }
         [ForeignKey("ModuleId")]
-        public virtual CourseModule CourseModule { get; set;}
+        public virtual CourseModule? CourseModule { get; set;}
     }
 }

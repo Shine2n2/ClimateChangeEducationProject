@@ -12,8 +12,7 @@ namespace ClimateChangeEducation.Common.Helpers
     public class MappingProfiles:Profile
     {
         public MappingProfiles()
-        {
-            
+        {            
             CreateMap<Article, ArticleDTO>().ReverseMap();
             CreateMap<ArticleCategory, ArticleCategoryDTO>().ReverseMap();
             CreateMap<Course, CourseDTO>().ReverseMap();
@@ -27,9 +26,9 @@ namespace ClimateChangeEducation.Common.Helpers
             CreateMap<Quiz, QuizDTO>().ReverseMap();
             CreateMap<QuizEnrollment, QuizEnrollmentDTO>().ReverseMap();
             CreateMap<QuizQuestion, QuizQuestionDTO>().ReverseMap();           
-            CreateMap<Student, StudentResponseDTO>().ReverseMap();           
-            CreateMap<Teacher, TeacherResponseDTO>().ReverseMap();          
-            CreateMap<School, SchoolResponseDTO>().ReverseMap();
+            CreateMap<Student, StudentRequestDTO>().ReverseMap();           
+            CreateMap<Teacher, TeacherRequestDTO>().ReverseMap();          
+            CreateMap<School, SchoolRequestDTO>().ReverseMap();
             CreateMap<ContactUs, ContactUsDTO>().ReverseMap();
             CreateMap<NoticeBoard, NoticeBoardDTO>().ReverseMap();
         }

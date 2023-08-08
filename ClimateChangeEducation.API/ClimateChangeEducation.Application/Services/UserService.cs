@@ -47,35 +47,43 @@ namespace ClimateChangeEducation.Application.Services
                 LastName = student.LastName,
                 Age = student.Age,
                 Nickname = student.Nickname,
-                IsAccountActive = true,
+                IsAccountActive = true,                
                 Email = student.Email,
                 SchoolCode = student.SchoolCode,
+                StudentClass = student.StudentClass,
                 UserAccountRole = Authorization.Roles.RegularUser.ToString()
             };
             var result = await _studentrepo.CreateStudentAsync(newStudent);
-                       
 
-            var newAppUser = new ApplicationUser
-            { 
-                NormalizedEmail = result.Email,
-                Email = result.Email,
-                StudentId  = result.StudentId,
-                PasswordHash = student.Password,                             
-            };
 
-            var userWithSameEmail = await _userManager.FindByEmailAsync(student.Email);
-            if (userWithSameEmail == null)
+            if (result != null)
             {
-                var result2 = await _userManager.CreateAsync(newAppUser, student.Password);
-                if (result2.Succeeded)
+                var newAppUser = new ApplicationUser
                 {
-                    await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.RegularUser.ToString());
+                    NormalizedEmail = result.Email,
+                    Email = result.Email,
+                    StudentId = result.StudentId,
+                    PasswordHash = student.Password,
+                };
+
+                var userWithSameEmail = await _userManager.FindByEmailAsync(student.Email);
+                if (userWithSameEmail == null)
+                {
+                    var result2 = await _userManager.CreateAsync(newAppUser, student.Password);
+                    if (result2.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.RegularUser.ToString());
+                    }
+                    return $"User Registered with email {newAppUser.Email}";
                 }
-                return $"User Registered with email {newAppUser.Email}";
+                else
+                {
+                    return $"Email {newAppUser.Email} is already registered.";
+                }
             }
             else
             {
-                return $"Email {newAppUser.Email} is already registered.";
+                return "not successful";
             }
         }
 
@@ -132,30 +140,35 @@ namespace ClimateChangeEducation.Application.Services
             };
             var result = await _teacherrepo.CreateTeacherAsync(newTeacher);
 
-
-            var newAppUser = new ApplicationUser
+            if (result != null)
             {
-                NormalizedEmail = result.Email,
-                Email = result.Email,
-                SchoolId = result.TeacherId,
-                PasswordHash = teacher.Password,
-            };
-
-            var userWithSameEmail = await _userManager.FindByEmailAsync(result.Email);
-            if (userWithSameEmail == null)
-            {
-                var result2 = await _userManager.CreateAsync(newAppUser, teacher.Password);
-                if (result2.Succeeded)
+                var newAppUser = new ApplicationUser
                 {
-                    await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.Teacher.ToString());
+                    NormalizedEmail = result.Email,
+                    Email = result.Email,
+                    SchoolId = result.TeacherId,
+                    PasswordHash = teacher.Password,
+                };
+
+                var userWithSameEmail = await _userManager.FindByEmailAsync(result.Email);
+                if (userWithSameEmail == null)
+                {
+                    var result2 = await _userManager.CreateAsync(newAppUser, teacher.Password);
+                    if (result2.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.Teacher.ToString());
+                    }
+                    return $"User Registered with email {newAppUser.Email}";
                 }
-                return $"User Registered with email {newAppUser.Email}";
+                else
+                {
+                    return $"Email {newAppUser.Email} is already registered.";
+                }
             }
             else
             {
-                return $"Email {newAppUser.Email} is already registered.";
-            }
+                return "Not successful";
+            }           
         }
-
     }
 }

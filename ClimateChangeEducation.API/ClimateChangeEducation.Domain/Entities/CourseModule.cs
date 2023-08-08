@@ -17,9 +17,9 @@ namespace ClimateChangeEducation.Domain.Entities
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
         public string? ModuleDescription { get; set; }        
         public string? MediaUrl { get; set; }
-        public string CourseId { get; set; }
+        public string? CourseId { get; set; }
         [ForeignKey("CourseId")]
-        public virtual Course Course { get; set; }
+        public virtual Course? Course { get; set; }
         public ICollection<CourseLesson> Lessons { get; set; }
        
     }

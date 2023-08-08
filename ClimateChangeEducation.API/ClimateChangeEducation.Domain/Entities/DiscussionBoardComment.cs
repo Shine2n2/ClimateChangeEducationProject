@@ -20,7 +20,6 @@ namespace ClimateChangeEducation.Domain.Entities
         public ICollection<School> Schools { get; set; }   
         public string? PostId { get; set; }
         [ForeignKey("PostId")]
-        public virtual DiscussionBoardPost DiscussionBoardPost { get; set; }
-
+        public virtual DiscussionBoardPost? DiscussionBoardPost { get; set; }
     }
 }
