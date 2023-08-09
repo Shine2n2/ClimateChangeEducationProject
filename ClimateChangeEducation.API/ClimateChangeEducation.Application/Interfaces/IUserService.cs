@@ -1,4 +1,5 @@
 ﻿using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace ClimateChangeEducation.Application.Interfaces
         Task<string> RegisterTeacherAsync(TeacherRequestDTO teacher);
         Task<string> RegisterStudentAsync(StudentRequestDTO teacher);
         Task<string> RegisterSchoolAsync(SchoolRequestDTO teacher);
+        Task<AuthenticationModel> GetTokenAsync(TokenRequest model);
     }
 }

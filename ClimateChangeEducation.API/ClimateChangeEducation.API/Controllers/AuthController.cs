@@ -1,5 +1,6 @@
 ﻿using ClimateChangeEducation.Application.Interfaces;
 using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
@@ -64,6 +65,14 @@ namespace ClimateChangeEducation.API.Controllers
             {
                 return BadRequest(argex.Message);
             }
-        }        
+        }
+
+
+        [HttpPost("token")]
+        public async Task<IActionResult> GetTokenAsync(TokenRequest model)
+        {
+            var result = await _userService.GetTokenAsync(model);
+            return Ok(result);
+        }
     }
 }
