@@ -16,8 +16,10 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? ProfilePhotoUrl { get; set; }
         public string? SupportingDocument { get; set; }
         public bool IsAccountActive { get; set; }
-        public string? UserAccountRole { get; set; }        
-        public ApplicationUser ApplicationUser { get; set; }
+        public string? UserAccountRole { get; set; }
+        public string? ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]    
+        public virtual ApplicationUser? ApplicationUser { get; set; }
         public ICollection<Student>? Students { get; set; }
         public ICollection<Teacher>? Teachers { get; set; }
         public ICollection<DiscussionBoardPost>? DiscussionBoardPosts { get; set; }

@@ -22,8 +22,10 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? SchoolCode { get; set; }
         public string? SchoolId { get; set; }
         [ForeignKey("SchoolId")]
-        public virtual School? School { get; set; }         
-        public ApplicationUser ApplicationUser { get; set; }
+        public virtual School? School { get; set; }
+        public string? ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]
+        public virtual ApplicationUser? ApplicationUser { get; set; }
         public ICollection<DiscussionBoardComment>? DiscussionBoardComments { get; set; }
         public ICollection<Course>? Course { get; set; }
         public ICollection<CourseEnrollment>? CourseEnrollment { get; set; }

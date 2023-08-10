@@ -16,16 +16,9 @@ namespace ClimateChangeEducation.Domain.Entities
         public string ApplicationUserId { get; set; } = Guid.NewGuid().ToString();     
         public DateTime DateCreated { get; set; } = DateTime.Now;
         public DateTime DateUpdated { get; set; } = DateTime.Now;
-        public bool IsActive { get; set; }
-        // navigation props        
-        public string SchoolId { get; set; }
-        [ForeignKey("SchoolId")]
-        public virtual School? School { get; set; }        
-        public string? TeacherId { get; set; }
-        [ForeignKey("TeacherId")]
-        public virtual Teacher? Teacher { get; set; }
-        public string? StudentId { get; set; }
-        [ForeignKey("StudentId")]
-        public virtual Student? Student { get; set; }                      
+        public bool IsActive { get; set; }               
+        public School? School { get; set; }            
+        public Teacher? Teacher { get; set; }      
+        public Student? Student { get; set; }                      
     }
 }

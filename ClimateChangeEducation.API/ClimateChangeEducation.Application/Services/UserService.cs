@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,96 +45,111 @@ namespace ClimateChangeEducation.Application.Services
 
         public async Task<string> RegisterStudentAsync(StudentRequestDTO student)
         {
-            var newStudent = new Student
+            var schoolCheck = await _schoolrepo.GetSchoolBySchoolCodeAsync(student.SchoolCode);
+            if (schoolCheck == null)
             {
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Age = student.Age,
-                Nickname = student.Nickname,
-                IsAccountActive = true,                
-                Email = student.Email,
-                SchoolCode = student.SchoolCode,
-                StudentClass = student.StudentClass,
-                UserAccountRole = Authorization.Roles.RegularUser.ToString()
+                return "Invalid School Code";
+            }
+
+            var newAppUser = new ApplicationUser
+            {
+                UserName = student.Email,
+                NormalizedEmail = student.Email,
+                Email = student.Email,              
+                PasswordHash = student.Password,              
             };
-            var result = await _studentrepo.CreateStudentAsync(newStudent);
 
-            if (result != null)
+            var userWithSameEmail = await _userManager.FindByEmailAsync(student.Email);
+            if (userWithSameEmail == null)
             {
-                var newAppUser = new ApplicationUser
+                var result = await _userManager.CreateAsync(newAppUser, student.Password);
+                if (result.Succeeded)
                 {
-                    NormalizedEmail = result.Email,
-                    Email = result.Email,
-                    StudentId = result.StudentId,
-                    PasswordHash = student.Password,
-                };
+                    var createAppUser = await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.RegularUser.ToString());
 
-                var userWithSameEmail = await _userManager.FindByEmailAsync(student.Email);
-                if (userWithSameEmail == null)
-                {
-                    var result2 = await _userManager.CreateAsync(newAppUser, student.Password);
-                    if (result2.Succeeded)
+                    if (createAppUser.Succeeded)
                     {
-                        await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.RegularUser.ToString());
-                        return $"User Registered with email {newAppUser.Email}";
+                        var newStudent = new Student
+                        {
+                            FirstName = student.FirstName,
+                            LastName = student.LastName,
+                            Age = student.Age,
+                            Nickname = student.Nickname,
+                            IsAccountActive = true,
+                            Email = student.Email,
+                            SchoolCode = student.SchoolCode,
+                            StudentClass = student.StudentClass,
+                            UserAccountRole = Authorization.Roles.RegularUser.ToString(),
+                            ApplicationUserId = newAppUser.Id
+                        };
+                        var createStudent = await _studentrepo.CreateStudentAsync(newStudent);
+
+                        if (createStudent != null)
+                        {
+                            return $"Account created successfully {newAppUser.Email}";
+                        }
+                        else { return "An error occurred creating student account";}
                     }
-                    else
-                    {
-                        return $"an error occured while creating";
-                    }
-                    
+                    else { return "An error occured while creating record"; }                  
                 }
-                else
-                {
-                    return $"Email {newAppUser.Email} is already registered.";
-                }
+                else { return $"an error occured while creating";}
             }
-            else
-            {
-                return "not successful";
-            }
+            else { return $"Email {newAppUser.Email} is already registered.";}                          
         }
 
         public async Task<string> RegisterSchoolAsync(SchoolRequestDTO school)
         {
-            var newSchool = new School
-            {
-                SchoolEmail = school.SchoolEmail,
-                SchoolName = school.SchoolName,
-                SupportingDocument = school.SupportingDocument,
-                IsAccountActive = true,
-                SchoolCode = CodeGenerator.SchoolCodeGenerator(),
-                UserAccountRole = Authorization.Roles.SchoolAdmin.ToString()                               
-            };
-            var result = await _schoolrepo.CreateSchoolAsync(newSchool);
-
             var newAppUser = new ApplicationUser
             {
-                NormalizedEmail = result.SchoolEmail,
-                Email = result.SchoolEmail,
-                SchoolId = result.SchoolId,
+                UserName = school.SchoolEmail,
+                NormalizedEmail = school.SchoolEmail,
+                Email = school.SchoolEmail,
                 PasswordHash = school.Password,
             };
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(school.SchoolEmail);
             if (userWithSameEmail == null)
             {
-                var result2 = await _userManager.CreateAsync(newAppUser, school.Password);
-                if (result2.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.SchoolAdmin.ToString());
+                var result = await _userManager.CreateAsync(newAppUser, school.Password);
+                if (result.Succeeded)
+                {                    
+                    var createRole = await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.SchoolAdmin.ToString());
+
+                    if(createRole.Succeeded)
+                    {
+                        var newSchool = new School
+                        {
+                            SchoolEmail = school.SchoolEmail,
+                            SchoolName = school.SchoolName,
+                            SupportingDocument = school.SupportingDocument,
+                            IsAccountActive = true,
+                            SchoolCode = CodeGenerator.SchoolCodeGenerator(),
+                            UserAccountRole = Authorization.Roles.SchoolAdmin.ToString(),
+                            ApplicationUserId= newAppUser.Id,
+                        };
+                        var createSchool = await _schoolrepo.CreateSchoolAsync(newSchool);
+                        return createSchool == null ? "Not successful" : "Successfully created";
+                    }
+                    else { return "Not successful, account role error"; }
                 }
                 return $"User Registered with email {newAppUser.Email}";
             }
             else
             {
                 return $"Email {newAppUser.Email} is already registered.";
-            }
+            }                          
         }
 
 
         public async Task<string> RegisterTeacherAsync(TeacherRequestDTO teacher)
         {
+            var school = await _schoolrepo.GetSchoolBySchoolCodeAsync(teacher.SchoolCode);
+
+            if (school == null)
+            {
+                return ("School does not exist or wrond code");
+            }
+
             var newTeacher = new Teacher
             {
                 FirstName = teacher.FirstName,
@@ -142,7 +158,8 @@ namespace ClimateChangeEducation.Application.Services
                 SchoolCode = teacher.SchoolCode,
                 FieldOfStudy = teacher.FieldOfStudy,
                 UserAccountRole = Authorization.Roles.SchoolAdmin.ToString(),
-                IsAccountActive = true                
+                IsAccountActive = true,
+                SchoolId = school.SchoolId
             };
             var result = await _teacherrepo.CreateTeacherAsync(newTeacher);
 
@@ -150,10 +167,12 @@ namespace ClimateChangeEducation.Application.Services
             {
                 var newAppUser = new ApplicationUser
                 {
+                    UserName = result.Email,
                     NormalizedEmail = result.Email,
                     Email = result.Email,
-                    SchoolId = result.TeacherId,
+                    //SchoolId = result.SchoolId,
                     PasswordHash = teacher.Password,
+                    //TeacherId = result.TeacherId,
                 };
 
                 var userWithSameEmail = await _userManager.FindByEmailAsync(result.Email);
