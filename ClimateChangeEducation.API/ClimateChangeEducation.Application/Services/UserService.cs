@@ -142,58 +142,55 @@ namespace ClimateChangeEducation.Application.Services
 
 
         public async Task<string> RegisterTeacherAsync(TeacherRequestDTO teacher)
-        {
-            var school = await _schoolrepo.GetSchoolBySchoolCodeAsync(teacher.SchoolCode);
-
-            if (school == null)
+        {                
+            var schoolCheck = await _schoolrepo.GetSchoolBySchoolCodeAsync(teacher.SchoolCode);
+            if (schoolCheck == null)
             {
-                return ("School does not exist or wrond code");
+                return "Invalid School Code";
             }
 
-            var newTeacher = new Teacher
+            var newAppUser = new ApplicationUser
             {
-                FirstName = teacher.FirstName,
-                LastName = teacher.LastName,
+                UserName = teacher.Email,
+                NormalizedEmail = teacher.Email,
                 Email = teacher.Email,
-                SchoolCode = teacher.SchoolCode,
-                FieldOfStudy = teacher.FieldOfStudy,
-                UserAccountRole = Authorization.Roles.SchoolAdmin.ToString(),
-                IsAccountActive = true,
-                SchoolId = school.SchoolId
+                PasswordHash = teacher.Password,
             };
-            var result = await _teacherrepo.CreateTeacherAsync(newTeacher);
 
-            if (result != null)
+            var userWithSameEmail = await _userManager.FindByEmailAsync(teacher.Email);
+            if (userWithSameEmail == null)
             {
-                var newAppUser = new ApplicationUser
+                var result = await _userManager.CreateAsync(newAppUser, teacher.Password);
+                if (result.Succeeded)
                 {
-                    UserName = result.Email,
-                    NormalizedEmail = result.Email,
-                    Email = result.Email,
-                    //SchoolId = result.SchoolId,
-                    PasswordHash = teacher.Password,
-                    //TeacherId = result.TeacherId,
-                };
+                    var createAppUser = await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.RegularUser.ToString());
 
-                var userWithSameEmail = await _userManager.FindByEmailAsync(result.Email);
-                if (userWithSameEmail == null)
-                {
-                    var result2 = await _userManager.CreateAsync(newAppUser, teacher.Password);
-                    if (result2.Succeeded)
+                    if (createAppUser.Succeeded)
                     {
-                        await _userManager.AddToRoleAsync(newAppUser, Authorization.Roles.Teacher.ToString());
+                        var newTeacher = new Teacher
+                        {
+                            FirstName = teacher.FirstName,
+                            LastName = teacher.LastName,                          
+                            IsAccountActive = true,
+                            Email = teacher.Email,
+                            SchoolCode = teacher.SchoolCode,
+                            FieldOfStudy = teacher.FieldOfStudy,                           
+                            UserAccountRole = Authorization.Roles.RegularUser.ToString(),
+                            ApplicationUserId = newAppUser.Id
+                        };
+                        var createTeacher = await _teacherrepo.CreateTeacherAsync(newTeacher);
+
+                        if (createTeacher != null)
+                        {
+                            return $"Account created successfully {newAppUser.Email}";
+                        }
+                        else { return "An error occurred creating teacher account"; }
                     }
-                    return $"User Registered with email {newAppUser.Email}";
+                    else { return "An error occured while creating record"; }
                 }
-                else
-                {
-                    return $"Email {newAppUser.Email} is already registered.";
-                }
+                else { return $"an error occured while creating"; }
             }
-            else
-            {
-                return "Not successful";
-            }           
+            else { return $"Email {newAppUser.Email} is already registered."; }
         }
 
         public async Task<AuthenticationModel> GetTokenAsync(TokenRequest model)
@@ -236,8 +233,7 @@ namespace ClimateChangeEducation.Application.Services
 
             var claims = new[]
             {
-                //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),              
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("uid", user.Id)
