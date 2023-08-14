@@ -28,6 +28,27 @@ builder.Logging.AddSerilog(logger);
 //AutoMapper configuration
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
+//builder.Services.AddCors((options) =>
+//{
+//    options.AddPolicy("angularApplication", (builder) =>
+//    {
+//        builder.WithOrigins("http://localhost:4200")
+//        .AllowAnyHeader()
+//        .WithMethods("GET", "POST", "PUT", "DELETE")
+//        .WithExposedHeaders("*");
+//    });
+//});
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200") // Add your frontend URL
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+ 
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -109,6 +130,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();  
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

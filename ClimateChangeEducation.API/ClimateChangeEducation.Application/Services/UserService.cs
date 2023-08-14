@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Text;
@@ -30,8 +31,10 @@ namespace ClimateChangeEducation.Application.Services
         private readonly ISchoolRepository _schoolrepo;
         private readonly ITeacherRepository _teacherrepo;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
         public UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWT> jwt, 
-            IStudentRepository studentrepo, ISchoolRepository schoolRepository, ITeacherRepository teacherRepository, IMapper mapper)
+            IStudentRepository studentrepo, ISchoolRepository schoolRepository, ITeacherRepository teacherRepository, 
+            IMapper mapper, IEmailService emailService )
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -40,6 +43,7 @@ namespace ClimateChangeEducation.Application.Services
             _schoolrepo = schoolRepository;
             _teacherrepo = teacherRepository;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
 
@@ -56,7 +60,8 @@ namespace ClimateChangeEducation.Application.Services
                 UserName = student.Email,
                 NormalizedEmail = student.Email,
                 Email = student.Email,              
-                PasswordHash = student.Password,              
+                PasswordHash = student.Password,   
+                EmailConfirmed = false
             };
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(student.Email);
@@ -105,6 +110,7 @@ namespace ClimateChangeEducation.Application.Services
                 NormalizedEmail = school.SchoolEmail,
                 Email = school.SchoolEmail,
                 PasswordHash = school.Password,
+                EmailConfirmed = false
             };
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(school.SchoolEmail);
@@ -155,6 +161,7 @@ namespace ClimateChangeEducation.Application.Services
                 NormalizedEmail = teacher.Email,
                 Email = teacher.Email,
                 PasswordHash = teacher.Password,
+                EmailConfirmed = false
             };
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(teacher.Email);
@@ -251,6 +258,27 @@ namespace ClimateChangeEducation.Application.Services
                 expires: DateTime.UtcNow.AddMinutes(_jwt.DurationInMinutes),
                 signingCredentials: signingCredentials);
             return jwtSecurityToken;
+        }
+
+        public async Task SendVerificationEmailAsync(string token, EmailRequest emailRequest)
+        {
+            try
+            {
+                var emailReq = new EmailRequest
+                {
+                    Subject = emailRequest.Subject,
+                    IsSuccessful = true,
+                    Message = emailRequest.Message,
+                    RequestedAt = DateTime.Now,
+                    ToEmail = emailRequest.ToEmail,
+                    SentAt = emailRequest.SentAt
+                };
+                await _emailService.SendEmail(emailReq);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }                            
         }
     }
 }

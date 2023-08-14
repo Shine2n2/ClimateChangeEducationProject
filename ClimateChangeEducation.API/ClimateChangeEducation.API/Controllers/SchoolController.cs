@@ -23,7 +23,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         // GET: api/<SchoolController>
         [HttpGet]
-        [Route("{GetSchools}")]
+        [Route("GetSchools")]
         public async Task<IActionResult> GetSchools()
         {
             try

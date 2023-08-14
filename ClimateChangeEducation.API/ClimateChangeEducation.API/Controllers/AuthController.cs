@@ -1,6 +1,7 @@
 ﻿using ClimateChangeEducation.Application.Interfaces;
 using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
@@ -15,11 +16,14 @@ namespace ClimateChangeEducation.API.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public AuthController(IUserService userService)
+
+        public AuthController(IUserService userService, UserManager<ApplicationUser> userManager)
         {
             _userService = userService;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -28,7 +32,7 @@ namespace ClimateChangeEducation.API.Controllers
         {
             try
             {
-                var result = await _userService.RegisterStudentAsync(model);
+                var result = await _userService.RegisterStudentAsync(model);                
                 return Ok(result);
             }
             catch (ArgumentException argex)
@@ -74,5 +78,81 @@ namespace ClimateChangeEducation.API.Controllers
             var result = await _userService.GetTokenAsync(model);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("SendVerificationEmail")]
+        public async Task<ActionResult> SendVerificationEmailAsync(EmailRequestDTO emailReq, string token)
+        {
+            try
+            {
+                var emailRq = new EmailRequest
+                {
+                    Subject = emailReq.Subject,
+                    IsSuccessful = true,
+                    Message= emailReq.Message,
+                    ToEmail = emailReq.ToEmail
+                };
+                await _userService.SendVerificationEmailAsync(token, emailRq);
+                return Ok(emailRq);
+            }
+            catch (Exception ex)
+            {
+               return BadRequest("Email not sent");
+            }
+        }
+
+        [HttpPost("request-password-reset")]
+        public async Task<IActionResult> RequestPasswordReset(EmailRequestDTO emailReq)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            // Generate JWT token for password reset
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            // Send password reset email
+            var emailRq = new EmailRequest
+            {
+                Subject = emailReq.Subject,
+                IsSuccessful = true,
+                Message = emailReq.Message,
+                ToEmail = emailReq.ToEmail
+            };
+            await _userService.SendVerificationEmailAsync(token, emailRq);
+            return Ok("Message sent");          
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(EmailRequestDTO emailReq)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new { Message = "Password reset successful" });
+        }
+
+
     }
 }
