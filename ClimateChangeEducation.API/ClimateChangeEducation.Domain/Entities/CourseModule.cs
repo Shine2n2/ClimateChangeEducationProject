@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,6 +18,8 @@ namespace ClimateChangeEducation.Domain.Entities
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
         public string? ModuleDescription { get; set; }        
         public string? MediaUrl { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public string? CourseId { get; set; }
         [ForeignKey("CourseId")]
         public virtual Course? Course { get; set; }

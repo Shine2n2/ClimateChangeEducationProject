@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,8 @@ namespace ClimateChangeEducation.Domain.Entities
         [Required]
         public string Text { get; set; }
         public string? MediaUrl { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public string QuizId { get; set; }
         [ForeignKey("QuizId")]
         public virtual Quiz Quiz { get; set; }        

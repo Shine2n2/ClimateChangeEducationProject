@@ -17,7 +17,8 @@ namespace ClimateChangeEducation.Domain.Entities
         public DateTime CommentedDate { get; set; }
         public ICollection<Student> Students { get; set; }
         public ICollection<Teacher> Teachers { get; set; }
-        public ICollection<School> Schools { get; set; }   
+        public ICollection<School> Schools { get; set; }
+        public ICollection<ReplyComment>? RepliedComments { get; set; }
         public string? PostId { get; set; }
         [ForeignKey("PostId")]
         public virtual DiscussionBoardPost? DiscussionBoardPost { get; set; }

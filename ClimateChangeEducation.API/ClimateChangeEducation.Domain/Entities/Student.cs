@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace ClimateChangeEducation.Domain.Entities
         public int Age { get; set; }
         public string StudentClass { get; set; }
         public string? AvatarUrl { get; set;}
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public bool IsAccountActive { get; set; }
         public string? UserAccountRole { get; set; }
         public string? SchoolCode { get; set; }
@@ -30,5 +33,6 @@ namespace ClimateChangeEducation.Domain.Entities
         public ICollection<Course>? Course { get; set; }
         public ICollection<CourseEnrollment>? CourseEnrollment { get; set; }
         public ICollection<QuizEnrollment>? QuizEnrollment { get; set; }
+        public ICollection<ReplyComment>? RepliedComments { get; set; }
     } 
 }

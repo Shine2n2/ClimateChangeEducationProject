@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,9 +17,11 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? Description { get; set; }
         [Required]
         public string Content { get; set; }
-        public string? MediaUrl { get; set; }       
+        public string? MediaUrl { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public string ArticleCategoryId { get; set; }
         [ForeignKey("ArticleCategoryId")]
-        public virtual ArticleCategory Category { get; set; }
+        public virtual ArticleCategory? Category { get; set; }
     }
 }

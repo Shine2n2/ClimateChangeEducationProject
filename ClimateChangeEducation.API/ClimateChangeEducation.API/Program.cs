@@ -106,6 +106,7 @@ builder.Services.AddScoped<ILocalImageStorageRepository, LocalImageStorageReposi
 builder.Services.AddScoped<IContactUsRepository, ContactUsRepository>();
 builder.Services.AddScoped<INoticeBoardRepository, NoticeBoardRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 //builder.Services.AddScoped<IHostEnvironment>();
 
 

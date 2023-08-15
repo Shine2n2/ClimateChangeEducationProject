@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClimateChangeEducation.Domain.Entities
@@ -13,6 +14,8 @@ namespace ClimateChangeEducation.Domain.Entities
         [Required]
         [StringLength(250, MinimumLength = 3, ErrorMessage = "Valid Email is required")]
         public string SchoolEmail { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public string? ProfilePhotoUrl { get; set; }
         public string? SupportingDocument { get; set; }
         public bool IsAccountActive { get; set; }

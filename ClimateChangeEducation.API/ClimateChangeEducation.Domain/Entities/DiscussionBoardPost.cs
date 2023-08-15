@@ -22,13 +22,13 @@ namespace ClimateChangeEducation.Domain.Entities
         public bool IsPublished { get; set; }
         public string? TeacherId { get; set; }
         [ForeignKey("TeacherId")]
-        public virtual Teacher Teacher { get; set; }
+        public virtual Teacher? Teacher { get; set; }
         public string? SchoolId { get; set; }
         [ForeignKey("SchoolId")]
-        public virtual School School { get; set; }
+        public virtual School? School { get; set; }
         public string? DiscussionBoardId { get; set; }
         [ForeignKey("DiscussionBoardId")]
-        public virtual DiscussionBoard DiscussionBoard { get; set; }
+        public virtual DiscussionBoard? DiscussionBoard { get; set; }
         public ICollection<DiscussionBoardComment>? Comments { get; set; }
 
     }

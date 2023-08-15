@@ -137,22 +137,20 @@ namespace ClimateChangeEducation.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
-            if (user == null)
-            {
-                return BadRequest("User not found");
-            }
+            //var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
+            //if (user == null)
+            //{
+            //    return BadRequest("User not found");
+            //}
 
-            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+            //var result = "rr";//await _userManager.ResetPasswordAsync(user, emailReq..Token, emailReq.NewPassword);
 
-            if (!result.Succeeded)
-            {
-                return BadRequest(result.Errors);
-            }
+            //if (!result.Succeeded)
+            //{
+            //    return BadRequest(result.Errors);
+            //}
 
             return Ok(new { Message = "Password reset successful" });
         }
-
-
     }
 }

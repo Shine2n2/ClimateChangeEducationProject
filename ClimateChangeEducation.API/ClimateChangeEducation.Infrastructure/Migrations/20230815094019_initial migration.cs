@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClimateChangeEducation.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class firstmigration : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -383,9 +383,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                     PostedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsPublished = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TeacherId = table.Column<string>(type: "TEXT", nullable: false),
-                    SchoolId = table.Column<string>(type: "TEXT", nullable: false),
-                    DiscussionBoardId = table.Column<string>(type: "TEXT", nullable: false)
+                    TeacherId = table.Column<string>(type: "TEXT", nullable: true),
+                    SchoolId = table.Column<string>(type: "TEXT", nullable: true),
+                    DiscussionBoardId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -394,20 +394,17 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                         name: "FK_DiscussionBoardPost_DiscussionBoards_DiscussionBoardId",
                         column: x => x.DiscussionBoardId,
                         principalTable: "DiscussionBoards",
-                        principalColumn: "DiscussionBoardId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "DiscussionBoardId");
                     table.ForeignKey(
                         name: "FK_DiscussionBoardPost_Schools_SchoolId",
                         column: x => x.SchoolId,
                         principalTable: "Schools",
-                        principalColumn: "SchoolId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SchoolId");
                     table.ForeignKey(
                         name: "FK_DiscussionBoardPost_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
-                        principalColumn: "TeacherId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "TeacherId");
                 });
 
             migrationBuilder.CreateTable(
@@ -644,6 +641,36 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ReplyComment",
+                columns: table => new
+                {
+                    ReplyCommentId = table.Column<string>(type: "TEXT", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: false),
+                    CommentId = table.Column<string>(type: "TEXT", nullable: true),
+                    StudentId = table.Column<string>(type: "TEXT", nullable: true),
+                    TeacherId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReplyComment", x => x.ReplyCommentId);
+                    table.ForeignKey(
+                        name: "FK_ReplyComment_DiscussionBoardComments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "DiscussionBoardComments",
+                        principalColumn: "CommentId");
+                    table.ForeignKey(
+                        name: "FK_ReplyComment_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId");
+                    table.ForeignKey(
+                        name: "FK_ReplyComment_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "TeacherId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuestionAnswers",
                 columns: table => new
                 {
@@ -803,6 +830,21 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ReplyComment_CommentId",
+                table: "ReplyComment",
+                column: "CommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReplyComment_StudentId",
+                table: "ReplyComment",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReplyComment_TeacherId",
+                table: "ReplyComment",
+                column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Schools_ApplicationUserId",
                 table: "Schools",
                 column: "ApplicationUserId",
@@ -880,6 +922,9 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "QuizEnrollments");
 
             migrationBuilder.DropTable(
+                name: "ReplyComment");
+
+            migrationBuilder.DropTable(
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
@@ -892,25 +937,25 @@ namespace ClimateChangeEducation.Infrastructure.Migrations
                 name: "CourseModules");
 
             migrationBuilder.DropTable(
+                name: "QuizQuestions");
+
+            migrationBuilder.DropTable(
                 name: "DiscussionBoardComments");
 
             migrationBuilder.DropTable(
-                name: "QuizQuestions");
+                name: "Quizzes");
 
             migrationBuilder.DropTable(
                 name: "DiscussionBoardPost");
 
             migrationBuilder.DropTable(
-                name: "Quizzes");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "DiscussionBoards");
 
             migrationBuilder.DropTable(
                 name: "Teachers");
-
-            migrationBuilder.DropTable(
-                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Students");

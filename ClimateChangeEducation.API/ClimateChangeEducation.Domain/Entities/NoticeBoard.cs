@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,8 @@ namespace ClimateChangeEducation.Domain.Entities
         [Required]
         public string NoticeContent { get; set; }
         public string? DisplayPhoto { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public DateTime PublishStartDateTime { get; set; }
         public DateTime PublishEndDateTime { get; set; }
         public bool IsPublished { get; set; }
