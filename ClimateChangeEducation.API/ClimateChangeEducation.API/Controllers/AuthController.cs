@@ -17,6 +17,7 @@ namespace ClimateChangeEducation.API.Controllers
 
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
+        
 
 
 
@@ -24,6 +25,7 @@ namespace ClimateChangeEducation.API.Controllers
         {
             _userService = userService;
             _userManager = userManager;
+           
         }
 
         [HttpPost]
@@ -48,6 +50,8 @@ namespace ClimateChangeEducation.API.Controllers
             try
             {
                 var result = await _userService.RegisterTeacherAsync(model);
+                
+
                 return Ok(result);
             }
             catch (ArgumentException argex)
@@ -62,7 +66,7 @@ namespace ClimateChangeEducation.API.Controllers
         {            
             try
             {
-                var result = await _userService.RegisterSchoolAsync(model);
+                var result = await _userService.RegisterSchoolAsync(model);             
                 return Ok(result);
             }
             catch (ArgumentException argex)

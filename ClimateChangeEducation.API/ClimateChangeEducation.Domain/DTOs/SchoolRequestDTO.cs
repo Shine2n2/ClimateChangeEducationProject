@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace ClimateChangeEducation.Domain.DTOs
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string SchoolEmail { get; set; }       
         public string? SupportingDocument { get; set; }
+        public IFormFile? File { get; set; }
         public string Password { get; set; }
     }
 }

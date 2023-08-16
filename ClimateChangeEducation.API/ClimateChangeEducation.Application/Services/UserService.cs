@@ -32,9 +32,12 @@ namespace ClimateChangeEducation.Application.Services
         private readonly ITeacherRepository _teacherrepo;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly ILocalStorageService _localStorage;
+
+
         public UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWT> jwt, 
             IStudentRepository studentrepo, ISchoolRepository schoolRepository, ITeacherRepository teacherRepository, 
-            IMapper mapper, IEmailService emailService )
+            IMapper mapper, IEmailService emailService, ILocalStorageService localStorage)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -44,6 +47,7 @@ namespace ClimateChangeEducation.Application.Services
             _teacherrepo = teacherRepository;
             _mapper = mapper;
             _emailService = emailService;
+            _localStorage = localStorage;
         }
 
 
@@ -86,8 +90,9 @@ namespace ClimateChangeEducation.Application.Services
                             StudentClass = student.StudentClass,
                             UserAccountRole = Authorization.Roles.RegularUser.ToString(),
                             ApplicationUserId = newAppUser.Id
-                        };
-                        var createStudent = await _studentrepo.CreateStudentAsync(newStudent);
+                        };                       
+                        var createStudent = await _studentrepo.CreateStudentAsync(newStudent);                
+
 
                         if (createStudent != null)
                         {
