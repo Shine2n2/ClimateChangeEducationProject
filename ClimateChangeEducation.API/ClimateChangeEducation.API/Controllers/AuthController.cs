@@ -17,15 +17,17 @@ namespace ClimateChangeEducation.API.Controllers
 
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
-        
+        private readonly ILogger<WeatherForecastController> _logger;
 
 
 
-        public AuthController(IUserService userService, UserManager<ApplicationUser> userManager)
+
+
+        public AuthController(IUserService userService, UserManager<ApplicationUser> userManager, ILogger<WeatherForecastController> logger)
         {
             _userService = userService;
             _userManager = userManager;
-           
+            _logger = logger;
         }
 
         [HttpPost]
@@ -39,6 +41,7 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (ArgumentException argex)
             {
+                _logger.LogError(argex.ToString());
                 return BadRequest(argex.Message);
             }            
         }
@@ -56,13 +59,14 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (ArgumentException argex)
             {
+                _logger.LogError(argex.ToString());
                 return BadRequest(argex.Message);
             }
         }
 
         [HttpPost]
         [Route("RegisterSchoolUser")]
-        public async Task<ActionResult> RegisterSchoolAsync(SchoolRequestDTO model)
+        public async Task<ActionResult> RegisterSchoolAsync(SchoolRequestDTO model, IFormFile formFile)
         {            
             try
             {
@@ -71,6 +75,7 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (ArgumentException argex)
             {
+                _logger.LogError(argex.ToString());
                 return BadRequest(argex.Message);
             }
         }
@@ -79,8 +84,17 @@ namespace ClimateChangeEducation.API.Controllers
         [HttpPost("token")]
         public async Task<IActionResult> GetTokenAsync(TokenRequest model)
         {
-            var result = await _userService.GetTokenAsync(model);
-            return Ok(result);
+            try
+            {
+                var result = await _userService.GetTokenAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest($"An Error occured");
+            }
+           
         }
 
         [HttpPost]
@@ -101,7 +115,8 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (Exception ex)
             {
-               return BadRequest("Email not sent");
+                _logger.LogError(ex.ToString());
+                return BadRequest("Email not sent");
             }
         }
 

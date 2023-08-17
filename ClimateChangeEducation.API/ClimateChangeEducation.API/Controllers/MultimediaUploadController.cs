@@ -16,13 +16,14 @@ namespace ClimateChangeEducation.API.Controllers
     public class MultimediaUploadController : ControllerBase
     {
 
-        private readonly ILocalImageStorageRepository _localStorageRepo;        
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILocalImageStorageRepository _localStorageRepo;
+        private readonly ILogger<WeatherForecastController> _logger;
 
-        public MultimediaUploadController(ILocalImageStorageRepository localStorageRepo, IWebHostEnvironment webHostEnvironment)
+
+        public MultimediaUploadController(ILocalImageStorageRepository localStorageRepo, ILogger<WeatherForecastController> logger)
         {
             _localStorageRepo = localStorageRepo;
-            _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
    
@@ -64,9 +65,9 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (Exception ex) 
             {
+                _logger.LogError(ex.ToString());
                 return BadRequest(ex.Message);
-            }
-            
+            }            
         }
 
         [HttpPost]
@@ -104,6 +105,7 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.ToString());
                 return BadRequest(ex.Message);
             }            
         }
@@ -141,6 +143,7 @@ namespace ClimateChangeEducation.API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.ToString());
                 return BadRequest(ex.Message);
             }
         }
@@ -149,117 +152,73 @@ namespace ClimateChangeEducation.API.Controllers
         [HttpGet("getDocFile")]
         public IActionResult GetDocFile(string fileName)
         {
-            var _resourceFolderPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Documents\";
+            try
+            {
+                var _resourceFolderPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Documents\";
 
-            var filePath = Path.Combine(_resourceFolderPath, fileName);
+                var filePath = Path.Combine(_resourceFolderPath, fileName);
 
-            if (!System.IO.File.Exists(filePath))
-                return NotFound();
+                if (!System.IO.File.Exists(filePath))
+                    return NotFound();
 
-            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            var contentType = FileTypes.GetDocumentFileType(filePath); 
+                var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                var contentType = FileTypes.GetDocumentFileType(filePath);
 
-            return File(fileStream, contentType, fileName);
+                return File(fileStream, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return NotFound();                  
+            }            
         }
 
         [HttpGet("getImageFile")]
         public IActionResult GetImageFile(string fileName)
         {
-            var _resourceFolderPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Images\";
+            try
+            {
+                var _resourceFolderPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Images\";
 
-            var filePath = Path.Combine(_resourceFolderPath, fileName);
+                var filePath = Path.Combine(_resourceFolderPath, fileName);
 
-            if (!System.IO.File.Exists(filePath))
+                if (!System.IO.File.Exists(filePath))
+                    return NotFound();
+
+                var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                var contentType = FileTypes.GetDocumentFileType(filePath);
+
+                return File(fileStream, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
                 return NotFound();
-
-            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            var contentType = FileTypes.GetDocumentFileType(filePath); 
-
-            return File(fileStream, contentType, fileName);
+            }            
         }
 
         [HttpGet("getVideoFile")]
         public IActionResult GetVideoFile(string fileName)
         {
-            var _resourceFolderPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Videos\";
+            try
+            {
+                var _resourceFolderPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Infrastructure\Resources\Videos\";
 
-            var filePath = Path.Combine(_resourceFolderPath, fileName);
+                var filePath = Path.Combine(_resourceFolderPath, fileName);
 
-            if (!System.IO.File.Exists(filePath))
+                if (!System.IO.File.Exists(filePath))
+                    return NotFound();
+
+                var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                var contentType = FileTypes.GetDocumentFileType(filePath);
+
+                return File(fileStream, contentType, fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
                 return NotFound();
-
-            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            var contentType = FileTypes.GetDocumentFileType(filePath); 
-
-            return File(fileStream, contentType, fileName);
-        }
-
-
-        //[HttpPost]
-        //[Route("upload-fil")]
-        //public IActionResult UploadFil(IFormFile file)
-        //{
-        //    try
-        //    {
-        //        if (file != null)
-        //        {
-        //            string uploadsFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource");
-        //            string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-        //            string filePath = Path.Combine(uploadsFolderPath, uniqueFileName);
-
-        //            using (var stream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                file.CopyTo(stream);
-        //            }
-
-        //            return Ok(new { filePath });
-        //        }
-
-        //        return BadRequest("No file uploaded.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex}");
-        //    }
-        //}
-
-        //[HttpGet]
-        //[Route("GetFil")]
-        //public IActionResult GetFiles()
-        //{
-        //    string uploadsFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "Resources");
-        //    var files = Directory.GetFiles(uploadsFolderPath)
-        //                        .Select(Path.GetFileName)
-        //                        .ToList();
-        //    return Ok(files);
-        //}
-
-        //[HttpGet("{id}/sdf")]
-        //public ActionResult GetPicture(Guid id)
-        //{
-        //    var files = Directory.GetFiles(@"Pictures\");
-        //    foreach (var file in files)
-        //    {
-        //        if (file.Contains(id.ToString()))
-        //        {
-        //            return File(System.IO.File.ReadAllBytes(file), "image/jpeg");
-        //        }
-        //    }
-        //    return null;
-        //}
-
-        //[HttpGet]
-        //public IActionResult GetFilessss()
-        //{
-        //    string uploadsFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource");
-        //    var imageExtensions = new List<string> { ".jpg", ".jpeg", ".png", ".gif" };
-
-        //    var imageFiles = Directory.GetFiles(uploadsFolderPath)
-        //                             .Where(file => imageExtensions.Contains(Path.GetExtension(file).ToLower()))
-        //                             .Select(Path.GetFileName)
-        //                             .ToList();
-
-        //    return Ok(imageFiles);
-        //}
+            }            
+        }      
     }
 }

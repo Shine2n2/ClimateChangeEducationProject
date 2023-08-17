@@ -109,6 +109,31 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("UpdateSchoolSingleInfo/{id}")]
+        public async Task<IActionResult> UpdateSchoolSingleInfo([FromRoute] string id, [FromBody] SchoolSingleRequestDTO request)
+        {
+            try
+            {
+                var getSchool = await _schoolRepo.GetSchoolByIdAsync(id); 
+                if (getSchool != null)
+                {
+                    // Update Details
+                   
+                    var updated = await _schoolRepo.UpdateSchoolAsync(id, _mapper.Map<School>(getSchool));
+                    if (updated != null)
+                    {
+                        return Ok(_mapper.Map<School>(updated));
+                    }
+                }
+                return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
         // DELETE api/<SchoolController>/5
         [HttpDelete]
         [Route("DeleteSchool/{id}")]
