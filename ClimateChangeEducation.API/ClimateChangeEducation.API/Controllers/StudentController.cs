@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using ClimateChangeEducation.Application.Interfaces;
+using ClimateChangeEducation.Common.EmailTemplates;
 using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,11 +19,13 @@ namespace ClimateChangeEducation.API.Controllers
     {
         private readonly IStudentRepository _studentRepo;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public StudentController(IStudentRepository studentRepo, IMapper mapper)
+        public StudentController(IStudentRepository studentRepo, IMapper mapper, IEmailService emailService)
         {
             _studentRepo = studentRepo;
             _mapper = mapper;
+            _emailService = emailService;
         }
         // GET: api/<StudentController>
         [HttpGet]
@@ -57,7 +63,8 @@ namespace ClimateChangeEducation.API.Controllers
         {
             try
             {
-                var student = await _studentRepo.CreateStudentAsync(_mapper.Map<Student>(request));
+                var student = await _studentRepo.CreateStudentAsync(_mapper.Map<Student>(request));                                                                    
+
                 return Ok(student);
             }
             catch (ArgumentException argex)

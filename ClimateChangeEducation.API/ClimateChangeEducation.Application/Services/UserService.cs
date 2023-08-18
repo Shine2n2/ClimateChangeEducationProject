@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ClimateChangeEducation.Application.Interfaces;
+using ClimateChangeEducation.Common.EmailTemplates;
 using ClimateChangeEducation.Common.Enums;
 using ClimateChangeEducation.Common.Helpers;
 using ClimateChangeEducation.Domain.DTOs;
@@ -91,11 +92,17 @@ namespace ClimateChangeEducation.Application.Services
                             UserAccountRole = Authorization.Roles.RegularUser.ToString(),
                             ApplicationUserId = newAppUser.Id
                         };                       
-                        var createStudent = await _studentrepo.CreateStudentAsync(newStudent);                
+                        var createStudent = await _studentrepo.CreateStudentAsync(newStudent); 
+                        
+                        
 
 
                         if (createStudent != null)
                         {
+                            var fullName = newStudent.FirstName + " " + newStudent.LastName;
+
+                            await SendVerificationEmailAsync("token", newStudent.Email, fullName);
+
                             return $"Account created successfully {newAppUser.Email}";
                         }
                         else { return "An error occurred creating student account";}
@@ -139,7 +146,15 @@ namespace ClimateChangeEducation.Application.Services
                             ApplicationUserId= newAppUser.Id,
                         };
                         var createSchool = await _schoolrepo.CreateSchoolAsync(newSchool);
-                        return createSchool == null ? "Not successful" : "Successfully created";
+                        //return createSchool == null ? "Not successful" : "Successfully created";
+                        if (createSchool != null)
+                        {                       
+                            await SendVerificationEmailAsync("token", createSchool.SchoolEmail, createSchool.SchoolName);
+
+                            return $"Account created successfully {newAppUser.Email}";
+                        }
+                        else { return "An error occurred creating school account"; }
+
                     }
                     else { return "Not successful, account role error"; }
                 }
@@ -194,6 +209,9 @@ namespace ClimateChangeEducation.Application.Services
 
                         if (createTeacher != null)
                         {
+                            var fullName = createTeacher.FirstName + " " + createTeacher.LastName;
+                            await SendVerificationEmailAsync("token", createTeacher.Email, fullName);
+
                             return $"Account created successfully {newAppUser.Email}";
                         }
                         else { return "An error occurred creating teacher account"; }
@@ -265,18 +283,25 @@ namespace ClimateChangeEducation.Application.Services
             return jwtSecurityToken;
         }
 
-        public async Task SendVerificationEmailAsync(string token, EmailRequest emailRequest)
+        public async Task SendVerificationEmailAsync(string token, string toEmail, string fullName)
         {
             try
             {
+                string htmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Templates.ConfirmEmailTemplate);
+                string htmlContent = System.IO.File.ReadAllText(htmlFilePath);               
+                string clickLinkValue = token;               
+                htmlContent = htmlContent.Replace("{{clickLink}}", clickLinkValue);
+                var response = new HttpResponseMessage();
+                response.Content = new StringContent(htmlContent, Encoding.UTF8, "text/html");
+
                 var emailReq = new EmailRequest
                 {
-                    Subject = emailRequest.Subject,
+                    Subject = " Confirmation",
                     IsSuccessful = true,
-                    Message = emailRequest.Message,
+                    Message = htmlContent,
                     RequestedAt = DateTime.Now,
-                    ToEmail = emailRequest.ToEmail,
-                    SentAt = emailRequest.SentAt
+                    ToEmail = toEmail,
+                    SentAt = DateTime.Now
                 };
                 await _emailService.SendEmail(emailReq);
             }

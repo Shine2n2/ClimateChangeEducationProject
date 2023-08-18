@@ -15,16 +15,10 @@ namespace ClimateChangeEducation.Common.EmailTemplates
 
         public static void GetTemplate()
         {
-            string confirmTemplatPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Common\EmailTemplates\ConfirmationTemplate.html";
-            string resetTemplatPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Common\EmailTemplates\ResetPasswordTemplate.html";
-            string welcomeTemplatPath = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Common\EmailTemplates\WelcomeTemplate.html";
-
-
-            ConfirmEmailTemplate = File.ReadAllText(confirmTemplatPath);
-            ResetPasswordTemplate = File.ReadAllText(resetTemplatPath);
-            WelcomeTemplate = File.ReadAllText(welcomeTemplatPath);
-
-            var jj = string.Format("");
+            ConfirmEmailTemplate = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Common\EmailTemplates\ConfirmationTemplate.html";
+            ResetPasswordTemplate = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Common\EmailTemplates\ResetPasswordTemplate.html";
+            WelcomeTemplate = @"C:\Users\Decagon\Desktop\ezimoha\PROJECT\Backend\ClimateChangeEducationProject\ClimateChangeEducation.API\ClimateChangeEducation.Common\EmailTemplates\WelcomeTemplate.html";
+ 
         }
 
     }

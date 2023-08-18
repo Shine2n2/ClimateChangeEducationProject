@@ -1,8 +1,10 @@
 ﻿using ClimateChangeEducation.Application.Interfaces;
+using ClimateChangeEducation.Common.EmailTemplates;
 using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using System.Text.RegularExpressions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,16 +20,18 @@ namespace ClimateChangeEducation.API.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IEmailService _emailService;
 
 
 
 
 
-        public AuthController(IUserService userService, UserManager<ApplicationUser> userManager, ILogger<WeatherForecastController> logger)
+        public AuthController(IUserService userService, UserManager<ApplicationUser> userManager, ILogger<WeatherForecastController> logger, IEmailService emailService)
         {
             _userService = userService;
             _userManager = userManager;
             _logger = logger;
+            _emailService = emailService;
         }
 
         [HttpPost]
@@ -97,55 +101,72 @@ namespace ClimateChangeEducation.API.Controllers
            
         }
 
-        [HttpPost]
-        [Route("SendVerificationEmail")]
-        public async Task<ActionResult> SendVerificationEmailAsync(EmailRequestDTO emailReq, string token)
-        {
-            try
-            {
-                var emailRq = new EmailRequest
-                {
-                    Subject = emailReq.Subject,
-                    IsSuccessful = true,
-                    Message= emailReq.Message,
-                    ToEmail = emailReq.ToEmail
-                };
-                await _userService.SendVerificationEmailAsync(token, emailRq);
-                return Ok(emailRq);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest("Email not sent");
-            }
-        }
+        //[HttpPost]
+        //[Route("SendVerificationEmail")]
+        //public async Task<ActionResult> SendVerificationEmailAsync(EmailRequestDTO emailReq, string token)
+        //{
+        //    try
+        //    {
+        //        var emailRq = new EmailRequest
+        //        {
+        //            Subject = emailReq.Subject,
+        //            IsSuccessful = true,
+        //            Message= emailReq.Message,
+        //            ToEmail = emailReq.ToEmail
+        //        };
+        //        await _userService.SendVerificationEmailAsync(token, emailRq);
+        //        return Ok(emailRq);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.ToString());
+        //        return BadRequest("Email not sent");
+        //    }
+        //}
 
         [HttpPost("request-password-reset")]
         public async Task<IActionResult> RequestPasswordReset(EmailRequestDTO emailReq)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
-            if (user == null)
-            {
-                return BadRequest("User not found");
-            }
-            // Generate JWT token for password reset
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+                // Generate JWT token for password reset
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var resetLink = Url.Action("ResetPassword", "Auth", new { userId = user.Id, token = token }, Request.Scheme);
 
-            // Send password reset email
-            var emailRq = new EmailRequest
+
+                string htmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Templates.ResetPasswordTemplate);
+                string htmlContent = System.IO.File.ReadAllText(htmlFilePath);
+                string clickLinkValue = resetLink;
+                htmlContent = htmlContent.Replace("{{clickLink}}", clickLinkValue);
+                var response = new HttpResponseMessage();
+                response.Content = new StringContent(htmlContent, Encoding.UTF8, "text/html");
+
+
+                var emailRq = new EmailRequest
+                {
+                    Subject = "Password Reset Request",
+                    IsSuccessful = true,
+                    Message = htmlContent,
+                    ToEmail = emailReq.ToEmail
+                };
+                await _emailService.SendEmail(emailRq);
+
+                return Ok("Message sent");
+            }
+            catch (Exception ex)
             {
-                Subject = emailReq.Subject,
-                IsSuccessful = true,
-                Message = emailReq.Message,
-                ToEmail = emailReq.ToEmail
-            };
-            await _userService.SendVerificationEmailAsync(token, emailRq);
-            return Ok("Message sent");          
+                return BadRequest("An error occured");
+            }                      
         }
 
         [HttpPost("reset-password")]
