@@ -2,6 +2,7 @@
 using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -109,24 +110,14 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("UpdateSchoolSingleInfo/{id}")]
-        public async Task<IActionResult> UpdateSchoolSingleInfo([FromRoute] string id, [FromBody] SchoolSingleRequestDTO request)
+        [HttpPatch]
+        [Route("UpdateSchoolPatch/{id}")]
+        public async Task<IActionResult> UpdateSchoolPatch([FromRoute] string id, [FromBody] JsonPatchDocument request)
         {
             try
             {
-                var getSchool = await _schoolRepo.GetSchoolByIdAsync(id); 
-                if (getSchool != null)
-                {
-                    // Update Details
-                   
-                    var updated = await _schoolRepo.UpdateSchoolAsync(id, _mapper.Map<School>(getSchool));
-                    if (updated != null)
-                    {
-                        return Ok(_mapper.Map<School>(updated));
-                    }
-                }
-                return NotFound();
+                await _schoolRepo.UpdateSchoolPatchAsync(id,request);
+                return Ok();
             }
             catch (ArgumentException argex)
             {

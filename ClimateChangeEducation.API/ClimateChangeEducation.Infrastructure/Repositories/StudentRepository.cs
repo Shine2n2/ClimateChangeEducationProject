@@ -1,6 +1,7 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -79,6 +80,16 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
                 return true;
             }
             return false;
+        }
+
+        public async Task UpdateStudentPatchAsync(string studentId, JsonPatchDocument request)
+        {
+            var result = await _dataContext.Students.FindAsync(studentId);
+            if (result != null)
+            {
+                request.ApplyTo(result);
+                await _dataContext.SaveChangesAsync();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -81,6 +82,21 @@ namespace ClimateChangeEducation.API.Controllers
                     }
                 }
                 return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpPatch]
+        [Route("UpdateTeacherPatch/{id}")]
+        public async Task<IActionResult> UpdateTeacherPatch([FromRoute] string id, [FromBody] JsonPatchDocument request)
+        {
+            try
+            {
+                await _teacherRepo.UpdateTeacherPatchAsync(id, request);
+                return Ok();
             }
             catch (ArgumentException argex)
             {

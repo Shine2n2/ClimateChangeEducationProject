@@ -51,7 +51,7 @@ builder.Services.AddCors(options =>
  
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 //builder.Services.Configure<ClimateDbSetting>(builder.Configuration.GetSection("DbConnectionStrings"));
 builder.Services.Configure<EmailLoginSetting>(builder.Configuration.GetSection("MailLoginDetails"));
 

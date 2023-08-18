@@ -1,4 +1,5 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<bool> DeleteTeacher(string request);
         Task<bool> ExistsTeacherAsync(string id);
         Task<bool> UpdateProfileImage(string teacherId, string ImageUrl);
+        Task UpdateTeacherPatchAsync(string teacherId, JsonPatchDocument request);
     }
 }

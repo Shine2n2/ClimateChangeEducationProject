@@ -149,25 +149,25 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(EmailRequestDTO emailReq)
+        public async Task<IActionResult> ResetPassword(PasswordResetDTO pRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            //var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
-            //if (user == null)
-            //{
-            //    return BadRequest("User not found");
-            //}
+            var user = await _userManager.FindByEmailAsync(pRequest.ToEmail);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
 
-            //var result = "rr";//await _userManager.ResetPasswordAsync(user, emailReq..Token, emailReq.NewPassword);
+            var result = await _userManager.ResetPasswordAsync(user, pRequest.Token, pRequest.NewPassword);
 
-            //if (!result.Succeeded)
-            //{
-            //    return BadRequest(result.Errors);
-            //}
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
 
             return Ok(new { Message = "Password reset successful" });
         }
