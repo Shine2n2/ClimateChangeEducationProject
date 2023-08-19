@@ -4,6 +4,7 @@ using ClimateChangeEducation.Common.EmailTemplates;
 using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
@@ -20,12 +21,18 @@ namespace ClimateChangeEducation.API.Controllers
         private readonly IStudentRepository _studentRepo;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserService _userService;
 
-        public StudentController(IStudentRepository studentRepo, IMapper mapper, IEmailService emailService)
+
+        public StudentController(IStudentRepository studentRepo, IMapper mapper, IEmailService emailService, 
+            UserManager<ApplicationUser> userManager, IUserService userService)
         {
             _studentRepo = studentRepo;
             _mapper = mapper;
             _emailService = emailService;
+            _userManager = userManager;
+            _userService = userService;
         }
         // GET: api/<StudentController>
         [HttpGet]
@@ -63,7 +70,7 @@ namespace ClimateChangeEducation.API.Controllers
         {
             try
             {
-                var student = await _studentRepo.CreateStudentAsync(_mapper.Map<Student>(request));                                                                    
+                var student = await _studentRepo.CreateStudentAsync(_mapper.Map<Student>(request));              
 
                 return Ok(student);
             }

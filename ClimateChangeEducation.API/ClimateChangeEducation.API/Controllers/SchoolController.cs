@@ -135,7 +135,7 @@ namespace ClimateChangeEducation.API.Controllers
                 if (await _schoolRepo.ExistsSchoolAsync(id))
                 {
                     var result = await _schoolRepo.DeleteSchoolAsync(id);
-                    return Ok(_mapper.Map<School>(result));
+                    return Ok(result);
                 }
                 return NotFound();
             }

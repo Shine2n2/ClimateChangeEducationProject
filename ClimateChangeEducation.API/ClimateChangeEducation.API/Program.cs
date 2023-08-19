@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
+using Microsoft.AspNetCore.DataProtection.Repositories;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,7 +67,22 @@ builder.Services.AddDbContext<ClimateDataContext>(options =>
 //JWT config settings
 
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ClimateDataContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ClimateDataContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true; // Require confirmed email
+});
+
+//builder.Services.AddDataProtection()
+//                .ProtectKeysWithDpapi();
+
+                //.PersistKeysToDbContext<ClimateDataContext>();
+                //.SetApplicationName("ClimateWebapp")
+                //.SetDefaultKeyLifetime(TimeSpan.FromDays(180));
+
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAuthentication(options =>

@@ -34,13 +34,17 @@ namespace ClimateChangeEducation.API.Controllers
             _emailService = emailService;
         }
 
+
+       
+
+
         [HttpPost]
         [Route("RegisterStudentUser")]
         public async Task<ActionResult> RegisterStudentAsync(StudentRequestDTO model)
         {
             try
             {
-                var result = await _userService.RegisterStudentAsync(model);                
+                var result = await _userService.RegisterStudentAsync(model);                                
                 return Ok(result);
             }
             catch (ArgumentException argex)
@@ -56,9 +60,7 @@ namespace ClimateChangeEducation.API.Controllers
         {           
             try
             {
-                var result = await _userService.RegisterTeacherAsync(model);
-                
-
+                var result = await _userService.RegisterTeacherAsync(model);                
                 return Ok(result);
             }
             catch (ArgumentException argex)
@@ -125,7 +127,7 @@ namespace ClimateChangeEducation.API.Controllers
         //}
 
         [HttpPost("request-password-reset")]
-        public async Task<IActionResult> RequestPasswordReset(EmailRequestDTO emailReq)
+        public async Task<IActionResult> RequestPasswordReset(string emailReq)
         {
             try
             {
@@ -134,7 +136,7 @@ namespace ClimateChangeEducation.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var user = await _userManager.FindByEmailAsync(emailReq.ToEmail);
+                var user = await _userManager.FindByEmailAsync(emailReq);
                 if (user == null)
                 {
                     return BadRequest("User not found");
@@ -157,7 +159,7 @@ namespace ClimateChangeEducation.API.Controllers
                     Subject = "Password Reset Request",
                     IsSuccessful = true,
                     Message = htmlContent,
-                    ToEmail = emailReq.ToEmail
+                    ToEmail = emailReq
                 };
                 await _emailService.SendEmail(emailRq);
 
@@ -168,6 +170,7 @@ namespace ClimateChangeEducation.API.Controllers
                 return BadRequest("An error occured");
             }                      
         }
+
 
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword(PasswordResetDTO pRequest)

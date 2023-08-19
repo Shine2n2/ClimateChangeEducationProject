@@ -18,6 +18,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -95,13 +96,10 @@ namespace ClimateChangeEducation.Application.Services
                         var createStudent = await _studentrepo.CreateStudentAsync(newStudent); 
                         
                         
-
-
                         if (createStudent != null)
                         {
-                            var fullName = newStudent.FirstName + " " + newStudent.LastName;
-
-                            await SendVerificationEmailAsync("token", newStudent.Email, fullName);
+                            var fullName = createStudent.FirstName + " " + createStudent.LastName;                             
+                            await SendWelcomeEmailAsync(createStudent.Email, fullName);
 
                             return $"Account created successfully {newAppUser.Email}";
                         }
@@ -146,10 +144,10 @@ namespace ClimateChangeEducation.Application.Services
                             ApplicationUserId= newAppUser.Id,
                         };
                         var createSchool = await _schoolrepo.CreateSchoolAsync(newSchool);
-                        //return createSchool == null ? "Not successful" : "Successfully created";
+                     
                         if (createSchool != null)
                         {                       
-                            await SendVerificationEmailAsync("token", createSchool.SchoolEmail, createSchool.SchoolName);
+                            await SendWelcomeEmailAsync(createSchool.SchoolEmail, createSchool.SchoolName);
 
                             return $"Account created successfully {newAppUser.Email}";
                         }
@@ -210,7 +208,7 @@ namespace ClimateChangeEducation.Application.Services
                         if (createTeacher != null)
                         {
                             var fullName = createTeacher.FirstName + " " + createTeacher.LastName;
-                            await SendVerificationEmailAsync("token", createTeacher.Email, fullName);
+                            await SendWelcomeEmailAsync(createTeacher.Email, fullName);
 
                             return $"Account created successfully {newAppUser.Email}";
                         }
@@ -309,6 +307,43 @@ namespace ClimateChangeEducation.Application.Services
             {
                 throw new Exception(ex.Message.ToString());
             }                            
+        }
+
+        public async Task<string> SendWelcomeEmailAsync(string toEmail, string fullNameRq)
+        {
+            try
+            {                
+                string htmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Templates.WelcomeTemplate);
+
+                if (File.Exists(htmlFilePath))
+                {                    
+                    string htmlContent = System.IO.File.ReadAllText(htmlFilePath);
+                    string fullName = fullNameRq;
+                    htmlContent = htmlContent.Replace("{{variableName}}", fullName);
+                    var response = new HttpResponseMessage();
+                    response.Content = new StringContent(htmlContent, Encoding.UTF8, "text/html");
+
+                    var emailReq = new EmailRequest
+                    {
+                        Subject = "Welcome Message",
+                        IsSuccessful = true,
+                        Message = htmlContent,
+                        RequestedAt = DateTime.Now,
+                        ToEmail = toEmail,
+                        SentAt = DateTime.Now
+                    };
+                    await _emailService.SendEmail(emailReq);
+                    return "welcome mail sent";
+                }
+                else
+                {
+                    return "welcome mail NOT sent";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
     }
 }

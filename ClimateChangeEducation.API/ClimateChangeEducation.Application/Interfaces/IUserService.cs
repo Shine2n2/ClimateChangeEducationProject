@@ -15,5 +15,6 @@ namespace ClimateChangeEducation.Application.Interfaces
         Task<string> RegisterSchoolAsync(SchoolRequestDTO teacher);
         Task<AuthenticationModel> GetTokenAsync(TokenRequest model);
         Task SendVerificationEmailAsync(string token, string toEmail, string fullName);
+        Task<string> SendWelcomeEmailAsync(string toEmail, string fullNameRq);
     }
 }
