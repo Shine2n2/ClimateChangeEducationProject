@@ -141,7 +141,7 @@ namespace ClimateChangeEducation.Application.Services
                             IsAccountActive = true,
                             SchoolCode = CodeGenerator.SchoolCodeGenerator(),
                             UserAccountRole = Authorization.Roles.SchoolAdmin.ToString(),
-                            ApplicationUserId= newAppUser.Id,
+                            ApplicationUserId= newAppUser.Id,                           
                         };
                         var createSchool = await _schoolrepo.CreateSchoolAsync(newSchool);
                      

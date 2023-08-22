@@ -29,7 +29,7 @@ namespace ClimateChangeEducation.API.Controllers
    
 
         [HttpPost]
-        [Route("{id}/upload-image")]
+        [Route("upload-image")]
         public async Task<IActionResult> UploadImage([FromRoute] string id, IFormFile profileImage)
         {
             try
@@ -71,7 +71,7 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         [HttpPost]
-        [Route("{id}/upload-video")]
+        [Route("upload-video")]
         public async Task<IActionResult> UploadVideo([FromRoute] string id, IFormFile videoFile)
         {
             try
@@ -111,7 +111,7 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         [HttpPost]
-        [Route("{id}/upload-document")]
+        [Route("upload-document")]
         public async Task<IActionResult> UploadDocument([FromRoute] string id, IFormFile documentFile)
         {
             try
@@ -149,7 +149,7 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
 
-        [HttpGet("getDocFile")]
+        [HttpGet("getDocFile/{fileName}")]
         public IActionResult GetDocFile(string fileName)
         {
             try
@@ -173,7 +173,7 @@ namespace ClimateChangeEducation.API.Controllers
             }            
         }
 
-        [HttpGet("getImageFile")]
+        [HttpGet("getImageFile/{fileName}")]
         public IActionResult GetImageFile(string fileName)
         {
             try
@@ -197,7 +197,7 @@ namespace ClimateChangeEducation.API.Controllers
             }            
         }
 
-        [HttpGet("getVideoFile")]
+        [HttpGet("getVideoFile/{fileName}")]
         public IActionResult GetVideoFile(string fileName)
         {
             try

@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class PasswordResetDTO
-    {
-        public ApplicationUser User { get; set; }
+    {        
         public string Token { get; set; }
         public string NewPassword { get; set; }
         public string ToEmail { get; set; }

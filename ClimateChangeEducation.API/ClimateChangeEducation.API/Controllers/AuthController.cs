@@ -21,21 +21,62 @@ namespace ClimateChangeEducation.API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IEmailService _emailService;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
 
 
 
 
-        public AuthController(IUserService userService, UserManager<ApplicationUser> userManager, ILogger<WeatherForecastController> logger, IEmailService emailService)
+        public AuthController(IUserService userService, UserManager<ApplicationUser> userManager, 
+            ILogger<WeatherForecastController> logger, IEmailService emailService, SignInManager<ApplicationUser> signInManager)
         {
             _userService = userService;
             _userManager = userManager;
             _logger = logger;
             _emailService = emailService;
+            _signInManager = signInManager;
         }
 
 
-       
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO model)
+        {
+            var userReq = new TokenRequest
+            {
+                Email = model.Email,
+                Password = model.Password,
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return BadRequest("Invalid login attempt.");
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                var token = _userService.GetTokenAsync(userReq);
+                return Ok(new { Token = token });
+            }
+
+            return BadRequest("Invalid login attempt.");
+        }
+
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(new { Message = "Logged out successfully." });
+        }
+
 
 
         [HttpPost]
@@ -63,16 +104,16 @@ namespace ClimateChangeEducation.API.Controllers
                 var result = await _userService.RegisterTeacherAsync(model);                
                 return Ok(result);
             }
-            catch (ArgumentException argex)
+            catch (Exception ex)
             {
-                _logger.LogError(argex.ToString());
-                return BadRequest(argex.Message);
+                _logger.LogError(ex.ToString());
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
         [Route("RegisterSchoolUser")]
-        public async Task<ActionResult> RegisterSchoolAsync(SchoolRequestDTO model, IFormFile formFile)
+        public async Task<ActionResult> RegisterSchoolAsync([FromForm]  SchoolRequestDTO model)
         {            
             try
             {

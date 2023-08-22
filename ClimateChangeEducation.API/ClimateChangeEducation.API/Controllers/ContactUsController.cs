@@ -24,7 +24,7 @@ namespace ClimateChangeEducation.API.Controllers
 
 
         // GET: api/<ContactUsController>
-        [HttpGet]
+        [HttpGet("GetMessages")]
         public async Task<IActionResult> GetContactMessages()
         {
             try
@@ -70,7 +70,7 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // POST api/<ContactUsController>
-        [HttpPost]
+        [HttpPost("create-messages")]
         public async Task<IActionResult> CreateContactUsMessage([FromBody] ContactUsDTO request)
         {
             try

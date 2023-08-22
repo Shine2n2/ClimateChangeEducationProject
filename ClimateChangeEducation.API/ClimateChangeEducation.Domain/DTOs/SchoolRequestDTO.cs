@@ -19,7 +19,8 @@ namespace ClimateChangeEducation.Domain.DTOs
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string SchoolEmail { get; set; }       
         public string? SupportingDocument { get; set; }
-        public IFormFile? File { get; set; }
+        public IFormFile? FileUpload { get; set; }
+        
         [Required]
         public string Password { get; set; }
     }

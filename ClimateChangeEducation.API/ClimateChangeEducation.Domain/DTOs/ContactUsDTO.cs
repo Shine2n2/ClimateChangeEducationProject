@@ -15,6 +15,7 @@ namespace ClimateChangeEducation.Domain.DTOs
         public string YourName { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
+        [EmailAddress]
         public string YourEmail { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 50 characters!")]
