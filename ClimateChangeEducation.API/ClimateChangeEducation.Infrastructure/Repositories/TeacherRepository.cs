@@ -1,4 +1,5 @@
-﻿using ClimateChangeEducation.Domain.Entities;
+﻿using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
@@ -47,10 +48,37 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return await _dataContext.Teachers.ToListAsync();
         }
 
+        //public async Task<TeacherResponseDTO> GetTeacherByIdAsync(string id)
+        //{
+        //    //var Result = await _dataContext.Teachers.FirstOrDefaultAsync(x => x.TeacherId == id);
+        //    //return Result;
+
+        //         var result = await _dataContext.Teachers
+        //        .Where(x => x.TeacherId == id)
+        //        .Select(x => new TeacherResponseDTO
+        //        {
+        //            SchoolId = x.SchoolId,
+        //             Email= x.Email,
+        //              FieldOfStudy = x.FieldOfStudy,
+        //               PhotoUrl = x.PhotoUrl,
+        //                SchoolCode = x.SchoolCode,
+        //                 TeacherId = x.TeacherId,
+        //                 FirstName = x.FirstName,
+        //                 LastName = x.LastName,
+                 
+        //        })
+        //        .FirstOrDefaultAsync();
+
+        //            return result;
+        //}
+
         public async Task<Teacher> GetTeacherByIdAsync(string id)
-        {            
-            return await _dataContext.Teachers.FirstOrDefaultAsync(x => x.TeacherId == id);
+        {
+            var Result = await _dataContext.Teachers.FirstOrDefaultAsync(x => x.TeacherId == id);
+            return Result;
+                        
         }
+
 
         public async Task<Teacher> UpdateTeacherAsync(string teacherId, Teacher request)
         {

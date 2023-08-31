@@ -51,6 +51,23 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
+
+        [HttpGet("teachId")]
+        public async Task<IActionResult> GetTeachIdDIS(string id)
+        {
+            try
+            {
+                var teacher = await _teacherRepo.GetTeacherByIdAsync(id);
+                return Ok(_mapper.Map<Teacher>(teacher));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+
+
         // POST api/<TeacherController>
         [HttpPost]
         public async Task<IActionResult> CreateTeacher([FromBody] TeacherRequestDTO request)

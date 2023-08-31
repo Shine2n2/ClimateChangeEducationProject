@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class DiscussionBoardDTO
-    {
-        public string? DiscussionBoardId { get; set; }
+    {       
         public string Title { get; set; }       
     }
 }

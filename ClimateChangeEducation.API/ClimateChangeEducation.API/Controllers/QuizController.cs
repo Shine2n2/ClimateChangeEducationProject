@@ -31,7 +31,7 @@ namespace ClimateChangeEducation.API.Controllers
             try
             {
                 var quizzes = await _quizRepo.GetAllQuizzesAsync();
-                return (Ok(_mapper.Map<List<Quiz>>(quizzes)));
+                return Ok(_mapper.Map<List<Quiz>>(quizzes));
             }
             catch (Exception ex)
             {
@@ -56,13 +56,47 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         [HttpGet]
+        [Route("GetQuestionByQuizId/{id}")]
+        public async Task<IActionResult> GetQuestionByQuizId([FromRoute] string quizId)
+        {
+            try
+            {
+                var result = await _quizRepo.GetQuestionByQuizIdAsync(quizId);
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAnswerByQuestionId/{questionId}")]
+        public async Task<IActionResult> GetAnswerByQuestionId([FromRoute] string questionId)
+        {
+            try
+            {
+                var result = await _quizRepo.GetAnswerByQuestionIdAsync(questionId);
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+
+
+
+
+        [HttpGet]
         [Route("GetQuizByCourseId/{id}")]
         public async Task<IActionResult> GetQuizByCourseId([FromRoute] string id)
         {
             try
             {
                 var result = await _quizRepo.GetQuizByCourseIdAsync(id);
-                return Ok(_mapper.Map<Quiz>(result));
+                return Ok(result);
             }
             catch (ArgumentException argex)
             {

@@ -17,9 +17,9 @@ namespace ClimateChangeEducation.Domain.Entities
         public string Title { get; set; }
         [StringLength(300, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 300 characters!")]
         public string Content { get; set; }
-        public DateTime PostedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public bool IsPublished { get; set; }
+        public DateTime PostedDate { get; set; } = DateTime.Now;
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
+        public bool IsPublished { get; set; } = true;
         public string? TeacherId { get; set; }
         [ForeignKey("TeacherId")]
         public virtual Teacher? Teacher { get; set; }

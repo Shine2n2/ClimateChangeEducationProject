@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ClimateChangeEducation.Domain.Entities
@@ -27,6 +28,7 @@ namespace ClimateChangeEducation.Domain.Entities
         public string? ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         public virtual ApplicationUser? ApplicationUser { get; set; }
+        [JsonIgnore]
         public ICollection<DiscussionBoardPost> DiscussionBoardPosts { get; set; }      
         public ICollection<DiscussionBoardComment> DiscussionBoardComments { get; set; }
         public ICollection<ReplyComment>? RepliedComments { get; set; }

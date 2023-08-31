@@ -32,6 +32,7 @@ namespace ClimateChangeEducation.Common.Helpers
             CreateMap<ContactUs, ContactUsDTO>().ReverseMap();
             CreateMap<NoticeBoard, NoticeBoardDTO>().ReverseMap();
             CreateMap<Student, SchoolSingleRequestDTO>().ReverseMap();
+            CreateMap<NoticeBoard, NoticeResponseDTO>().ReverseMap();
         }
     }
 }

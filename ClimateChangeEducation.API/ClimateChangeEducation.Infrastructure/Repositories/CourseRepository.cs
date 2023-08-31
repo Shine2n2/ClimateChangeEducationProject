@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -126,9 +127,14 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return await _dataContext.CourseModules.Include(x=>x.Course).FirstOrDefaultAsync(x => x.ModuleId == id);
         }
 
-        public async Task<CourseLesson> GetLessonByModuleIdAsync(string moduleId)
+        public async Task<List<CourseLesson>> GetLessonByModuleIdAsync(string moduleId)
+        {            
+            return await _dataContext.CourseLessons.Where(x => x.ModuleId == moduleId).ToListAsync();
+        }       
+
+        public async Task<List<CourseModule>> GetModulesByCourseIdAsync(string courseId)
         {
-            return await _dataContext.CourseLessons.Include(x => x.CourseModule).FirstOrDefaultAsync(x => x.CourseModule.ModuleId == moduleId);
+            return await _dataContext.CourseModules.Where(x => x.CourseId == courseId).ToListAsync();
         }
 
         public async Task<Course> UpdateCourseAsync(string id, Course course)

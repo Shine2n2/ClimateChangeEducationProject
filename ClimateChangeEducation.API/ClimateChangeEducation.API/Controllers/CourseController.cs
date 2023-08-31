@@ -367,13 +367,46 @@ namespace ClimateChangeEducation.API.Controllers
             {
                 var result = await _courseRepo.GetLessonByModuleIdAsync(moduleId);
               
-                return Ok(_mapper.Map<CourseLesson>(result));
+                return Ok(result);
             }
             catch (ArgumentException argex)
             {
                 return BadRequest(argex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("GetLessonsByModuleId/{moduleId}")]
+        public async Task<IActionResult> GetLessonByModuleId([FromRoute] string moduleId)
+        {
+            try
+            {
+                var result = await _courseRepo.GetLessonByModuleIdAsync(moduleId);
+
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetModulesByCourseId/{courseId}")]
+        public async Task<IActionResult> GetModuleCourseById([FromRoute] string courseId)
+        {
+            try
+            {
+                var result = await _courseRepo.GetModulesByCourseIdAsync(courseId);
+
+                return Ok(result);
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
         #endregion
 
 

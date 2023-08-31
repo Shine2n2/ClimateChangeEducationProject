@@ -1,4 +1,5 @@
-﻿using ClimateChangeEducation.Domain.Entities;
+﻿using ClimateChangeEducation.Domain.DTOs;
+using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Data;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
         }
 
         public async Task<List<NoticeBoard>> GetAllNoticesAsync()
-        {
+        {       
             return await _dataContext.Notices.ToListAsync();
         }
 

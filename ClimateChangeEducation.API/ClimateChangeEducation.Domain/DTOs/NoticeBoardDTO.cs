@@ -10,7 +10,7 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class NoticeBoardDTO
     {        
-        public string NoticeId { get; set; } 
+      
         [Required]
         public string NoticeTitle { get; set; }
         [Required]

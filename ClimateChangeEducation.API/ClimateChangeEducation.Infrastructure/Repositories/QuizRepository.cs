@@ -120,12 +120,11 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return await _dataContext.QuizQuestions.FirstOrDefaultAsync(x => x.QuizQuestionId == id);
         }
 
-        public async Task<Quiz> GetQuizByCourseIdAsync(string id)
+        public async Task<List<Quiz>> GetQuizByCourseIdAsync(string id)
         {
             return await _dataContext.Quizzes
-                .Include(x => x.Course).Include(y => y.QuizQuestions)
-                .FirstOrDefaultAsync(x => x.CourseId == id);
-            //return await _dataContext.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+                            .Where(x => x.CourseId == id)
+                            .ToListAsync();
         }
 
         public async Task<QuestionAnswer> UpdateQuestionAnswerAsync(string id, QuestionAnswer request)
@@ -163,6 +162,20 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
                 return result;
             }
             return null;
+        }
+
+        public async Task<List<QuizQuestion>> GetQuestionByQuizIdAsync(string id)
+        {
+            return await _dataContext.QuizQuestions
+                            .Where(x => x.QuizId == id)
+                            .ToListAsync();
+        }
+
+        public async Task<List<QuestionAnswer>> GetAnswerByQuestionIdAsync(string id)
+        {
+            return await _dataContext.QuestionAnswers
+                            .Where(x => x.QuizQuestionId == id)
+                            .ToListAsync();
         }
     }
 }

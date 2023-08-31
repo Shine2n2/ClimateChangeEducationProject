@@ -27,7 +27,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<bool> ExistsCourseLessonAsync(string id);
         Task<bool> UpdateLessonVideoAsync(string studentId, string VideoUrl);
         Task<bool> UpdateLessonImageAsync(string studentId, string ImageUrl);
-        Task<CourseLesson> GetLessonByModuleIdAsync(string moduleId);
+        Task<List<CourseLesson>> GetLessonByModuleIdAsync(string moduleId);
 
 
         // ------------ CourseModule
@@ -37,7 +37,8 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<CourseModule> CreateCourseModuleAsync(CourseModule courseModule);
         Task<CourseModule> UpdateCourseModuleAsync(string id, CourseModule request);
         Task<bool> DeleteCourseModule(string requestId);
-        Task<bool> ExistsCourseModuleAsync(string id);
-        
+        Task<bool> ExistsCourseModuleAsync(string id);   
+        Task<List<CourseModule>> GetModulesByCourseIdAsync(string courseId);        
+
     }
 }

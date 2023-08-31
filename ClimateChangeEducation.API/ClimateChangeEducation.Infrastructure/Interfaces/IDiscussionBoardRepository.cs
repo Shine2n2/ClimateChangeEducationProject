@@ -11,9 +11,9 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
     {
         //-----DiscussionBoard
         Task<List<DiscussionBoard>> GetAllDiscussionBoardAsync();
-        Task<DiscussionBoard> GetDiscussionBoardByIdAsync(string id);
+        Task<List<DiscussionBoardPost>> GetDiscussionBoardByIdAsync(string id);
         Task<DiscussionBoard> CreateDiscussionBoardAsync(DiscussionBoard request);
-        Task<DiscussionBoard> UpdateDiscussionBoardAsync(string id, DiscussionBoard request);
+        Task<DiscussionBoardPost> UpdateDiscussionBoardAsync(string id, DiscussionBoard request);
         Task<bool> DeleteDiscussionBoard(string request);
         Task<bool> ExistsDiscussionBoardAsync(string id);
 

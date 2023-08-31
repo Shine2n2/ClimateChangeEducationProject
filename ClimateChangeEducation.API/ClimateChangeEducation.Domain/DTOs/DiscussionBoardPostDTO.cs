@@ -10,16 +10,12 @@ namespace ClimateChangeEducation.Domain.DTOs
 {
     public class DiscussionBoardPostDTO
     {
-        public string? PostId { get; set; }
+       
         [Required]
         public string Title { get; set; }
         [Required]
         [StringLength(1000, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 1000 characters!")]
-        public string Content { get; set; }
-        public DateTime PostedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public bool IsPublished { get; set; }
-        public string? TeacherId { get; set; }
-        public string? SchoolId { get; set; }    
+        public string Content { get; set; }         
+        public string? TeacherId { get; set; }                   
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Data;
+using ClimateChangeEducation.Infrastructure.Helpers;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,18 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
     public class DiscussionBoardRepository : IDiscussionBoardRepository
     {
         private readonly ClimateDataContext _dataContext;
-        public DiscussionBoardRepository(ClimateDataContext dataContext)
+        private readonly ITeacherRepository _teacherRepo;
+      
+        
+        
+      
+        public DiscussionBoardRepository(ClimateDataContext dataContext, ITeacherRepository teacherRepo)
         {
             _dataContext = dataContext;
+            _teacherRepo = teacherRepo;
+            
+
+
         }
         public async Task<DiscussionBoard> CreateDiscussionBoardAsync(DiscussionBoard request)
         {
@@ -31,19 +41,25 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             return result.Entity;
         }
 
+        
+            
         public async Task<DiscussionBoardPost> CreateDiscussionBoardPostAsync(DiscussionBoardPost request)
         {
-            var result = await _dataContext.DiscussionBoardPost.AddAsync(request);
+            var checkTeacher = await _teacherRepo.GetTeacherByIdAsync(request.TeacherId);            
+           
+             request.SchoolId = checkTeacher.SchoolId;
+            request.DiscussionBoardId = "30293072-44c3-481c-b487-9344759ec968";
+            var result = await _dataContext.DiscussionBoardPost.AddAsync(request);            
             await _dataContext.SaveChangesAsync();
             return result.Entity;
         }
 
         public async Task<bool> DeleteDiscussionBoard(string request)
         {
-            var result = await GetDiscussionBoardByIdAsync(request);
+            var result = await GetDiscussionBoardPostByIdAsync(request);
             if (result != null)
             {
-                _dataContext.DiscussionBoards.Remove(result);
+                _dataContext.DiscussionBoardPost.Remove(result);
                 await _dataContext.SaveChangesAsync();
                 return true;
             }
@@ -96,51 +112,47 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         public async Task<List<DiscussionBoardComment>> GetAllDiscussionBoardCommentAsync()
         {
-            return await _dataContext.DiscussionBoardComments
-                .Include(x=>x.Schools).Include(y=>y.Students)
-                .Include(x=>x.Teachers).Include(z=>z.DiscussionBoardPost).ToListAsync();
+            return await _dataContext.DiscussionBoardComments.ToListAsync();
         }
 
         public async Task<List<DiscussionBoardPost>> GetAllDiscussionBoardPostAsync()
-        {
-            return await _dataContext.DiscussionBoardPost.Include(x=>x.Comments)
-                .Include(y=>y.School).Include(z=>z.Teacher).ToListAsync();
+        {           
+            return await _dataContext.DiscussionBoardPost.ToListAsync();
         }
 
-        public async Task<DiscussionBoard> GetDiscussionBoardByIdAsync(string id)
+        public async Task<List<DiscussionBoardPost>> GetDiscussionBoardByIdAsync(string id)
         {
-            return await _dataContext.DiscussionBoards.Include(x=>x.Posts).FirstOrDefaultAsync(x => x.DiscussionBoardId == id);
+            //return await _dataContext.DiscussionBoardPost.FirstOrDefaultAsync(x => x.DiscussionBoardId == id);
+                    return await _dataContext.DiscussionBoardPost
+                            .Where(x => x.DiscussionBoardId == id)
+                            .ToListAsync();
         }
 
         public async Task<DiscussionBoardComment> GetDiscussionBoardCommentByIdAsync(string id)
         {
-            return await _dataContext.DiscussionBoardComments.Include(x=>x.Students)
-                .Include(y=>y.DiscussionBoardPost).Include(z=>z.Schools)
-                .Include(o=>o.Teachers).FirstOrDefaultAsync(x => x.CommentId == id);
+            return await _dataContext.DiscussionBoardComments.FirstOrDefaultAsync(x => x.CommentId == id);
         }
 
         public async Task<DiscussionBoardPost> GetDiscussionBoardPostByIdAsync(string id)
-        {
-            return await _dataContext.DiscussionBoardPost.Include(x=>x.Teacher)
-                .Include(y=>y.School).Include(z=>z.Comments).FirstOrDefaultAsync(x => x.PostId == id);
+        {           
+            return await _dataContext.DiscussionBoardPost.FirstOrDefaultAsync(x => x.PostId == id);
         }
 
         public async Task<DiscussionBoardComment> GetCommentByPostIdAsync(string postId)
         {
-            return await _dataContext.DiscussionBoardComments.Include(x => x.Students)
-                .Include(y => y.DiscussionBoardPost).Include(z => z.Schools)
-                .Include(o => o.Teachers).FirstOrDefaultAsync(x => x.DiscussionBoardPost.PostId == postId);
+            return await _dataContext.DiscussionBoardComments.FirstOrDefaultAsync(x => x.DiscussionBoardPost.PostId == postId);
         }
 
-        public async Task<DiscussionBoard> UpdateDiscussionBoardAsync(string id, DiscussionBoard request)
+        public async Task<DiscussionBoardPost> UpdateDiscussionBoardAsync(string id, DiscussionBoard request)
         {
-            var result = await GetDiscussionBoardByIdAsync(id);
-            if (result != null)
-            {
-                result.Title = request.Title;                         
-                await _dataContext.SaveChangesAsync();
-                return result;
-            }
+            //var result = await GetDiscussionBoardByIdAsync(id);
+            //if (result != null)
+            //{
+            //    result..Title = request.Title;                         
+            //    await _dataContext.SaveChangesAsync();
+            //    return result;
+            //}
+            //return null;
             return null;
         }
 
@@ -168,5 +180,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             }
             return null;
         }
+
+      
     }
 }

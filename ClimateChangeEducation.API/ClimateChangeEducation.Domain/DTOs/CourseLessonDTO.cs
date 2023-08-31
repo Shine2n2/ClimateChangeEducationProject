@@ -17,7 +17,7 @@ namespace ClimateChangeEducation.Domain.DTOs
         [Required]
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
         public string? LessonDescription { get; set; }
-        [StringLength(1000, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
+        [StringLength(3000, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 150 characters!")]
         public string LessonArticle { get; set; }
         public string? LessonVideoUrl { get; set; }
         public string? LessonPhotoUrl { get; set; }

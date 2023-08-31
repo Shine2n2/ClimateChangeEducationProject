@@ -16,6 +16,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
 
         Task<List<QuizQuestion>> GetAllQuizQuestionsAsync();
         Task<QuizQuestion> GetQuizQuestionByIdAsync(string id);
+        Task<List<QuizQuestion>> GetQuestionByQuizIdAsync(string id);
         Task<QuizQuestion> CreateQuizQuestionAsync(QuizQuestion quizQuestion);
         Task<QuizQuestion> UpdateQuizQuestionAsync(string id, QuizQuestion request);
         Task<bool> DeleteQuizQuestionAsync(string id);
@@ -25,6 +26,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
 
         Task<List<QuestionAnswer>> GetAllQuestionAnswersAsync();
         Task<QuestionAnswer> GetQuizQuestionAnswerByIdAsync(string id);
+        Task<List<QuestionAnswer>> GetAnswerByQuestionIdAsync(string id);
         Task<QuestionAnswer> CreateQuestionAnswerAsync(QuestionAnswer quizQuestion);
         Task<QuestionAnswer> UpdateQuestionAnswerAsync(string id, QuestionAnswer request);
         Task<bool> DeleteQuestionAnswerAsync(string id);
@@ -38,7 +40,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<Quiz> UpdateQuizAsync(string id, Quiz request);
         Task<bool> DeleteQuizAsync(string id);
         Task<bool> ExistsQuizAsync(string id);
-        Task<Quiz> GetQuizByCourseIdAsync(string id);
+        Task<List<Quiz>> GetQuizByCourseIdAsync(string id);
 
 
     }

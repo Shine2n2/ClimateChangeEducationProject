@@ -16,6 +16,8 @@ using Serilog;
 using System.Text;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.DataProtection;
+using ClimateChangeEducation.Infrastructure.Helpers;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,7 +55,12 @@ builder.Services.AddCors(options =>
  
 
 // Add services to the container.
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers().AddNewtonsoftJson(
+    options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    });
+
 //builder.Services.Configure<ClimateDbSetting>(builder.Configuration.GetSection("DbConnectionStrings"));
 builder.Services.Configure<EmailLoginSetting>(builder.Configuration.GetSection("MailLoginDetails"));
 
@@ -125,6 +132,8 @@ builder.Services.AddScoped<INoticeBoardRepository, NoticeBoardRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
+
+
 //builder.Services.AddScoped<IHostEnvironment>();
 
 

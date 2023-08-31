@@ -14,11 +14,13 @@ namespace ClimateChangeEducation.API.Controllers
     {
         private readonly IDiscussionBoardRepository _discussionBoardRepo;
         private readonly IMapper _mapper;
+        private readonly ITeacherRepository _teacherRepo;
 
-        public DiscussionBoardController(IDiscussionBoardRepository discussionBoardRepo, IMapper mapper)
+        public DiscussionBoardController(IDiscussionBoardRepository discussionBoardRepo, IMapper mapper, ITeacherRepository teacherRepo)
         {
             _discussionBoardRepo = discussionBoardRepo;
             _mapper = mapper;
+            _teacherRepo = teacherRepo;
         }
 
         #region Discussion board controller
@@ -44,9 +46,9 @@ namespace ClimateChangeEducation.API.Controllers
         public async Task<IActionResult> GetDiscussionBoardById([FromRoute] string id)
         {
             try
-            {
+            {   
                 var result = await _discussionBoardRepo.GetDiscussionBoardByIdAsync(id);
-                return Ok(_mapper.Map<DiscussionBoard>(result));
+                return Ok(_mapper.Map<List<DiscussionBoardPost>>(result));
             }
             catch (ArgumentException argex)
             {
@@ -156,7 +158,15 @@ namespace ClimateChangeEducation.API.Controllers
         {
             try
             {
-                var post = await _discussionBoardRepo.CreateDiscussionBoardPostAsync(_mapper.Map<DiscussionBoardPost>(request));
+                await _teacherRepo.GetTeacherByIdAsync(request.TeacherId);
+
+                var discPost = new DiscussionBoardPost
+                {
+                    Title = request.Title,
+                    Content = request.Content,
+                    TeacherId = request.TeacherId,
+                };
+                var post = await _discussionBoardRepo.CreateDiscussionBoardPostAsync(discPost);
                 return Ok(post);
             }
             catch (ArgumentException argex)
