@@ -12,13 +12,12 @@ namespace ClimateChangeEducation.Domain.DTOs
     {
         public string? Id { get; set; }
         [Required]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
+        [StringLength(150, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string Text { get; set; }
         [Required]
         public int? AllocatedScore { get; set; }
         [Required]
         public bool IsCorrect { get; set; }
-        public string QuizQuestionId { get; set; }
-        public QuizQuestion QuizQuestion { get; set; }
+        public string QuizQuestionId { get; set; }        
     }
 }

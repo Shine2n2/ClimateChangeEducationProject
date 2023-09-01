@@ -56,7 +56,7 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetQuestionByQuizId/{id}")]
+        [Route("GetQuestionByQuizId/{quizId}")]
         public async Task<IActionResult> GetQuestionByQuizId([FromRoute] string quizId)
         {
             try

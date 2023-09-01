@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 namespace ClimateChangeEducation.Domain.DTOs
 {
     public class QuizDTO
-    {
-        public string? QuizId { get; set; }
+    {        
         [Required]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Character must be between 3 and 100 characters!")]
         public string Title { get; set; }

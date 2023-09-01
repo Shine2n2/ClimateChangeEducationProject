@@ -20,6 +20,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
       
         public async Task<QuestionAnswer> CreateQuestionAnswerAsync(QuestionAnswer quizQuestion)
         {
+            quizQuestion.Id = Guid.NewGuid().ToString();
             var result = await _dataContext.QuestionAnswers.AddAsync(quizQuestion);
             await _dataContext.SaveChangesAsync();
             return result.Entity;
@@ -27,6 +28,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         public async Task<Quiz> CreateQuizAsync(Quiz quiz)
         {
+            quiz.QuizId = Guid.NewGuid().ToString();
             var result = await _dataContext.Quizzes.AddAsync(quiz);
             await _dataContext.SaveChangesAsync();
             return result.Entity;
@@ -34,6 +36,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
 
         public async Task<QuizQuestion> CreateQuizQuestionAsync(QuizQuestion quizQuestion)
         {
+            quizQuestion.QuizQuestionId = Guid.NewGuid().ToString();
             var result = await _dataContext.QuizQuestions.AddAsync(quizQuestion);
             await _dataContext.SaveChangesAsync();
             return result.Entity;
