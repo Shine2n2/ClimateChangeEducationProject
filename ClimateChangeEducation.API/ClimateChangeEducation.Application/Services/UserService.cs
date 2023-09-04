@@ -67,7 +67,7 @@ namespace ClimateChangeEducation.Application.Services
                 NormalizedEmail = student.Email,
                 Email = student.Email,              
                 PasswordHash = student.Password,   
-                EmailConfirmed = false
+                EmailConfirmed = true
             };
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(student.Email);
@@ -120,7 +120,7 @@ namespace ClimateChangeEducation.Application.Services
                 NormalizedEmail = school.SchoolEmail,
                 Email = school.SchoolEmail,
                 PasswordHash = school.Password,
-                EmailConfirmed = false
+                EmailConfirmed = true
             };
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(school.SchoolEmail);
@@ -179,7 +179,7 @@ namespace ClimateChangeEducation.Application.Services
                 NormalizedEmail = teacher.Email,
                 Email = teacher.Email,
                 PasswordHash = teacher.Password,
-                EmailConfirmed = false
+                EmailConfirmed = true
             };
 
             var userWithSameEmail = await _userManager.FindByEmailAsync(teacher.Email);

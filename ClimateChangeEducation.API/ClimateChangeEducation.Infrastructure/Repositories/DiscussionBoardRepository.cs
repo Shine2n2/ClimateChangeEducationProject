@@ -121,8 +121,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
         }
 
         public async Task<List<DiscussionBoardPost>> GetDiscussionBoardByIdAsync(string id)
-        {
-            //return await _dataContext.DiscussionBoardPost.FirstOrDefaultAsync(x => x.DiscussionBoardId == id);
+        {            
                     return await _dataContext.DiscussionBoardPost
                             .Where(x => x.DiscussionBoardId == id)
                             .ToListAsync();
@@ -148,12 +147,12 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
             //var result = await GetDiscussionBoardByIdAsync(id);
             //if (result != null)
             //{
-            //    result..Title = request.Title;                         
+            //    result.Title = request.Title;
             //    await _dataContext.SaveChangesAsync();
             //    return result;
             //}
-            //return null;
             return null;
+            
         }
 
         public async Task<DiscussionBoardComment> UpdateDiscussionBoardCommentAsync(string id, DiscussionBoardComment request)

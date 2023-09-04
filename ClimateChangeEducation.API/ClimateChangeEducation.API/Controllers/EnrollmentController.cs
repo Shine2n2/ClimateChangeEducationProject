@@ -3,6 +3,7 @@ using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClimateChangeEducation.API.Controllers
@@ -196,6 +197,21 @@ namespace ClimateChangeEducation.API.Controllers
                     }
                 }
                 return NotFound();
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
+        [HttpPatch]
+        [Route("UpdateQuizScorePatch/{studentId}")]
+        public async Task<IActionResult> UpdateQuizScorePatch([FromRoute] string studentId, [FromBody] JsonPatchDocument request)
+        {
+            try
+            {               
+                await _enrollmentRepo.UpdateQuizScorePatchAsync(studentId, request);
+                return Ok();                                                                    
             }
             catch (ArgumentException argex)
             {

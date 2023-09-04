@@ -1,4 +1,5 @@
 ﻿using ClimateChangeEducation.Domain.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<QuizEnrollment> CreateQuizEnrollmentAsync(QuizEnrollment quizEnrollment);
         Task<QuizEnrollment> UpdateQuizEnrollmentAsync(string Id, QuizEnrollment request);
         Task<bool> DeleteQuizEnrollment(string request);
+        Task UpdateQuizScorePatchAsync(string studentId, JsonPatchDocument request);
 
         //course enrollment repo
         Task<List<CourseEnrollment>> GetAllCourseEnrollmentAsync();
@@ -26,5 +28,6 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<bool> DeleteCourseEnrollment(string request);
         Task<bool> ExistsCourseEnrollmentAsync(string id);
         Task<bool> ExistsQuizEnrollmentAsync(string id);
+        
     }
 }

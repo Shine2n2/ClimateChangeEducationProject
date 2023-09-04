@@ -60,7 +60,7 @@ namespace ClimateChangeEducation.Application.Services
             }
             catch (Exception ex)
             {
-               // Log.Logger.Error(ex.Message);
+                //Log.Logger.Error(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
