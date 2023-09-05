@@ -2,6 +2,7 @@
 using ClimateChangeEducation.Domain.DTOs;
 using ClimateChangeEducation.Domain.Entities;
 using ClimateChangeEducation.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -70,7 +71,8 @@ namespace ClimateChangeEducation.API.Controllers
         }
 
         // POST api/<ContactUsController>
-        [HttpPost("create-messages")]
+       
+        [HttpPost("create-messages")]        
         public async Task<IActionResult> CreateContactUsMessage([FromBody] ContactUsDTO request)
         {
             try
