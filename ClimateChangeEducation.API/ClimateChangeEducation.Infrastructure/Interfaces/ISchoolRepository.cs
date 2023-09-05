@@ -13,6 +13,8 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
         Task<List<School>> GetAllSchoolAsync();
         Task<School> GetSchoolByIdAsync(string id);
         Task<School> GetSchoolBySchoolCodeAsync(string schoolCode);
+        Task<School> GetSchoolByEmailAsync(string email);
+        Task<School> GetSchoolByAppUserIdAsync(string id);
         Task<School> CreateSchoolAsync(School school);
         Task<School> UpdateSchoolAsync(string schoolId, School request);
         Task<bool> DeleteSchoolAsync(string request);

@@ -89,5 +89,15 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
                 await _dataContext.SaveChangesAsync();                
             }           
         }
+
+        public async Task<School> GetSchoolByEmailAsync(string email)
+        {
+            return await _dataContext.Schools.FirstOrDefaultAsync(x => x.SchoolEmail == email);
+        }
+
+        public async Task<School> GetSchoolByAppUserIdAsync(string id)
+        {
+            return await _dataContext.Schools.FirstOrDefaultAsync(x => x.ApplicationUserId == id);
+        }
     }
 }

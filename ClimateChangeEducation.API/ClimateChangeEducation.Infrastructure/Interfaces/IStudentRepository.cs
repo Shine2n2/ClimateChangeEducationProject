@@ -12,6 +12,8 @@ namespace ClimateChangeEducation.Infrastructure.Interfaces
     {
         Task<List<Student>> GetAllStudentAsync();
         Task<Student> GetStudentByIdAsync(string id);
+        Task<Student> GetStudentByEmailAsync(string id);
+        Task<Student> GetStudentByAppUserIdAsync(string id);
         Task<Student> CreateStudentAsync(Student student);
         Task<Student> UpdateStudentAsync(string schoolId, Student request);
         Task<bool> DeleteStudent(string request);

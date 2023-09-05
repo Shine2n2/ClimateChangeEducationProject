@@ -60,10 +60,15 @@ namespace ClimateChangeEducation.API.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
 
+            //if (result.Succeeded)
+            //{
+            //    var token = _userService.GetTokenAsync(userReq);
+            //    return Ok(new { Token = token });
+            //}
             if (result.Succeeded)
             {
-                var token = _userService.GetTokenAsync(userReq);
-                return Ok(new { Token = token });
+                var tokenResponse = await _userService.GetTokenAsync(userReq);
+                return Ok(new { Token = tokenResponse.Token });
             }
 
             return BadRequest("Invalid login attempt.");

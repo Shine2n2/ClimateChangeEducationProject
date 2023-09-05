@@ -70,6 +70,35 @@ namespace ClimateChangeEducation.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetSchoolByAppUserId/{AppUserId}")]
+        public async Task<IActionResult> GetSchoolByAppUserId([FromRoute] string AppUserId)
+        {
+            try
+            {
+                var result = await _schoolRepo.GetSchoolByAppUserIdAsync(AppUserId);
+                return Ok(_mapper.Map<School>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+        [HttpGet]
+        [Route("GetSchoolByEmail/{email}")]
+        public async Task<IActionResult> GetSchoolByEmail([FromRoute] string email)
+        {
+            try
+            {
+                var result = await _schoolRepo.GetSchoolByEmailAsync(email);
+                return Ok(_mapper.Map<School>(result));
+            }
+            catch (ArgumentException argex)
+            {
+                return BadRequest(argex.Message);
+            }
+        }
+
         // POST api/<SchoolController>
         [HttpPost]
         [Route("CreateSchool")]
