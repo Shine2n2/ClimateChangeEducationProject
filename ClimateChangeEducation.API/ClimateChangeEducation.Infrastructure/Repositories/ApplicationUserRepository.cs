@@ -12,6 +12,7 @@ namespace ClimateChangeEducation.Infrastructure.Repositories
     {
         public Task<List<ApplicationUser>> CreateUserAsync(ApplicationUser user)
         {
+            var test = new ApplicationUser();
             throw new NotImplementedException();
         }
 
